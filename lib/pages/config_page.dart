@@ -24,26 +24,38 @@ class ConfigPageState extends State<ConfigPage> {
     await preferences.setString('password', _passwordController.text);
 
     SSHClient client = SSHClient(
-        host: _ipAddressController.text,
-        port: (_portNumberController.text) as int,
-        username: _usernameController.text,
-        passwordOrKey: _passwordController.text);
+        host: '192.168.15.177', port: 22, username: 'lg', passwordOrKey: 'lq');
 
-        try {
-          await client.connect();
-          setState(() {
-            isConnected = true;
-          });
-          print('connected');
-        } catch (e) {
-          print('not connected');
-          setState(() {
-            isConnected = false;
-          });
-        }
+    try {
+      print('CLIENT ===>>> ${client.passwordOrKey}');
+      await client.connect();
+      setState(() {
+        isConnected = true;
+      });
+      print('connected');
+      var kml = '''<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2"> <Placemark>
+ <name>teste</name>
+ <description>Attached to the ground. Intelligently places itself at the height of the underlying terrain.</description>
+ <Point>
+ <coordinates>-122.0822035425683,37.42228990140251,0</coordinates>
+ </Point>
+ </Placemark> </kml>''';
+ print(kml);
+      await client.execute("echo '$kml' > /var/www/html/teste.kml");
+      print('executou 1');
+
+      await client.execute('echo "http://lg1:81/teste.kml" > /var/www/html/kmls.txt');
+      print('executou 2');
+    } catch (e) {
+      print('not connected $e');
+      setState(() {
+        isConnected = false;
+      });
+    }
   }
 
-    checkConnectionStatus() async {
+  checkConnectionStatus() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setString('ip', _ipAddressController.text);
     await preferences.setString('password', _passwordController.text);

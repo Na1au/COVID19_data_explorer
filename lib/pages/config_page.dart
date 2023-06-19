@@ -12,6 +12,7 @@ class ConfigPage extends StatefulWidget {
 
 class ConfigPageState extends State<ConfigPage> {
   bool isConnected = false;
+  bool loaded = false;
   final _usernameController = TextEditingController();
   final _ipAddressController = TextEditingController();
   final _portNumberController = TextEditingController();
@@ -24,28 +25,59 @@ class ConfigPageState extends State<ConfigPage> {
     await preferences.setString('password', _passwordController.text);
 
     SSHClient client = SSHClient(
-        host: '192.168.15.177', port: 22, username: 'lg', passwordOrKey: 'lq');
+        host: _ipAddressController.text,
+        port: 22,
+        username: 'lg',
+        passwordOrKey: _passwordController.text);
 
     try {
-      print('CLIENT ===>>> ${client.passwordOrKey}');
+      print('CLIENT ===>>> ${client.host}');
       await client.connect();
       setState(() {
         isConnected = true;
       });
       print('connected');
-      var kml = '''<?xml version="1.0" encoding="UTF-8"?>
-<kml xmlns="http://www.opengis.net/kml/2.2"> <Placemark>
- <name>teste</name>
- <description>Attached to the ground. Intelligently places itself at the height of the underlying terrain.</description>
- <Point>
- <coordinates>-122.0822035425683,37.42228990140251,0</coordinates>
- </Point>
- </Placemark> </kml>''';
- print(kml);
-      await client.execute("echo '$kml' > /var/www/html/teste.kml");
+      String kml = '''
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+  <name>Facens</name>
+  <open>1</open>
+  <Style id="PolyStyle">
+    <PolyStyle>
+      <color>7fff0000</color>
+	<fill>true</fill>
+	<outline></outline>
+    </PolyStyle>
+  </Style>
+  <Placemark>
+    <name>polygon</name>
+    <styleUrl>#PolyStyle</styleUrl>
+    <Polygon>
+      <extrude>1</extrude>
+      <altitudeMode>relativeToGround</altitudeMode>
+      <outerBoundaryIs>
+        <LinearRing>
+          <coordinates>
+          -47.426886,-23.470097,100
+          -47.431220,-23.468501,100
+          -47.432474,-23.470619,100
+          -47.430268,-23.472263,100
+          -47.426886,-23.470097,100
+          </coordinates>
+        </LinearRing>
+      </outerBoundaryIs>
+    </Polygon>
+  </Placemark>
+</Document>
+</kml>
+ ''';
+      print(kml);
+      await client.execute("echo '$kml' > /var/www/html/Facens.kml");
       print('executou 1');
 
-      await client.execute('echo "http://lg1:81/teste.kml" > /var/www/html/kmls.txt');
+      await client
+          .execute('echo "http://lg1:81/Facens.kml" > /var/www/html/kmls.txt');
       print('executou 2');
     } catch (e) {
       print('not connected $e');
@@ -62,8 +94,8 @@ class ConfigPageState extends State<ConfigPage> {
 
     SSHClient client = SSHClient(
       host: _ipAddressController.text,
-      port: (_portNumberController.text) as int,
-      username: _usernameController.text,
+      port: 22,
+      username: 'lg',
       passwordOrKey: _passwordController.text,
     );
 
@@ -82,8 +114,20 @@ class ConfigPageState extends State<ConfigPage> {
     }
   }
 
+  init() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    _ipAddressController.text = preferences.getString('master_ip') ?? '';
+    _passwordController.text = preferences.getString('master_password') ?? '';
+
+    await checkConnectionStatus();
+
+    loaded = true;
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (!loaded) init();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Config LG'),
@@ -100,19 +144,40 @@ class ConfigPageState extends State<ConfigPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  'Establish connection',
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey),
+                Row(
+                  children: [
+                    const Text(
+                      'Connection status: ',
+                      style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey),
+                    ),
+                    Text(
+                      isConnected ? 'CONNECTED' : 'DISCONNECTED',
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(width: 10),
+                    isConnected
+                        ? Icon(
+                            Icons.check_circle,
+                            color: Colors.green,
+                            size: 25,
+                          )
+                        : Icon(
+                            Icons.cancel,
+                            color: Colors.red,
+                            size: 25,
+                          ),
+                  ],
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _usernameController,
                   decoration: const InputDecoration(
                     label: Text('Master machine username'),
-                    hintText: 'username',
+                    hintText: 'lg',
                     hintStyle: TextStyle(color: Colors.grey),
                     border: OutlineInputBorder(),
                   ),
@@ -127,16 +192,16 @@ class ConfigPageState extends State<ConfigPage> {
                     border: OutlineInputBorder(),
                   ),
                 ),
-                const SizedBox(height: 20),
+                /* const SizedBox(height: 20),
                 TextFormField(
                   controller: _portNumberController,
                   decoration: const InputDecoration(
                     label: Text('Master machine port number'),
-                    hintText: '3000',
+                    hintText: '22',
                     hintStyle: TextStyle(color: Colors.grey),
                     border: OutlineInputBorder(),
                   ),
-                ),
+                ), */
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _passwordController,
@@ -152,7 +217,7 @@ class ConfigPageState extends State<ConfigPage> {
                   controller: _totalMachinesController,
                   decoration: const InputDecoration(
                     label: Text('Total machines in LG rig'),
-                    hintText: '5',
+                    hintText: '3',
                     hintStyle: TextStyle(color: Colors.grey),
                     border: OutlineInputBorder(),
                   ),

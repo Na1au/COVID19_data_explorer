@@ -1,5 +1,5 @@
+import 'package:covid19_data_explorer/pages/dashboard_page.dart';
 import 'package:flutter/material.dart';
-import 'pages/config_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const ConfigPage()
+        '/': (context) => DashboardPage()
       },
     );
   }

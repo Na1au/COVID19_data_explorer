@@ -27,7 +27,7 @@ class ConfigPageState extends State<ConfigPage> {
     SSHClient client = SSHClient(
         host: _ipAddressController.text,
         port: 22,
-        username: 'lg',
+        username: _usernameController.text,
         passwordOrKey: _passwordController.text);
 
     try {
@@ -45,7 +45,7 @@ class ConfigPageState extends State<ConfigPage> {
   <open>1</open>
   <Style id="PolyStyle">
     <PolyStyle>
-      <color>7fff0000</color>
+      <color>7ff00760</color>
 	<fill>true</fill>
 	<outline></outline>
     </PolyStyle>

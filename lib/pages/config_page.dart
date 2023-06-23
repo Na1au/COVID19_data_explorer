@@ -13,6 +13,7 @@ class ConfigPage extends StatefulWidget {
 class ConfigPageState extends State<ConfigPage> {
   bool isConnected = false;
   bool loaded = false;
+  late bool visiblePassword;
   final _usernameController = TextEditingController();
   final _ipAddressController = TextEditingController();
   final _portNumberController = TextEditingController();
@@ -125,6 +126,12 @@ class ConfigPageState extends State<ConfigPage> {
   }
 
   @override
+  void initState() {
+    visiblePassword = false;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (!loaded) init();
 
@@ -205,11 +212,25 @@ class ConfigPageState extends State<ConfigPage> {
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _passwordController,
-                  decoration: const InputDecoration(
+                  obscureText: !visiblePassword,
+                  decoration: InputDecoration(
                     label: Text('Master machine password'),
                     hintText: 'p@ssw0rd',
                     hintStyle: TextStyle(color: Colors.grey),
                     border: OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        visiblePassword
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: Theme.of(context).primaryColorDark,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          visiblePassword = !visiblePassword;
+                        });
+                      },
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),

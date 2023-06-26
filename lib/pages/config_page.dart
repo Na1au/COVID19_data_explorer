@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:ssh/ssh.dart';
@@ -13,6 +14,9 @@ class ConfigPage extends StatefulWidget {
 class ConfigPageState extends State<ConfigPage> {
   bool isConnected = false;
   bool loaded = false;
+  String errorCode = '';
+  String errorMessage = '';
+  late bool visiblePassword;
   final _usernameController = TextEditingController();
   final _ipAddressController = TextEditingController();
   final _portNumberController = TextEditingController();
@@ -27,11 +31,10 @@ class ConfigPageState extends State<ConfigPage> {
     SSHClient client = SSHClient(
         host: _ipAddressController.text,
         port: 22,
-        username: 'lg',
+        username: _usernameController.text,
         passwordOrKey: _passwordController.text);
 
     try {
-      print('CLIENT ===>>> ${client.host}');
       await client.connect();
       setState(() {
         isConnected = true;
@@ -45,7 +48,7 @@ class ConfigPageState extends State<ConfigPage> {
   <open>1</open>
   <Style id="PolyStyle">
     <PolyStyle>
-      <color>7fff0000</color>
+      <color>7ff00760</color>
 	<fill>true</fill>
 	<outline></outline>
     </PolyStyle>
@@ -79,7 +82,9 @@ class ConfigPageState extends State<ConfigPage> {
       await client
           .execute('echo "http://lg1:81/Facens.kml" > /var/www/html/kmls.txt');
       print('executou 2');
-    } catch (e) {
+    } on PlatformException catch (e) {
+      errorCode = e.code;
+      errorMessage = e.message!;
       print('not connected $e');
       setState(() {
         isConnected = false;
@@ -125,6 +130,12 @@ class ConfigPageState extends State<ConfigPage> {
   }
 
   @override
+  void initState() {
+    visiblePassword = false;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (!loaded) init();
 
@@ -158,7 +169,6 @@ class ConfigPageState extends State<ConfigPage> {
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(width: 10),
                     isConnected
                         ? Icon(
                             Icons.check_circle,
@@ -192,24 +202,28 @@ class ConfigPageState extends State<ConfigPage> {
                     border: OutlineInputBorder(),
                   ),
                 ),
-                /* const SizedBox(height: 20),
-                TextFormField(
-                  controller: _portNumberController,
-                  decoration: const InputDecoration(
-                    label: Text('Master machine port number'),
-                    hintText: '22',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    border: OutlineInputBorder(),
-                  ),
-                ), */
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _passwordController,
-                  decoration: const InputDecoration(
+                  obscureText: !visiblePassword,
+                  decoration: InputDecoration(
                     label: Text('Master machine password'),
                     hintText: 'p@ssw0rd',
                     hintStyle: TextStyle(color: Colors.grey),
                     border: OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        visiblePassword
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: Theme.of(context).primaryColorDark,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          visiblePassword = !visiblePassword;
+                        });
+                      },
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),

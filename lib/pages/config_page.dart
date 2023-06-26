@@ -157,7 +157,7 @@ class ConfigPageState extends State<ConfigPage> {
               children: [
                 Row(
                   children: [
-                    /* const Text(
+                    const Text(
                       'Connection status: ',
                       style: TextStyle(
                           fontSize: 24,
@@ -168,10 +168,7 @@ class ConfigPageState extends State<ConfigPage> {
                       isConnected ? 'CONNECTED' : 'DISCONNECTED',
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ), */
-                    SizedBox(width: 10),
-                    Text('Error code ==>> $errorCode \n Error message ==> $errorMessage'),
-                    SizedBox(width: 10),
+                    ),
                     isConnected
                         ? Icon(
                             Icons.check_circle,
@@ -205,16 +202,6 @@ class ConfigPageState extends State<ConfigPage> {
                     border: OutlineInputBorder(),
                   ),
                 ),
-                /* const SizedBox(height: 20),
-                TextFormField(
-                  controller: _portNumberController,
-                  decoration: const InputDecoration(
-                    label: Text('Master machine port number'),
-                    hintText: '22',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    border: OutlineInputBorder(),
-                  ),
-                ), */
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _passwordController,

@@ -2,7 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'config_page.dart';
 import 'package:covid19_data_explorer/widgets/statistics_card.dart';
-import 'StatisticsDetailPage.dart';
+import 'statistics_detail_page.dart';
 
 class DashboardPage extends StatefulWidget {
   @override
@@ -47,7 +47,11 @@ class DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Dashboard page'),
+          title: Row(children: [
+            Icon(Icons.coronavirus_outlined),
+            SizedBox(width: 15),
+            Text('COVID-19 DATA EXPLORER')
+          ]),
           actions: [
             IconButton(
                 onPressed: () {

@@ -37,7 +37,7 @@ class StatisticsCardState extends State<StatisticsCard> {
                       SizedBox(width: 10),
                       Column(
                         children: [
-                          Text('8.500K',
+                          Text('690.725.164',
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold)),
                           SizedBox(height: 5),
@@ -48,7 +48,7 @@ class StatisticsCardState extends State<StatisticsCard> {
                       CircleAvatar(backgroundColor: Colors.red, radius: 25),
                       SizedBox(width: 10),
                       Column(children: [
-                        Text('650K',
+                        Text('6.894.285',
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
                         SizedBox(height: 10),
@@ -59,7 +59,7 @@ class StatisticsCardState extends State<StatisticsCard> {
                           backgroundColor: Colors.deepPurple, radius: 25),
                       SizedBox(width: 10),
                       Column(children: [
-                        Text('12.500K',
+                        Text('6.996.378.209',
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
                         SizedBox(height: 10),

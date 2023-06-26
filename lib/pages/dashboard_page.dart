@@ -1,5 +1,8 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'config_page.dart';
+import 'package:covid19_data_explorer/widgets/statistics_card.dart';
+import 'StatisticsDetailPage.dart';
 
 class DashboardPage extends StatefulWidget {
   @override
@@ -9,6 +12,37 @@ class DashboardPage extends StatefulWidget {
 }
 
 class DashboardPageState extends State<DashboardPage> {
+  final avgColor = Colors.blue;
+  final leftBarColor = Colors.red;
+  final rigthBarColor = Colors.orange;
+  final betweenSpace = 0.2;
+
+  BarChartGroupData generateGroupData(
+    int x,
+    double pilates,
+    double quickWorkout,
+    double cycling,
+  ) {
+    return BarChartGroupData(
+      x: x,
+      groupVertically: true,
+      barRods: [
+        BarChartRodData(
+          fromY: 0,
+          toY: pilates,
+          color: leftBarColor,
+          width: 5,
+        ),
+        BarChartRodData(
+          fromY: pilates + betweenSpace,
+          toY: pilates + betweenSpace + quickWorkout,
+          color: rigthBarColor,
+          width: 5,
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,6 +70,18 @@ class DashboardPageState extends State<DashboardPage> {
                     child: Column(
                       children: [
                         // Statistics card
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => StatisticsDetailPage(),
+                              ),
+                            );
+                          },
+                          child: StatisticsCard(),
+                        ),
+                        SizedBox(height: 15),
+                        //Total cases cardx
                         Card(
                             color: Colors.white,
                             child: Padding(
@@ -43,113 +89,70 @@ class DashboardPageState extends State<DashboardPage> {
                                 child: Column(
                                   children: [
                                     Row(
-                                      /* 
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start, */
                                       children: [
-                                        Text('Statistics',
+                                        Text('Total cases',
                                             style: TextStyle(
                                                 color: Colors.black54,
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.bold)),
                                         Spacer(),
-                                        Text('Updated just now',
-                                            textAlign: TextAlign.end,
-                                            style: TextStyle(
-                                                color: Colors.black54,
-                                                fontSize: 15))
+                                        CircleAvatar(
+                                            backgroundColor: Colors.amber,
+                                            radius: 10),
+                                        SizedBox(width: 5),
+                                        Text('Not critial'),
+                                        SizedBox(width: 30),
+                                        CircleAvatar(
+                                            backgroundColor: Colors.red,
+                                            radius: 10),
+                                        SizedBox(width: 5),
+                                        Text('Critical')
                                       ],
                                     ),
                                     SizedBox(height: 30),
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          CircleAvatar(
-                                              backgroundColor: Colors.amber,
-                                              radius: 25),
-                                          SizedBox(width: 10),
-                                          Column(
-                                            children: [
-                                              Text('8.500K',
-                                                  style: TextStyle(
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.bold)),
-                                              SizedBox(height: 5),
-                                              Text('Total cases')
-                                            ],
+                                    Container(
+                                      height: 200,
+                                      width: 200,
+                                      child: BarChart(
+                                        BarChartData(
+                                          alignment:
+                                              BarChartAlignment.spaceBetween,
+                                          titlesData: FlTitlesData(
+                                            show: true,
+                                            leftTitles: AxisTitles(
+                                              sideTitles: SideTitles(
+                                                showTitles: true,
+                                                reservedSize: 28,
+                                                interval: 1,
+                                                getTitlesWidget: leftTitles,
+                                              ),
+                                            ),
+                                            bottomTitles: AxisTitles(
+                                              sideTitles: SideTitles(
+                                                showTitles: true,
+                                                getTitlesWidget: bottomTitles,
+                                                reservedSize: 42,
+                                              ),
+                                            ),
                                           ),
-                                          Spacer(),
-                                          CircleAvatar(
-                                              backgroundColor: Colors.red,
-                                              radius: 25),
-                                          SizedBox(width: 10),
-                                          Column(children: [
-                                            Text('650K',
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            SizedBox(height: 10),
-                                            Text('Total deaths')
-                                          ]),
-                                          Spacer(),
-                                          CircleAvatar(
-                                              backgroundColor:
-                                                  Colors.deepPurple,
-                                              radius: 25),
-                                          SizedBox(width: 10),
-                                          Column(children: [
-                                            Text('12.500K',
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            SizedBox(height: 10),
-                                            Text('Total tests')
-                                          ]),
-                                          Spacer(),
-                                          CircleAvatar(
-                                              backgroundColor: Colors.blue,
-                                              radius: 25),
-                                          SizedBox(width: 10),
-                                          Column(children: [
-                                            Text('7',
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            SizedBox(height: 10),
-                                            Text('Total variants')
-                                          ]),
-                                        ]),
-                                  ],
-                                ))),
-                        SizedBox(height: 15),
-                        //Total cases cardx
-                        Card(
-                            color: Colors.white,
-                            child: Padding(
-                                padding: EdgeInsets.all(15),
-                                child: Row(
-                                  children: [
-                                    Text('Total cases',
-                                        style: TextStyle(
-                                            color: Colors.black54,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold)),
-                                    Spacer(),
-                                    CircleAvatar(backgroundColor: Colors.amber, radius: 10),
-                                    SizedBox(width: 5),
-                                    Text('Not critial'),
-                                    SizedBox(width: 30),
-                                    CircleAvatar(
-                                        backgroundColor: Colors.red, radius: 10),
-                                    SizedBox(width: 5),
-                                    Text('Critical')
+                                          barTouchData:
+                                              BarTouchData(enabled: false),
+                                          borderData: FlBorderData(show: false),
+                                          gridData: FlGridData(show: false),
+                                          barGroups: [
+                                            generateGroupData(0, 2, 3, 2),
+                                            generateGroupData(1, 2, 5, 1.7),
+                                            generateGroupData(2, 1.3, 3.1, 2.8),
+                                            generateGroupData(3, 3.1, 4, 3.1),
+                                            generateGroupData(4, 0.8, 3.3, 3.4),
+                                          ],
+                                        ),
+                                        swapAnimationDuration: Duration(
+                                            milliseconds: 150), // Optional
+                                        swapAnimationCurve:
+                                            Curves.linear, // Optional
+                                      ),
+                                    )
                                   ],
                                 )))
                       ],
@@ -158,5 +161,47 @@ class DashboardPageState extends State<DashboardPage> {
             ),
           ),
         ));
+  }
+
+  Widget bottomTitles(double value, TitleMeta meta) {
+    final titles = <String>['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'];
+
+    final Widget text = Text(
+      titles[value.toInt()],
+      style: const TextStyle(
+        color: Color(0xff7589a2),
+        fontWeight: FontWeight.bold,
+        fontSize: 14,
+      ),
+    );
+
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 16, //margin top
+      child: text,
+    );
+  }
+
+  Widget leftTitles(double value, TitleMeta meta) {
+    const style = TextStyle(
+      color: Color(0xff7589a2),
+      fontWeight: FontWeight.bold,
+      fontSize: 14,
+    );
+    String text;
+    if (value == 0) {
+      text = '1K';
+    } else if (value == 10) {
+      text = '5K';
+    } else if (value == 19) {
+      text = '10K';
+    } else {
+      return Container();
+    }
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 0,
+      child: Text(text, style: style),
+    );
   }
 }

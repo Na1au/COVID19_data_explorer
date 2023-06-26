@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:ssh/ssh.dart';
@@ -13,6 +14,8 @@ class ConfigPage extends StatefulWidget {
 class ConfigPageState extends State<ConfigPage> {
   bool isConnected = false;
   bool loaded = false;
+  String errorCode = '';
+  String errorMessage = '';
   late bool visiblePassword;
   final _usernameController = TextEditingController();
   final _ipAddressController = TextEditingController();
@@ -32,7 +35,6 @@ class ConfigPageState extends State<ConfigPage> {
         passwordOrKey: _passwordController.text);
 
     try {
-      print('CLIENT ===>>> ${client.host}');
       await client.connect();
       setState(() {
         isConnected = true;
@@ -80,7 +82,9 @@ class ConfigPageState extends State<ConfigPage> {
       await client
           .execute('echo "http://lg1:81/Facens.kml" > /var/www/html/kmls.txt');
       print('executou 2');
-    } catch (e) {
+    } on PlatformException catch (e) {
+      errorCode = e.code;
+      errorMessage = e.message!;
       print('not connected $e');
       setState(() {
         isConnected = false;
@@ -153,7 +157,7 @@ class ConfigPageState extends State<ConfigPage> {
               children: [
                 Row(
                   children: [
-                    const Text(
+                    /* const Text(
                       'Connection status: ',
                       style: TextStyle(
                           fontSize: 24,
@@ -164,7 +168,9 @@ class ConfigPageState extends State<ConfigPage> {
                       isConnected ? 'CONNECTED' : 'DISCONNECTED',
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
+                    ), */
+                    SizedBox(width: 10),
+                    Text('Error code ==>> $errorCode \n Error message ==> $errorMessage'),
                     SizedBox(width: 10),
                     isConnected
                         ? Icon(

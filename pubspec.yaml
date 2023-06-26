@@ -39,6 +39,7 @@ dependencies:
   path_provider: ^2.0.15
   shared_preferences: ^2.1.2
   fl_chart: ^0.62.0
+  #ssh2: ^2.2.3
 
 dev_dependencies:
   flutter_test:

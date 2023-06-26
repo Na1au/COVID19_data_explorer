@@ -62,6 +62,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        pickFirst 'com/jcraft/jsch/jce/Random.class'
+    }
 }
 
 flutter {

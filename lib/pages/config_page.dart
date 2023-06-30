@@ -1,8 +1,8 @@
+import 'package:covid19_data_explorer/services/lg_connection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:ssh/ssh.dart';
 
 class ConfigPage extends StatefulWidget {
   const ConfigPage({super.key});
@@ -23,18 +23,26 @@ class ConfigPageState extends State<ConfigPage> {
   final _passwordController = TextEditingController();
   final _totalMachinesController = TextEditingController();
 
+  clean() async {
+    await LGConnection().cleanKML();
+  }
+
   connect() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setString('ip', _ipAddressController.text);
     await preferences.setString('password', _passwordController.text);
+    await preferences.setString('user', _usernameController.text);
 
-    SSHClient client = SSHClient(
+    isConnected =  await LGConnection().connect();
+    //await preferences.setInt('port', _portNumberController.text as int);
+
+    /* SSHClient client = SSHClient(
         host: _ipAddressController.text,
         port: 22,
         username: _usernameController.text,
-        passwordOrKey: _passwordController.text);
+        passwordOrKey: _passwordController.text); */
 
-    try {
+/*     try {
       await client.connect();
       setState(() {
         isConnected = true;
@@ -89,15 +97,16 @@ class ConfigPageState extends State<ConfigPage> {
       setState(() {
         isConnected = false;
       });
-    }
+    } */
   }
 
   checkConnectionStatus() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setString('ip', _ipAddressController.text);
     await preferences.setString('password', _passwordController.text);
+    await preferences.setString('host', _ipAddressController.text);
 
-    SSHClient client = SSHClient(
+    /* SSHClient client = SSHClient(
       host: _ipAddressController.text,
       port: 22,
       username: 'lg',
@@ -115,14 +124,15 @@ class ConfigPageState extends State<ConfigPage> {
       setState(() {
         isConnected = false;
       });
-      print('ERROR');
-    }
+      print('ERROR: $e');
+    } */
   }
 
   init() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    _ipAddressController.text = preferences.getString('master_ip') ?? '';
-    _passwordController.text = preferences.getString('master_password') ?? '';
+    _ipAddressController.text = preferences.getString('ip') ?? '';
+    _passwordController.text = preferences.getString('password') ?? '';
+    _usernameController.text = preferences.getString('user') ?? '';
 
     await checkConnectionStatus();
 
@@ -166,16 +176,16 @@ class ConfigPageState extends State<ConfigPage> {
                     ),
                     Text(
                       isConnected ? 'CONNECTED' : 'DISCONNECTED',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     isConnected
-                        ? Icon(
+                        ? const Icon(
                             Icons.check_circle,
                             color: Colors.green,
                             size: 25,
                           )
-                        : Icon(
+                        : const Icon(
                             Icons.cancel,
                             color: Colors.red,
                             size: 25,
@@ -207,10 +217,10 @@ class ConfigPageState extends State<ConfigPage> {
                   controller: _passwordController,
                   obscureText: !visiblePassword,
                   decoration: InputDecoration(
-                    label: Text('Master machine password'),
+                    label: const Text('Master machine password'),
                     hintText: 'p@ssw0rd',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    border: OutlineInputBorder(),
+                    hintStyle: const TextStyle(color: Colors.grey),
+                    border: const OutlineInputBorder(),
                     suffixIcon: IconButton(
                       icon: Icon(
                         visiblePassword
@@ -241,7 +251,12 @@ class ConfigPageState extends State<ConfigPage> {
                     onPressed: () {
                       connect();
                     },
-                    child: const Text('Connect to LG'))
+                    child: const Text('Connect to LG')),
+                ElevatedButton(
+                    onPressed: () {
+                      clean();
+                    },
+                    child: const Text('Clean KML'))
               ],
             )
           ],

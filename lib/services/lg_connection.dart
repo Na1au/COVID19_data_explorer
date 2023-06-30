@@ -73,10 +73,11 @@ class LGConnection {
 
   sendTestKML() async {
     try {
-      await client.run("echo '$testKML' > /var/www/html/master.kml");
+      await client.run("echo '$testKML' > /var/www/html/Facens.kml");
       print('FOI 1');
       await client.run('echo "http://lg1:81/Facens.kml" > /var/www/html/kmls.txt');
       print('FOI 2');
+      await client.run("echo '$flyToKML' > /tmp/query.txt");
     } catch (e) {
       print('ERROR ON SEND KML FILE ==>> $e');
     }
@@ -93,6 +94,9 @@ class LGConnection {
       print(e);
     }
   }
+
+  String flyToKML = '''flytoview=<LookAt><longitude>-47.426886</longitude><latitude>-23.470097</latitude><altitude>1000</altitude><altitudeMode>relativeToGround</altitudeMode><gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode></LookAt>
+''';
 
   String testKML = '''
 <?xml version="1.0" encoding="UTF-8"?>
@@ -116,11 +120,11 @@ class LGConnection {
       <outerBoundaryIs>
         <LinearRing>
           <coordinates>
-          -47.426886,-23.470097,100
-          -47.431220,-23.468501,100
-          -47.432474,-23.470619,100
-          -47.430268,-23.472263,100
-          -47.426886,-23.470097,100
+          -47.426886,-23.470097,50
+          -47.431220,-23.468501,50
+          -47.432474,-23.470619,50
+          -47.430268,-23.472263,50
+          -47.426886,-23.470097,50
           </coordinates>
         </LinearRing>
       </outerBoundaryIs>

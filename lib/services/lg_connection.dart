@@ -59,6 +59,18 @@ class LGConnection {
     }
   }
 
+  checkConnection() async {
+    credencials = await _getCredencials();
+    try {
+      socket = await SSHSocket.connect('${credencials['ip']}', 22, timeout: const Duration(seconds: 10));
+      client = SSHClient(socket, username: '${credencials['user']}', onPasswordRequest: () => '${credencials['pass']}');
+      return true;
+    } catch (e) {
+      print('ERROR IN STABILISH CONNECTION ==>> $e');
+      return false;
+    }
+  }
+
   sendTestKML() async {
     try {
       await client.run("echo '$testKML' > /var/www/html/master.kml");

@@ -33,7 +33,11 @@ class ConfigPageState extends State<ConfigPage> {
     await preferences.setString('password', _passwordController.text);
     await preferences.setString('user', _usernameController.text);
 
-    isConnected =  await LGConnection().connect();
+    bool res = await LGConnection().connect();
+    setState(() {
+      isConnected = res;
+    });
+    print('CONNECTIONSTATE ==>> $isConnected');
     //await preferences.setInt('port', _portNumberController.text as int);
 
     /* SSHClient client = SSHClient(
@@ -106,6 +110,11 @@ class ConfigPageState extends State<ConfigPage> {
     await preferences.setString('password', _passwordController.text);
     await preferences.setString('host', _ipAddressController.text);
 
+    bool res = await LGConnection().checkConnection();
+
+    setState(() {
+      isConnected = res;
+    });
     /* SSHClient client = SSHClient(
       host: _ipAddressController.text,
       port: 22,

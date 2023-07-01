@@ -32,23 +32,19 @@ class LGConnection {
     //int port = preferences.getInt('port') ?? 22;
     String user = preferences.getString('user') ?? 'lg';
 
-    print('IP ==>> $ip');
-    print('PASSWORD ==>> $password');
-    return {
-      "ip": ip,
-      "pass": password,
-      "user": user
-    };
+    return {"ip": ip, "pass": password, "user": user};
   }
 
   connect() async {
     credencials = await _getCredencials();
     try {
-      socket = await SSHSocket.connect('${credencials['ip']}', 22, timeout: const Duration(seconds: 10));
-      
-      client = SSHClient(socket, username: '${credencials['user']}', onPasswordRequest: () => '${credencials['pass']}');
+      socket = await SSHSocket.connect('${credencials['ip']}', 22,
+          timeout: const Duration(seconds: 10));
 
-      print('conectou');
+      client = SSHClient(socket,
+          username: '${credencials['user']}',
+          onPasswordRequest: () => '${credencials['pass']}');
+
       sendTestKML();
 
       return true;
@@ -59,11 +55,24 @@ class LGConnection {
     }
   }
 
+  disconnect() async {
+    credencials = await _getCredencials();
+    socket = await SSHSocket.connect('${credencials['ip']}', 22,
+        timeout: const Duration(seconds: 10));
+    client = SSHClient(socket,
+        username: '${credencials['user']}',
+        onPasswordRequest: () => '${credencials['pass']}');
+    client.close();
+  }
+
   checkConnection() async {
     credencials = await _getCredencials();
     try {
-      socket = await SSHSocket.connect('${credencials['ip']}', 22, timeout: const Duration(seconds: 10));
-      client = SSHClient(socket, username: '${credencials['user']}', onPasswordRequest: () => '${credencials['pass']}');
+      socket = await SSHSocket.connect('${credencials['ip']}', 22,
+          timeout: const Duration(seconds: 10));
+      client = SSHClient(socket,
+          username: '${credencials['user']}',
+          onPasswordRequest: () => '${credencials['pass']}');
       return true;
     } catch (e) {
       print('ERROR IN STABILISH CONNECTION ==>> $e');
@@ -74,28 +83,31 @@ class LGConnection {
   sendTestKML() async {
     try {
       await client.run("echo '$testKML' > /var/www/html/Facens.kml");
-      print('FOI 1');
-      await client.run('echo "http://lg1:81/Facens.kml" > /var/www/html/kmls.txt');
-      print('FOI 2');
+      await client
+          .run('echo "http://lg1:81/Facens.kml" > /var/www/html/kmls.txt');
       await client.run("echo '$flyToKML' > /tmp/query.txt");
     } catch (e) {
-      print('ERROR ON SEND KML FILE ==>> $e');
+      throw ('ERROR ON SEND KML FILE: $e');
     }
   }
 
   cleanKML() async {
     credencials = await _getCredencials();
-    socket = await SSHSocket.connect('${credencials['ip']}', 22, timeout: const Duration(seconds: 10));
-      
-      client = SSHClient(socket, username: '${credencials['user']}', onPasswordRequest: () => '${credencials['pass']}');
+    socket = await SSHSocket.connect('${credencials['ip']}', 22,
+        timeout: const Duration(seconds: 10));
+
+    client = SSHClient(socket,
+        username: '${credencials['user']}',
+        onPasswordRequest: () => '${credencials['pass']}');
     try {
       await client.run("echo '' > /var/www/html/kmls.txt");
     } catch (e) {
-      print(e);
+      throw ('ERROR ON CLEAN VISUALIZATION: $e');
     }
   }
 
-  String flyToKML = '''flytoview=<LookAt><longitude>-47.426886</longitude><latitude>-23.470097</latitude><altitude>1000</altitude><altitudeMode>relativeToGround</altitudeMode><gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode></LookAt>
+  String flyToKML =
+      '''flytoview=<LookAt><longitude>-47.426886</longitude><latitude>-23.470097</latitude><altitude>1000</altitude><altitudeMode>relativeToGround</altitudeMode><gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode></LookAt>
 ''';
 
   String testKML = '''

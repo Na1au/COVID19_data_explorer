@@ -1,6 +1,5 @@
 import 'package:covid19_data_explorer/services/lg_connection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // ignore: import_of_legacy_library_into_null_safe
 
@@ -19,7 +18,6 @@ class ConfigPageState extends State<ConfigPage> {
   late bool visiblePassword;
   final _usernameController = TextEditingController();
   final _ipAddressController = TextEditingController();
-  final _portNumberController = TextEditingController();
   final _passwordController = TextEditingController();
   final _totalMachinesController = TextEditingController();
 
@@ -37,71 +35,10 @@ class ConfigPageState extends State<ConfigPage> {
     setState(() {
       isConnected = res;
     });
-    print('CONNECTIONSTATE ==>> $isConnected');
-    //await preferences.setInt('port', _portNumberController.text as int);
+  }
 
-    /* SSHClient client = SSHClient(
-        host: _ipAddressController.text,
-        port: 22,
-        username: _usernameController.text,
-        passwordOrKey: _passwordController.text); */
-
-/*     try {
-      await client.connect();
-      setState(() {
-        isConnected = true;
-      });
-      print('connected');
-      String kml = '''
-<?xml version="1.0" encoding="UTF-8"?>
-<kml xmlns="http://www.opengis.net/kml/2.2">
-<Document>
-  <name>Facens</name>
-  <open>1</open>
-  <Style id="PolyStyle">
-    <PolyStyle>
-      <color>7ff00760</color>
-	<fill>true</fill>
-	<outline></outline>
-    </PolyStyle>
-  </Style>
-  <Placemark>
-    <name>polygon</name>
-    <styleUrl>#PolyStyle</styleUrl>
-    <Polygon>
-      <extrude>1</extrude>
-      <altitudeMode>relativeToGround</altitudeMode>
-      <outerBoundaryIs>
-        <LinearRing>
-          <coordinates>
-          -47.426886,-23.470097,100
-          -47.431220,-23.468501,100
-          -47.432474,-23.470619,100
-          -47.430268,-23.472263,100
-          -47.426886,-23.470097,100
-          </coordinates>
-        </LinearRing>
-      </outerBoundaryIs>
-    </Polygon>
-  </Placemark>
-</Document>
-</kml>
- ''';
-      print(kml);
-      await client.execute("echo '$kml' > /var/www/html/Facens.kml");
-      print('executou 1');
-
-      await client
-          .execute('echo "http://lg1:81/Facens.kml" > /var/www/html/kmls.txt');
-      print('executou 2');
-    } on PlatformException catch (e) {
-      errorCode = e.code;
-      errorMessage = e.message!;
-      print('not connected $e');
-      setState(() {
-        isConnected = false;
-      });
-    } */
+  disconnect() {
+    LGConnection().disconnect();
   }
 
   checkConnectionStatus() async {
@@ -115,26 +52,6 @@ class ConfigPageState extends State<ConfigPage> {
     setState(() {
       isConnected = res;
     });
-    /* SSHClient client = SSHClient(
-      host: _ipAddressController.text,
-      port: 22,
-      username: 'lg',
-      passwordOrKey: _passwordController.text,
-    );
-
-    try {
-      await client.connect();
-      setState(() {
-        isConnected = true;
-      });
-      await client.disconnect();
-      print('connected');
-    } catch (e) {
-      setState(() {
-        isConnected = false;
-      });
-      print('ERROR: $e');
-    } */
   }
 
   init() async {
@@ -256,16 +173,48 @@ class ConfigPageState extends State<ConfigPage> {
                   ),
                 ),
                 const SizedBox(height: 50),
-                ElevatedButton(
-                    onPressed: () {
-                      connect();
-                    },
-                    child: const Text('Connect to LG')),
-                ElevatedButton(
-                    onPressed: () {
-                      clean();
-                    },
-                    child: const Text('Clean KML'))
+                Row(
+                  children: [
+                    SizedBox(
+                        height: 50,
+                        width: 200,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              connect();
+                            },
+                            child: const Text(
+                              'Connect to LG',
+                              style: TextStyle(fontSize: 20),
+                            ))),
+                    const Spacer(),
+                    SizedBox(
+                        height: 50,
+                        width: 200,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              disconnect();
+                              setState(() {
+                                isConnected = false;
+                              });
+                            },
+                            child: const Text(
+                              'Disconnect',
+                              style: TextStyle(fontSize: 20),
+                            ))),
+                    const Spacer(),
+                    SizedBox(
+                        height: 50,
+                        width: 200,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              clean();
+                            },
+                            child: const Text(
+                              'Clean KML',
+                              style: TextStyle(fontSize: 20),
+                            ))),
+                  ],
+                )
               ],
             )
           ],

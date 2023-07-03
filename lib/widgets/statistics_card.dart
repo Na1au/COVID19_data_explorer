@@ -1,79 +1,112 @@
+import 'package:covid19_data_explorer/services/http_request.dart';
 import 'package:flutter/material.dart';
 
 class StatisticsCard extends StatefulWidget {
+  const StatisticsCard({super.key});
+
   @override
-  State<StatisticsCard> createState() {
-    return StatisticsCardState();
-  }
+  State<StatisticsCard> createState() => StatisticsCardState();
 }
 
 class StatisticsCardState extends State<StatisticsCard> {
+  late String date;
+  late int cases;
+  late int deaths;
+  late int tests;
+  late int recovered;
+  bool loaded = false;
+
+  @override
+  void initState() {
+    _getData();
+    super.initState();
+  }
+
+  _getData() async {
+    GlobalResponse data =
+        await APIRequest().get('https://corona.lmao.ninja/v2/all');
+    setState(() {
+      date = DateTime.fromMillisecondsSinceEpoch(data.updated)
+          .toString()
+          .substring(0, 16);
+      cases = data.cases;
+      deaths = data.deaths;
+      tests = data.tests;
+      recovered = data.recovered;
+      loaded = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return loaded == false ? CircularProgressIndicator() : Card(
         color: Colors.white,
         child: Padding(
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             child: Column(
               children: [
                 Row(
                   children: [
-                    Text('Statistics',
+                    const Text('Statistics',
                         style: TextStyle(
                             color: Colors.black54,
                             fontSize: 20,
                             fontWeight: FontWeight.bold)),
-                    Spacer(),
-                    Text('Updated just now',
+                    const Spacer(),
+                    Text('Updated: $date',
                         textAlign: TextAlign.end,
-                        style: TextStyle(color: Colors.black54, fontSize: 15))
+                        style: const TextStyle(
+                            color: Colors.black54, fontSize: 15))
                   ],
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      CircleAvatar(backgroundColor: Colors.amber, radius: 25),
-                      SizedBox(width: 10),
+                      const CircleAvatar(
+                          backgroundColor: Colors.amber, radius: 25),
+                      const SizedBox(width: 10),
                       Column(
                         children: [
-                          Text('690.725.164',
-                              style: TextStyle(
+                          Text('$cases',
+                              style: const TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold)),
-                          SizedBox(height: 5),
-                          Text('Total cases')
+                          const SizedBox(height: 5),
+                          const Text('Total cases')
                         ],
                       ),
-                      Spacer(),
-                      CircleAvatar(backgroundColor: Colors.red, radius: 25),
-                      SizedBox(width: 10),
+                      const Spacer(),
+                      const CircleAvatar(
+                          backgroundColor: Colors.red, radius: 25),
+                      const SizedBox(width: 10),
                       Column(children: [
-                        Text('6.894.285',
-                            style: TextStyle(
+                        Text('$deaths',
+                            style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
-                        SizedBox(height: 10),
-                        Text('Total deaths')
+                        const SizedBox(height: 10),
+                        const Text('Total deaths')
                       ]),
-                      Spacer(),
-                      CircleAvatar(
+                      const Spacer(),
+                      const CircleAvatar(
                           backgroundColor: Colors.deepPurple, radius: 25),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Column(children: [
-                        Text('6.996.378.209',
-                            style: TextStyle(
+                        Text('$tests',
+                            style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
-                        SizedBox(height: 10),
-                        Text('Total tests')
+                        const SizedBox(height: 10),
+                        const Text('Total tests')
                       ]),
-                      Spacer(),
-                      CircleAvatar(backgroundColor: Colors.blue, radius: 25),
-                      SizedBox(width: 10),
+                      const Spacer(),
+                      const CircleAvatar(
+                          backgroundColor: Colors.blue, radius: 25),
+                      const SizedBox(width: 10),
                       Column(children: [
-                        Text('7',
-                            style: TextStyle(
+                        Text('$recovered',
+                            style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
-                        SizedBox(height: 10),
-                        Text('Total variants')
+                        const SizedBox(height: 10),
+                        const Text('Total recovered')
                       ]),
                     ]),
               ],

@@ -1,5 +1,4 @@
 import 'package:shared_preferences/shared_preferences.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:dartssh2/dartssh2.dart';
 
 class LGConnection {
@@ -29,7 +28,6 @@ class LGConnection {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String ip = preferences.getString('ip') ?? '';
     String password = preferences.getString('password') ?? 'lq';
-    //int port = preferences.getInt('port') ?? 22;
     String user = preferences.getString('user') ?? 'lg';
 
     return {"ip": ip, "pass": password, "user": user};
@@ -86,6 +84,17 @@ class LGConnection {
       await client
           .run('echo "http://lg1:81/Facens.kml" > /var/www/html/kmls.txt');
       await client.run("echo '$flyToKML' > /tmp/query.txt");
+    } catch (e) {
+      throw ('ERROR ON SEND KML FILE: $e');
+    }
+  }
+
+  sendKML(String fileName, String kml, String flyTo) async {
+    try {
+      await client.run("echo '$kml' > /var/www/html/$fileName.kml");
+      await client
+          .run('echo "http://lg1:81/$fileName.kml" > /var/www/html/kmls.txt');
+      await client.run("echo '$flyTo' > /tmp/query.txt");
     } catch (e) {
       throw ('ERROR ON SEND KML FILE: $e');
     }

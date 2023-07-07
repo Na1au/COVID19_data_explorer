@@ -40,6 +40,7 @@ dependencies:
   fl_chart: ^0.62.0
   dartssh2: ^2.8.2
   dio: ^5.2.1+1
+  numeral: ^2.0.1
 
 dev_dependencies:
   flutter_test:

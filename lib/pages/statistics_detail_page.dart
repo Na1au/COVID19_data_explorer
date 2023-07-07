@@ -1,6 +1,7 @@
 import 'package:covid19_data_explorer/pages/see_statistics_kml.dart';
 import 'package:covid19_data_explorer/services/http_request.dart';
 import 'package:flutter/material.dart';
+import 'package:numeral/numeral.dart';
 
 class StatisticsDetailPage extends StatefulWidget {
   const StatisticsDetailPage({super.key});
@@ -20,6 +21,14 @@ class StatisticsDetailPageState extends State<StatisticsDetailPage> {
   late int tests;
   late int recovered;
   bool loaded = false;
+  List<String> continentTitles = [
+    'North America',
+    'South America',
+    'Africa',
+    'Asia',
+    'Europe',
+    'Oceania'
+  ];
 
   @override
   void initState() {
@@ -47,25 +56,84 @@ class StatisticsDetailPageState extends State<StatisticsDetailPage> {
     });
   }
 
+  List<Widget> _buildContents(String title) {
+    var contents = <Widget>[];
+    var data = [cases, deaths, tests, recovered];
+    var colors = [Colors.amber, Colors.red, Colors.deepPurple, Colors.blue];
+    var titles = ['cases', 'deaths', 'tests', 'recovered'];
+    for (var i = 0; i < 4; i++) {
+      contents.add(Container(
+        color: Colors.amberAccent,
+        width: 200,
+        child: ListTile(
+            leading: CircleAvatar(
+              backgroundColor: colors[i],
+              radius: 25,
+            ),
+            title: Text('${numeral(data[i])}'),
+            subtitle: Text('Total ${titles[i]}'),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => StatisticsKMLPage(
+                    title: '$title total ${titles[i]}',
+                    usa: dataUSA,
+                    canada: dataCanada,
+                    mexico: dataMexico,
+                    type: '${titles[i]}',
+                    total: data[i]),
+              ));
+            }),
+      ));
+    }
+    return contents;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text('Statistics')),
-        body: Center(
-            child: Container(
-                height: double.infinity,
-                width: double.infinity,
-                color: Colors.grey.shade200,
-                child: ListView(
-                  scrollDirection: Axis.vertical,
-                  children: [
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                      child: Row(
-                        children: [
-                          //America
-                          Card(
+        body: Container(
+            alignment: Alignment.topCenter,
+            height: double.infinity,
+            width: double.infinity,
+            color: Colors.grey.shade200,
+            child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      //America
+                      for (var i = 0; i <= 5; i++) ...[
+                        SizedBox(
+                          height: 400,
+                          width: 230,
+                          child: Card(
+                              color: Colors.white,
+                              child: Padding(
+                                padding: EdgeInsets.all(15),
+                                child: loaded == false
+                                    ? Center(
+                                        child: SizedBox(
+                                            height: 50,
+                                            width: 50,
+                                            child: CircularProgressIndicator()))
+                                    : Column(children: [
+                                        Text('${continentTitles[i]}',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                                color: Colors.black54,
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold)),
+                                        SizedBox(height: 20),
+                                        ..._buildContents(continentTitles[i])
+                                      ]),
+                              )),
+                        )
+                      ]
+                      /* Card(
                               color: Colors.white,
                               child: Padding(
                                   padding: EdgeInsets.all(15),
@@ -234,10 +302,10 @@ class StatisticsDetailPageState extends State<StatisticsDetailPage> {
                                                   ],
                                                 ))
                                           ],
-                                        ))),
-                          SizedBox(width: 20),
-                          //Asia
-                          Card(
+                                        ))), */
+                      //SizedBox(width: 20),
+                      //Asia
+                      /* Card(
                               color: Colors.white,
                               child: Padding(
                                   padding: EdgeInsets.all(15),
@@ -620,11 +688,9 @@ class StatisticsDetailPageState extends State<StatisticsDetailPage> {
                                         ],
                                       )
                                     ],
-                                  ))),
-                        ],
-                      ),
-                    )
-                  ],
-                ))));
+                                  ))), */
+                    ],
+                  ),
+                )))); //);
   }
 }

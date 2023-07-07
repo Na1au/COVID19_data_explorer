@@ -63,7 +63,6 @@ class StatisticsDetailPageState extends State<StatisticsDetailPage> {
     var titles = ['cases', 'deaths', 'tests', 'recovered'];
     for (var i = 0; i < 4; i++) {
       contents.add(Container(
-        color: Colors.amberAccent,
         width: 200,
         child: ListTile(
             leading: CircleAvatar(
@@ -97,11 +96,10 @@ class StatisticsDetailPageState extends State<StatisticsDetailPage> {
             height: double.infinity,
             width: double.infinity,
             color: Colors.grey.shade200,
-            child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+            child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [

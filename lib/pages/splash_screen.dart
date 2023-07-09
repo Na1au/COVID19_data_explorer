@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   startTimer() async {
-    Duration duration = Duration(seconds: 5);
+    Duration duration = const Duration(seconds: 5);
 
     return Timer(duration, pushToHome);
   }
@@ -27,13 +27,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //Size screenSize = MediaQuery.of(context).size;
 
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Center(
-          child: Image.asset('assets/GSOC_logos.png')
+          child: Image.asset('assets/logos.png')
         ),
       ),
     );

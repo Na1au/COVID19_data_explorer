@@ -90,7 +90,13 @@ class LGConnection {
   }
 
   sendKML(String fileName, String kml, String flyTo) async {
+    credencials = await _getCredencials();
     try {
+      socket = await SSHSocket.connect('${credencials['ip']}', 22,
+          timeout: const Duration(seconds: 10));
+      client = SSHClient(socket,
+          username: '${credencials['user']}',
+          onPasswordRequest: () => '${credencials['pass']}');
       await client.run("echo '$kml' > /var/www/html/$fileName.kml");
       await client
           .run('echo "http://lg1:81/$fileName.kml" > /var/www/html/kmls.txt');
@@ -127,7 +133,7 @@ class LGConnection {
   <open>1</open>
   <Style id="PolyStyle">
     <PolyStyle>
-      <color>7ff00760</color>
+      <color>fff00760</color>
 	<fill>true</fill>
 	<outline></outline>
     </PolyStyle>
@@ -141,11 +147,11 @@ class LGConnection {
       <outerBoundaryIs>
         <LinearRing>
           <coordinates>
-          -47.426886,-23.470097,50
-          -47.431220,-23.468501,50
-          -47.432474,-23.470619,50
-          -47.430268,-23.472263,50
-          -47.426886,-23.470097,50
+          -47.426886,-23.470097,1000000
+          -47.431220,-23.468501,1000000
+          -47.432474,-23.470619,1000000
+          -47.430268,-23.472263,1000000
+          -47.426886,-23.470097,1000000
           </coordinates>
         </LinearRing>
       </outerBoundaryIs>

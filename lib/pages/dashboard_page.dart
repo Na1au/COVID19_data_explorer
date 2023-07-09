@@ -1,8 +1,11 @@
+import 'package:covid19_data_explorer/pages/about_page.dart';
+import 'package:covid19_data_explorer/services/lg_connection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'config_page.dart';
 import 'package:covid19_data_explorer/widgets/statistics_card.dart';
 import 'statistics_detail_page.dart';
+import 'package:covid19_data_explorer/utils/coordinates.dart';
 
 class DashboardPage extends StatefulWidget {
   @override
@@ -47,7 +50,8 @@ class DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Row(children: [
+          automaticallyImplyLeading: false,
+          title: Row(children: const [
             Icon(Icons.coronavirus_outlined),
             SizedBox(width: 15),
             Text('COVID-19 DATA EXPLORER')
@@ -55,10 +59,16 @@ class DashboardPageState extends State<DashboardPage> {
           actions: [
             IconButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => ConfigPage()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const ConfigPage()));
                 },
-                icon: Icon(Icons.settings))
+                icon: const Icon(Icons.settings)),
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const AboutPage()));
+                },
+                icon: const Icon(Icons.info))
           ],
         ),
         body: Center(
@@ -70,30 +80,71 @@ class DashboardPageState extends State<DashboardPage> {
               scrollDirection: Axis.vertical,
               children: [
                 Padding(
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 15),
                     child: Column(
                       children: [
                         // Statistics card
                         GestureDetector(
-                          onTap: () {
+                          onTap: () async {
+                            var coordinates = Coordinates().usa();
+                            var testKML = '''
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2"
+xmlns:gx="http://www.google.com/kml/ext/2.2">
+<Document>
+  <name>testUSA</name>
+  <open>1</open>
+  <Style id="PolyStyle">
+    <PolyStyle>
+      <color>7ff00760</color>
+	<fill>true</fill>
+	<outline></outline>
+    </PolyStyle>
+  </Style>
+  <Placemark>
+    <name>polygon</name>
+    <styleUrl>#PolyStyle</styleUrl>
+    <Polygon>
+      <extrude>1</extrude>
+      <altitudeMode>relativeToGround</altitudeMode>
+      <outerBoundaryIs>
+        <LinearRing>
+        <altitudeMode>clampToGround</altitudeMode>
+          <coordinates>
+          $coordinates
+          </coordinates>
+        </LinearRing>
+      </outerBoundaryIs>
+    </Polygon>
+  </Placemark>
+</Document>
+</kml>
+ ''';
+                            String flyTo =
+                                '''flytoview=<LookAt><longitude>-103.072760</longitude><latitude>40.066222</latitude><altitude>100000</altitude><altitudeMode>relativeToGround</altitudeMode><gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode></LookAt>
+''';
+                            await LGConnection()
+                                .sendKML('testUSA', testKML, flyTo);
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => StatisticsDetailPage(),
+                                builder: (context) =>
+                                    const StatisticsDetailPage(),
                               ),
                             );
                           },
-                          child: StatisticsCard(),
+                          child: const StatisticsCard(),
                         ),
-                        SizedBox(height: 15),
+                        const SizedBox(height: 15),
                         //Total cases cardx
                         Card(
                             color: Colors.white,
                             child: Padding(
-                                padding: EdgeInsets.all(15),
+                                padding: const EdgeInsets.all(15),
                                 child: Column(
                                   children: [
                                     Row(
-                                      children: [
+                                      children: const [
                                         Text('Total cases',
                                             style: TextStyle(
                                                 color: Colors.black54,
@@ -113,7 +164,7 @@ class DashboardPageState extends State<DashboardPage> {
                                         Text('Critical')
                                       ],
                                     ),
-                                    SizedBox(height: 30),
+                                    const SizedBox(height: 30),
                                     Container(
                                       height: 200,
                                       width: 200,
@@ -151,7 +202,7 @@ class DashboardPageState extends State<DashboardPage> {
                                             generateGroupData(4, 0.8, 3.3, 3.4),
                                           ],
                                         ),
-                                        swapAnimationDuration: Duration(
+                                        swapAnimationDuration: const Duration(
                                             milliseconds: 150), // Optional
                                         swapAnimationCurve:
                                             Curves.linear, // Optional

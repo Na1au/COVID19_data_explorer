@@ -6,8 +6,12 @@ class APIRequest {
   final dio = Dio();
 
   get(url) async {
-    final res = await dio.get(url);
-    return GlobalResponse.fromJson(res.data);
+    try {
+      final res = await dio.get(url);
+      return GlobalResponse.fromJson(res.data);
+    } catch(e) {
+      print('ERROR ON GET URL ==>> $e \n $url');
+    }
   }
 
 }

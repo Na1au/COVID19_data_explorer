@@ -33,6 +33,37 @@ class LGConnection {
     return {"ip": ip, "pass": password, "user": user};
   }
 
+    Future<String?> getScreenAmount() async {
+    credencials = await _getCredencials();
+    socket = await SSHSocket.connect('${credencials['ip']}', 22,
+        timeout: const Duration(seconds: 10));
+
+    client = SSHClient(socket,
+        username: '${credencials['user']}',
+        onPasswordRequest: () => '${credencials['pass']}');
+        var result = client.execute("grep -oP '(?<=DHCP_LG_FRAMES_MAX=).*' personavars.txt").toString();
+    return result;
+  }
+
+  Future openLogos() async {
+    credencials = await _getCredencials();
+    socket = await SSHSocket.connect('${credencials['ip']}', 22,
+        timeout: const Duration(seconds: 10));
+
+    client = SSHClient(socket,
+        username: '${credencials['user']}',
+        onPasswordRequest: () => '${credencials['pass']}');
+    try{
+      final screen = await getScreenAmount();
+      if(screen != null){
+        screenAmount = int.parse(screen);
+      }
+      print('ScreenAmouth ==>> $screenAmount');
+    } catch(e){
+      print(e);
+    }
+  }
+
   connect() async {
     credencials = await _getCredencials();
     try {
@@ -43,12 +74,9 @@ class LGConnection {
           username: '${credencials['user']}',
           onPasswordRequest: () => '${credencials['pass']}');
 
-      sendTestKML();
-
       return true;
     } catch (e) {
       print('ERROR IN STABILISH CONNECTION ==>> $e');
-
       return false;
     }
   }
@@ -78,17 +106,6 @@ class LGConnection {
     }
   }
 
-  sendTestKML() async {
-    try {
-      await client.run("echo '$testKML' > /var/www/html/Facens.kml");
-      await client
-          .run('echo "http://lg1:81/Facens.kml" > /var/www/html/kmls.txt');
-      await client.run("echo '$flyToKML' > /tmp/query.txt");
-    } catch (e) {
-      throw ('ERROR ON SEND KML FILE: $e');
-    }
-  }
-
   sendKML(String fileName, String kml, String flyTo) async {
     credencials = await _getCredencials();
     try {
@@ -106,6 +123,10 @@ class LGConnection {
     }
   }
 
+  sendLogoKML() async {
+
+  }
+
   cleanKML() async {
     credencials = await _getCredencials();
     socket = await SSHSocket.connect('${credencials['ip']}', 22,
@@ -118,6 +139,63 @@ class LGConnection {
       await client.run("echo '' > /var/www/html/kmls.txt");
     } catch (e) {
       throw ('ERROR ON CLEAN VISUALIZATION: $e');
+    }
+  }
+
+    Future<void> relaunchLg() async {
+    credencials = await _getCredencials();
+
+     socket = await SSHSocket.connect('${credencials['ip']}', 22,
+        timeout: const Duration(seconds: 10));
+
+    client = SSHClient(socket,
+        username: '${credencials['user']}',
+        onPasswordRequest: () => '${credencials['pass']}');
+
+  for (var i = screenAmount; i >= 1; i--) {
+
+    try {
+      final relaunchCommand = """RELAUNCH_CMD="\\
+      if [ -f /etc/init/lxdm.conf ]; then
+        export SERVICE=lxdm
+      elif [ -f /etc/init/lightdm.conf ]; then
+        export SERVICE=lightdm
+      else
+        exit 1
+      fi
+      if  [[ \\\$(service \\\$SERVICE status) =~ 'stop' ]]; then
+        echo ${credencials['pass']} | sudo -S service \\\${SERVICE} start
+      else
+        echo ${credencials['pass']} | sudo -S service \\\${SERVICE} restart
+      fi
+      " && sshpass -p ${credencials['pass']} ssh -x -t lg@lg$i "\$RELAUNCH_CMD\"""";
+        await client.run('"/home/lg/bin/lg-relaunch" > /home/lg/log.txt');
+        await client.run(relaunchCommand);
+    } catch (e) {
+      print('Could not connect to host LG');
+      return Future.error(e);
+    }
+  }
+  }
+
+  Future<void> shutdownLg() async {
+    credencials = await _getCredencials();
+
+    socket = await SSHSocket.connect('${credencials['ip']}', 22,
+        timeout: const Duration(seconds: 10));
+
+    client = SSHClient(socket,
+        username: '${credencials['user']}',
+        onPasswordRequest: () => '${credencials['pass']}');
+
+  for (var i = screenAmount; i >= 1; i--) {
+    try {
+      await client.run(
+            'sshpass -p ${credencials['pass']} ssh -t lg$i "echo ${credencials['pass']} | sudo -S poweroff"');
+    } catch (e) {
+      print('Could not connect to host LG');
+      return Future.error(e);
+    }
     }
   }
 

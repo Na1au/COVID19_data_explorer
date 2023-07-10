@@ -1,4 +1,5 @@
 import 'package:covid19_data_explorer/pages/about_page.dart';
+import 'package:covid19_data_explorer/widgets/global_contamination_card.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'config_page.dart';
@@ -96,79 +97,7 @@ class DashboardPageState extends State<DashboardPage> {
                         ),
                         const SizedBox(height: 15),
                         //Total cases cardx
-                        Card(
-                            color: Colors.white,
-                            child: Padding(
-                                padding: const EdgeInsets.all(15),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: const [
-                                        Text('Total cases',
-                                            style: TextStyle(
-                                                color: Colors.black54,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold)),
-                                        Spacer(),
-                                        CircleAvatar(
-                                            backgroundColor: Colors.amber,
-                                            radius: 10),
-                                        SizedBox(width: 5),
-                                        Text('Not critial'),
-                                        SizedBox(width: 30),
-                                        CircleAvatar(
-                                            backgroundColor: Colors.red,
-                                            radius: 10),
-                                        SizedBox(width: 5),
-                                        Text('Critical')
-                                      ],
-                                    ),
-                                    const SizedBox(height: 30),
-                                    Container(
-                                      height: 200,
-                                      width: 200,
-                                      child: BarChart(
-                                        BarChartData(
-                                          alignment:
-                                              BarChartAlignment.spaceBetween,
-                                          titlesData: FlTitlesData(
-                                            show: true,
-                                            leftTitles: AxisTitles(
-                                              sideTitles: SideTitles(
-                                                showTitles: true,
-                                                reservedSize: 28,
-                                                interval: 1,
-                                                getTitlesWidget: leftTitles,
-                                              ),
-                                            ),
-                                            bottomTitles: AxisTitles(
-                                              sideTitles: SideTitles(
-                                                showTitles: true,
-                                                getTitlesWidget: bottomTitles,
-                                                reservedSize: 42,
-                                              ),
-                                            ),
-                                          ),
-                                          barTouchData:
-                                              BarTouchData(enabled: false),
-                                          borderData: FlBorderData(show: false),
-                                          gridData: FlGridData(show: false),
-                                          barGroups: [
-                                            generateGroupData(0, 2, 3, 2),
-                                            generateGroupData(1, 2, 5, 1.7),
-                                            generateGroupData(2, 1.3, 3.1, 2.8),
-                                            generateGroupData(3, 3.1, 4, 3.1),
-                                            generateGroupData(4, 0.8, 3.3, 3.4),
-                                          ],
-                                        ),
-                                        swapAnimationDuration: const Duration(
-                                            milliseconds: 150), // Optional
-                                        swapAnimationCurve:
-                                            Curves.linear, // Optional
-                                      ),
-                                    )
-                                  ],
-                                )))
+                        const GlobalContaminationCard()
                       ],
                     ))
               ],
@@ -178,7 +107,15 @@ class DashboardPageState extends State<DashboardPage> {
   }
 
   Widget bottomTitles(double value, TitleMeta meta) {
-    final titles = <String>['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'];
+    final titles = <String>[
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'June',
+      'July',
+    ];
 
     final Widget text = Text(
       titles[value.toInt()],
@@ -220,6 +157,4 @@ class DashboardPageState extends State<DashboardPage> {
   }
 }
 
-kml() {
-
-}
+kml() {}

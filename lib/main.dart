@@ -1,4 +1,5 @@
 import 'package:covid19_data_explorer/pages/dashboard_page.dart';
+import 'package:covid19_data_explorer/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,9 +13,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/',
+      initialRoute: '/splash',
       routes: {
-        '/': (context) => DashboardPage()
+        '/': (context) => DashboardPage(),
+        '/splash': (context) => const SplashScreen()
       },
     );
   }

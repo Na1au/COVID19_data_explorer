@@ -30,6 +30,8 @@ class ConfigPageState extends State<ConfigPage> {
     await preferences.setString('ip', _ipAddressController.text);
     await preferences.setString('password', _passwordController.text);
     await preferences.setString('user', _usernameController.text);
+    await preferences.setInt(
+        'screen', int.parse(_totalMachinesController.text));
 
     bool res = await LGConnection().connect();
     setState(() {
@@ -41,11 +43,21 @@ class ConfigPageState extends State<ConfigPage> {
     LGConnection().disconnect();
   }
 
+  shutDown() {
+    LGConnection().shutdownLg();
+  }
+
+  relaunch() {
+    LGConnection().relaunchLg();
+  }
+
   checkConnectionStatus() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setString('ip', _ipAddressController.text);
     await preferences.setString('password', _passwordController.text);
     await preferences.setString('host', _ipAddressController.text);
+    await preferences.setInt(
+        'screen', int.parse(_totalMachinesController.text));
 
     bool res = await LGConnection().checkConnection();
 
@@ -59,6 +71,7 @@ class ConfigPageState extends State<ConfigPage> {
     _ipAddressController.text = preferences.getString('ip') ?? '';
     _passwordController.text = preferences.getString('password') ?? '';
     _usernameController.text = preferences.getString('user') ?? '';
+    _totalMachinesController.text = (preferences.getInt('screen') ?? 5).toString();
 
     await checkConnectionStatus();
 
@@ -211,6 +224,30 @@ class ConfigPageState extends State<ConfigPage> {
                             },
                             child: const Text(
                               'Clean KML',
+                              style: TextStyle(fontSize: 20),
+                            ))),
+                    const Spacer(),
+                    SizedBox(
+                        height: 50,
+                        width: 200,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              relaunch();
+                            },
+                            child: const Text(
+                              'Relaunch LG',
+                              style: TextStyle(fontSize: 20),
+                            ))),
+                    const Spacer(),
+                    SizedBox(
+                        height: 50,
+                        width: 200,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              shutDown();
+                            },
+                            child: const Text(
+                              'Shut Down LG',
                               style: TextStyle(fontSize: 20),
                             ))),
                   ],

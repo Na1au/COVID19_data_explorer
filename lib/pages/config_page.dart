@@ -30,6 +30,7 @@ class ConfigPageState extends State<ConfigPage> {
     await preferences.setString('ip', _ipAddressController.text);
     await preferences.setString('password', _passwordController.text);
     await preferences.setString('user', _usernameController.text);
+    await preferences.setInt('screen', int.parse(_totalMachinesController.text));
 
     bool res = await LGConnection().connect();
     setState(() {
@@ -46,6 +47,7 @@ class ConfigPageState extends State<ConfigPage> {
     await preferences.setString('ip', _ipAddressController.text);
     await preferences.setString('password', _passwordController.text);
     await preferences.setString('host', _ipAddressController.text);
+    await preferences.setInt('screen', int.parse(_totalMachinesController.text));
 
     bool res = await LGConnection().checkConnection();
 
@@ -59,6 +61,7 @@ class ConfigPageState extends State<ConfigPage> {
     _ipAddressController.text = preferences.getString('ip') ?? '';
     _passwordController.text = preferences.getString('password') ?? '';
     _usernameController.text = preferences.getString('user') ?? '';
+    _totalMachinesController.text = preferences.getInt('screen').toString() ?? '';
 
     await checkConnectionStatus();
 

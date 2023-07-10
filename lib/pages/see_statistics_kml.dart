@@ -188,7 +188,7 @@ xmlns:gx="http://www.google.com/kml/ext/2.2">
 </kml>
  ''';
                             String flyTo =
-                                '''flytoview=<LookAt><longitude>-102.25961959532764</longitude><latitude>19.93601211675189</latitude><altitude>7000000</altitude><tilt>30.68179673613697</tilt><altitudeMode>relativeToGround</altitudeMode><gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode></LookAt>
+                                '''flytoview=<LookAt><longitude>-102.25961959532764</longitude><latitude>19.93601211675189</latitude><altitude>8500000</altitude><tilt>15.68179673613697</tilt><altitudeMode>relativeToGround</altitudeMode><gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode></LookAt>
 ''';
                             await LGConnection()
                                 .sendKML('NorthAmerica_${widget.type}', testKML, flyTo);

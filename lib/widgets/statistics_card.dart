@@ -16,6 +16,7 @@ class StatisticsCardState extends State<StatisticsCard> {
   late int tests;
   late int recovered;
   bool loaded = false;
+  late List<GlobalResponse> globalData;
 
   @override
   void initState() {
@@ -24,16 +25,18 @@ class StatisticsCardState extends State<StatisticsCard> {
   }
 
   _getData() async {
-    GlobalResponse data =
-        await APIRequest().get('https://corona.lmao.ninja/v2/all');
+    globalData =
+        await APIRequest().get('https://disease.sh/v3/covid-19/continents');
     setState(() {
-      date = DateTime.fromMillisecondsSinceEpoch(data.updated)
+      date = DateTime.fromMillisecondsSinceEpoch(globalData.first.updated)
           .toString()
           .substring(0, 16);
-      cases = data.cases;
-      deaths = data.deaths;
-      tests = data.tests;
-      recovered = data.recovered;
+      for(var i =0; i < globalData.length; i++) {
+        cases += globalData[i].cases;
+        deaths += globalData[i].deaths;
+        tests += globalData[i].tests;
+        recovered += globalData[i].recovered;
+      }
       loaded = true;
     });
   }

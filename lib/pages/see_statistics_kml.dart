@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:covid19_data_explorer/services/kml_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -5,9 +7,10 @@ import 'package:covid19_data_explorer/services/http_request.dart';
 import 'package:numeral/numeral.dart';
 import 'package:covid19_data_explorer/services/lg_connection.dart';
 import 'package:covid19_data_explorer/utils/coordinates.dart';
+import 'package:covid19_data_explorer/utils/colors.dart';
 
 class StatisticsKMLPage extends StatefulWidget {
-  const StatisticsKMLPage(
+  StatisticsKMLPage(
       {super.key,
       required this.title,
       required this.usa,
@@ -21,6 +24,7 @@ class StatisticsKMLPage extends StatefulWidget {
   final GlobalResponse mexico;
   final String type;
   final int total;
+  final _random = Random();
 
   @override
   State<StatisticsKMLPage> createState() {
@@ -106,8 +110,18 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                                   : widget.type == 'deaths'
                                       ? 600000
                                       : 400000);
-                          var kml = kmlGenerator().continentKML([usaCoordinates, usaCoordinates2, canadaCoordinates, mexicoCoordinates]);
-                          var flyTo = kmlGenerator().flyTo;
+                          var coordinates = [usaCoordinates, canadaCoordinates, mexicoCoordinates];
+                          var names = ['USA', 'CANADA', 'MEXICO'];
+                          var polygons = '';
+                          polygons += kmlGenerator().polygon({'name': 'USA2', 'color': polygonColors[widget._random.nextInt(polygonColors.length)], 'coordinates': usaCoordinates2});
+                          for(var i = 0; i < 3; i++) {
+                            var po = kmlGenerator().polygon({'name': names[i], 'color': polygonColors[widget._random.nextInt(polygonColors.length)], 'coordinates': coordinates[i]});
+                            print('AAAAAAAAAAAAAAAAAAA ==>> $po');
+                            polygons += po;
+                          }
+                          print(polygons);
+                          var kml = kmlGenerator().continentKML({'name': 'North America', 'polygons': polygons});
+                          var flyTo = kmlGenerator().FlyTo({'lon': -80.140506, 'alt': 8700000, 'tilt': 15.68179673613697, 'lat': 12.543370 });
                           await LGConnection().sendKML(
                               'NorthAmerica_${widget.type}', kml, flyTo);
                         },

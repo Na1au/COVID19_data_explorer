@@ -8,7 +8,12 @@ class APIRequest {
   get(url) async {
     try {
       final res = await dio.get(url);
-      return GlobalResponse.fromJson(res.data);
+      var response = [];
+      for(var i = 0; i < res.data.length; i++) {
+        response.add(GlobalResponse.fromJson(res.data[i]));
+        print(response);
+      }
+     return response;
     } catch(e) {
       print('ERROR ON GET URL ==>> $e \n $url');
     }

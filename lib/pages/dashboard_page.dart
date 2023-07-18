@@ -1,4 +1,5 @@
 import 'package:covid19_data_explorer/pages/about_page.dart';
+import 'package:covid19_data_explorer/pages/search_page.dart';
 import 'package:covid19_data_explorer/widgets/global_contamination_card.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,8 @@ import 'package:covid19_data_explorer/widgets/statistics_card.dart';
 import 'statistics_detail_page.dart';
 
 class DashboardPage extends StatefulWidget {
+  const DashboardPage({super.key});
+
   @override
   State<DashboardPage> createState() {
     return DashboardPageState();
@@ -56,6 +59,12 @@ class DashboardPageState extends State<DashboardPage> {
             Text('COVID-19 DATA EXPLORER')
           ]),
           actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const SearchPage()));
+                },
+                icon: const Icon(Icons.search)),
             IconButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(

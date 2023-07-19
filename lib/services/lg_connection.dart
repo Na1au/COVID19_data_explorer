@@ -93,8 +93,7 @@ class LGConnection {
     client = SSHClient(socket,
         username: '${credencials['user']}',
         onPasswordRequest: () => '${credencials['pass']}');
-    await client
-        .execute("echo '' > /var/www/html/kml/slave_$leftScreen.kml");
+    await client.execute("echo '' > /var/www/html/kml/slave_$leftScreen.kml");
     cleanKML();
     client.close();
   }
@@ -202,6 +201,37 @@ class LGConnection {
     }
   }
 
+  sendOrbit(String filename, String orbit) async {
+    credencials = await _getCredencials();
+    try {
+      socket = await SSHSocket.connect('${credencials['ip']}', 22,
+          timeout: const Duration(seconds: 10));
+      client = SSHClient(socket,
+          username: '${credencials['user']}',
+          onPasswordRequest: () => '${credencials['pass']}');
+      await client.run("echo '$orbit' > /var/www/html/$filename.kml");
+      await client
+          .run('echo "http://lg1:81/$filename.kml" >> /var/www/html/kmls.txt');
+      await client.run("echo 'playtour=$filename' > /tmp/query.txt");
+    } catch (e) {
+      throw ('ERROR ON SEND ORBIT KML FILE: $e');
+    }
+  }
+
+  stopTour() async {
+    credencials = await _getCredencials();
+    try {
+      socket = await SSHSocket.connect('${credencials['ip']}', 22,
+          timeout: const Duration(seconds: 10));
+      client = SSHClient(socket,
+          username: '${credencials['user']}',
+          onPasswordRequest: () => '${credencials['pass']}');
+      await client.run("echo 'exittour=true' > /tmp/query.txt");
+    } catch (e) {
+      throw ('ERROR ON STO P TOUR: $e');
+    }
+  }
+
   String logoKML = '''
 <?xml version="1.0" encoding="UTF-8"?>
   <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -224,7 +254,7 @@ class LGConnection {
   </kml>
 ''';
 
-  String flyToKML =
+/*   String flyToKML =
       '''flytoview=<LookAt><longitude>-47.426886</longitude><latitude>-23.470097</latitude><altitude>1000</altitude><altitudeMode>relativeToGround</altitudeMode><gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode></LookAt>
 ''';
 
@@ -262,5 +292,5 @@ class LGConnection {
   </Placemark>
 </Document>
 </kml>
- ''';
+ '''; */
 }

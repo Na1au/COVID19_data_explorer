@@ -67,7 +67,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
       appBar: AppBar(title: Text(widget.title)),
       body: Center(
           child: loaded == false
-              ? CircularProgressIndicator()
+              ? const CircularProgressIndicator()
               : Column(
                   children: [
                     const SizedBox(height: 50),
@@ -87,7 +87,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                               title: 'Canada'),
                           PieChartSectionData(
                               value: mexicoValue,
-                              color: Color.fromARGB(255, 250, 170, 146),
+                              color: const Color.fromARGB(255, 250, 170, 146),
                               title: 'Mexico')
                         ]),
                         swapAnimationDuration:
@@ -116,7 +116,6 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                           polygons += kmlGenerator().polygon({'name': 'USA2', 'color': polygonColors[widget._random.nextInt(polygonColors.length)], 'coordinates': usaCoordinates2});
                           for(var i = 0; i < 3; i++) {
                             var po = kmlGenerator().polygon({'name': names[i], 'color': polygonColors[widget._random.nextInt(polygonColors.length)], 'coordinates': coordinates[i]});
-                            print('AAAAAAAAAAAAAAAAAAA ==>> $po');
                             polygons += po;
                           }
                           print(polygons);

@@ -310,7 +310,7 @@ class SearchPageState extends State<SearchPage> {
                           );
                         },
                       ),
-                      Spacer(),
+                      const Spacer(),
                       FormField<String>(
                         builder: (FormFieldState<String> state) {
                           return DropdownButton<String>(
@@ -332,7 +332,7 @@ class SearchPageState extends State<SearchPage> {
                           );
                         },
                       ),
-                      Spacer(),
+                      const Spacer(),
                       FormField<String>(
                         builder: (FormFieldState<String> state) {
                           return DropdownButton<String>(
@@ -365,7 +365,7 @@ class SearchPageState extends State<SearchPage> {
                       ), */
                     ],
                   ),
-                  SizedBox(height: 150),
+                  const SizedBox(height: 150),
                   SizedBox(
                         height: 50,
                         width: 200,

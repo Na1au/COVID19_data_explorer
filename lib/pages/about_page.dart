@@ -23,9 +23,9 @@ class _AboutPageState extends State<AboutPage> {
       body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(children: [
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             Image.asset('assets/logos.png', height: 400),
-            Center(
+            const Center(
               child: Padding(
                 padding: EdgeInsets.all(50),
                 child: SizedBox(

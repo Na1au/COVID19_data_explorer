@@ -1,10 +1,10 @@
+import 'package:covid19_data_explorer/pages/statistics_detail_page.dart';
 import 'package:covid19_data_explorer/services/http_request.dart';
 import 'package:flutter/material.dart';
 import 'package:numeral/numeral.dart';
 
 class StatisticsCard extends StatefulWidget {
   const StatisticsCard({super.key});
-
   @override
   State<StatisticsCard> createState() => StatisticsCardState();
 }
@@ -25,18 +25,26 @@ class StatisticsCardState extends State<StatisticsCard> {
   }
 
   _getData() async {
-    globalData =
-        await APIRequest().get('https://disease.sh/v3/covid-19/continents');
-    setState(() {
-      date = DateTime.fromMillisecondsSinceEpoch(globalData.first.updated)
-          .toString()
-          .substring(0, 16);
-      for(var i =0; i < globalData.length; i++) {
-        cases += globalData[i].cases;
-        deaths += globalData[i].deaths;
-        tests += globalData[i].tests;
-        recovered += globalData[i].recovered;
+    globalData = await APIRequest().getGlobalData();
+    var c = 0;
+    var d = 0;
+    var t = 0;
+    var r = 0;
+    for(var i = 0; i < globalData.length; i++) {
+        c += globalData[i].cases;
+        d += globalData[i].deaths;
+        t += globalData[i].tests;
+        r += globalData[i].recovered;
       }
+    setState(() {
+      date =
+          DateTime.fromMillisecondsSinceEpoch(globalData.first.updated)
+              .toString()
+              .substring(0, 16);
+      cases = c;
+      deaths = d;
+      tests = t;
+      recovered = r;
       loaded = true;
     });
   }
@@ -53,7 +61,7 @@ class StatisticsCardState extends State<StatisticsCard> {
               backgroundColor: colors[i],
               radius: 25,
             ),
-            title: Text('${numeral(data[i])}'),
+            title: Text(numeral(data[i])),
             subtitle: Text('Total ${titles[i]}')),
       ));
     }
@@ -64,32 +72,41 @@ class StatisticsCardState extends State<StatisticsCard> {
   Widget build(BuildContext context) {
     return loaded == false
         ? const CircularProgressIndicator()
-        : Card(
-            color: Colors.white,
-            child: Padding(
-                padding: const EdgeInsets.all(15),
-                child: Column(
-                  children: [
-                    Row(
+        : GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => StatisticsDetailPage(
+                    globalData: globalData,
+                  ),
+                ),
+              );
+            },
+            child: Card(
+                color: Colors.white,
+                child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Column(
                       children: [
-                        const Text('Statistics',
-                            style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold)),
-                        const Spacer(),
-                        Text('Updated: $date',
-                            textAlign: TextAlign.end,
-                            style: const TextStyle(
-                                color: Colors.black54, fontSize: 15))
-                      ],
-                    ),
-                    const SizedBox(height: 30),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: 
-                          _buildContent()
-                          /* Expanded(
+                        Row(
+                          children: [
+                            const Text('Statistics',
+                                style: TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold)),
+                            const Spacer(),
+                            Text('Updated: $date',
+                                textAlign: TextAlign.end,
+                                style: const TextStyle(
+                                    color: Colors.black54, fontSize: 15))
+                          ],
+                        ),
+                        const SizedBox(height: 30),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: _buildContent()
+                            /* Expanded(
                             child: ListTile(
                                 leading: const CircleAvatar(
                                   backgroundColor: Colors.amber,
@@ -143,13 +160,18 @@ class StatisticsCardState extends State<StatisticsCard> {
                         const SizedBox(height: 10),
                         const Text('Total recovered')
                       ]), */
-                        ),
+                            ),
                         const SizedBox(height: 20),
-                    Row(mainAxisAlignment: MainAxisAlignment.end ,children: const [
-                      Text('Data from Disease.sh API', style: TextStyle(
-                                color: Colors.black54, fontSize: 15))
-                    ],)
-                  ],
-                )));
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: const [
+                            Text('Data from Disease.sh API',
+                                style: TextStyle(
+                                    color: Colors.black54, fontSize: 15))
+                          ],
+                        )
+                      ],
+                    ))),
+          );
   }
 }

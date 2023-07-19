@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Coordinates {
   usa1(height) {
     var coordinates = [

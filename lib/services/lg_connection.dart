@@ -46,7 +46,6 @@ class LGConnection {
         onPasswordRequest: () => '${credencials['pass']}');
     var result =
         client.execute("grep -oP '(?<=DHCP_LG_FRAMES_MAX=).*' personavars.txt");
-    print(result.toString());
     return '3';
   }
 

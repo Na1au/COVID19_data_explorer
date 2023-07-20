@@ -25,6 +25,20 @@ class APIRequest {
       print('ERROR ON GET COUNTRY DATA: $e');
     }
   }
+
+  getContinentData() async {
+    try {
+      final res = await dio.get('https://disease.sh/v3/covid-19/countries');
+      List<CountryResponse> response = [];
+      for (var i = 0; i < res.data.length; i++) {
+        response.add(CountryResponse.fromJson(res.data[i]));
+        //print(response);
+      }
+      return response;
+    } catch (e) {
+      print('ERROR ON GET CONTINENT DATA: $e');
+    }
+  }
 }
 
 class GlobalResponse {

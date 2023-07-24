@@ -9,6 +9,7 @@ import 'package:numeral/numeral.dart';
 import 'package:covid19_data_explorer/services/lg_connection.dart';
 import 'package:covid19_data_explorer/utils/coordinates.dart';
 import 'package:covid19_data_explorer/utils/colors.dart';
+import 'package:flutter_randomcolor/flutter_randomcolor.dart';
 
 class StatisticsKMLPage extends StatefulWidget {
   StatisticsKMLPage(
@@ -76,9 +77,35 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
     });
   }
 
+ MaterialColor getMaterialColor(Color color) {
+    final int red = color.red;
+    final int green = color.green;
+    final int blue = color.blue;
+
+    final Map<int, Color> shades = {
+      50: Color.fromRGBO(red, green, blue, .1),
+      100: Color.fromRGBO(red, green, blue, .2),
+      200: Color.fromRGBO(red, green, blue, .3),
+      300: Color.fromRGBO(red, green, blue, .4),
+      400: Color.fromRGBO(red, green, blue, .5),
+      500: Color.fromRGBO(red, green, blue, .6),
+      600: Color.fromRGBO(red, green, blue, .7),
+      700: Color.fromRGBO(red, green, blue, .8),
+      800: Color.fromRGBO(red, green, blue, .9),
+      900: Color.fromRGBO(red, green, blue, 1),
+    };
+
+    return MaterialColor(color.value, shades);
+  }
+
   List<PieChartSectionData> _buildChartData(List<CountryResponse> countries) {
     var w = <PieChartSectionData>[];
+    var options = Options(
+      format: Format.rgbArray,
+      colorType: ColorType.random,
+      luminosity: Luminosity.random);
     for (var i = 0; i < countries.length; i++) {
+      var selectedColor = RandomColor.getColor(options);
       w.add(PieChartSectionData(
           value: widget.type == 'cases'
               ? countries[i].cases.toDouble()
@@ -87,7 +114,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                   : widget.type == 'tests'
                       ? countries[i].tests.toDouble()
                       : countries[i].recovered.toDouble(),
-          color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
+          color: Color.fromRGBO(selectedColor[0], selectedColor[1], selectedColor[2], 1),
           //title: countries[i].country
           showTitle: false
           ));
@@ -111,6 +138,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                         height: 300,
                         child: PieChart(
                           PieChartData(
+                            centerSpaceRadius: 0,
                               sections: _buildChartData(countriesData)),
                           swapAnimationDuration:
                               const Duration(milliseconds: 150), // Optional

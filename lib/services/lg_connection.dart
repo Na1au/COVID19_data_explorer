@@ -58,7 +58,6 @@ class LGConnection {
         username: '${credencials['user']}',
         onPasswordRequest: () => '${credencials['pass']}');
     try {
-      print('ScreenAmouth ==>> $screenAmount');
       await client
           .execute("echo '$logoKML' > /var/www/html/kml/slave_$leftScreen.kml");
     } catch (e) {

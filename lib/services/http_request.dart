@@ -9,7 +9,6 @@ class APIRequest {
       List<GlobalResponse> response = [];
       for (var i = 0; i < res.data.length; i++) {
         response.add(GlobalResponse.fromJson(res.data[i]));
-        //print(response);
       }
       return response;
     } catch (e) {
@@ -32,7 +31,6 @@ class APIRequest {
       List<CountryResponse> response = [];
       for (var i = 0; i < res.data.length; i++) {
         response.add(CountryResponse.fromJson(res.data[i]));
-        //print(response);
       }
       return response;
     } catch (e) {
@@ -52,14 +50,8 @@ class GlobalResponse {
   final int active;
   final int critical;
   final int tests;
-  final double casesPerOneMillion;
-  final double deathsPerOneMillion;
-  final double testsPerOneMillion;
   final int population;
   final String continent;
-  final double activePerOneMillion;
-  final double recoveredPerOneMillion;
-  final double criticalPerOneMillion;
   final List<dynamic> countries;
 
   GlobalResponse({
@@ -73,14 +65,8 @@ class GlobalResponse {
       required this.active,
       required this.critical,
       required this.tests,
-      required this.casesPerOneMillion,
-      required this.deathsPerOneMillion,
-      required this.testsPerOneMillion, 
       required this.population,
       required this.continent,
-      required this.activePerOneMillion,
-      required this.recoveredPerOneMillion,
-      required this.criticalPerOneMillion,
       required this.countries
       });
 
@@ -96,14 +82,8 @@ class GlobalResponse {
         active: json['active'],
         critical: json['critical'],
         tests: json['tests'],
-        casesPerOneMillion: json['casesPerOneMillion'],
-        deathsPerOneMillion: json['deathsPerOneMillion'],
-        testsPerOneMillion: json['testsPerOneMillion'],
         population: json['population'],
         continent: json['continent'],
-        activePerOneMillion: json['activePerOneMillion'],
-        recoveredPerOneMillion: json['recoveredPerOneMillion'],
-        criticalPerOneMillion: json['criticalPerOneMillion'],
         countries: json['countries']
         );
   }

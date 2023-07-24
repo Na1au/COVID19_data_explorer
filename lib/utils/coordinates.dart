@@ -23,7 +23,6 @@ class Coordinates {
       USACoordinates += '${coordinates[i]['lon']},${coordinates[i]['lat']},$height \n';
     }
     USACoordinates += '${coordinates[0]['lon']},${coordinates[0]['lat']},$height \n';
-    print('COORDENADA ==>> $USACoordinates');
     return USACoordinates;
   }
 
@@ -40,7 +39,6 @@ class Coordinates {
       USACoordinates += '${coordinates[i]['lon']},${coordinates[i]['lat']},$height \n';
     }
     USACoordinates += '${coordinates[0]['lon']},${coordinates[0]['lat']},$height \n';
-    print('COORDENADA ==>> $USACoordinates');
     return USACoordinates;
   }
 
@@ -67,7 +65,6 @@ class Coordinates {
       CanadaCoordinates += '${coordinates[i]['lon']},${coordinates[i]['lat']},$height \n';
     }
     CanadaCoordinates += '${coordinates[0]['lon']},${coordinates[0]['lat']},$height \n';
-    print('COORDENADA ==>> $CanadaCoordinates');
     return CanadaCoordinates;
   }
 

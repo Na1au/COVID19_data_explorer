@@ -25,6 +25,7 @@ class StatisticsKMLPage extends StatefulWidget {
   final String continent;
   final List<CountryResponse> totalContinents;
   final _random = Random();
+  final List<Color> chartColors = [];
 
   @override
   State<StatisticsKMLPage> createState() {
@@ -77,7 +78,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
     });
   }
 
- MaterialColor getMaterialColor(Color color) {
+  MaterialColor getMaterialColor(Color color) {
     final int red = color.red;
     final int green = color.green;
     final int blue = color.blue;
@@ -101,11 +102,14 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
   List<PieChartSectionData> _buildChartData(List<CountryResponse> countries) {
     var w = <PieChartSectionData>[];
     var options = Options(
-      format: Format.rgbArray,
-      colorType: ColorType.random,
-      luminosity: Luminosity.random);
+        format: Format.rgbArray,
+        colorType: ColorType.random,
+        luminosity: Luminosity.random);
     for (var i = 0; i < countries.length; i++) {
-      var selectedColor = RandomColor.getColor(options);
+      var selectedColor =
+          Colors.primaries[Random().nextInt(Colors.primaries.length)];
+      widget.chartColors.add(selectedColor);
+      //var selectedColor = RandomColor.getColor(options);
       w.add(PieChartSectionData(
           value: widget.type == 'cases'
               ? countries[i].cases.toDouble()
@@ -114,13 +118,35 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                   : widget.type == 'tests'
                       ? countries[i].tests.toDouble()
                       : countries[i].recovered.toDouble(),
-          color: Color.fromRGBO(selectedColor[0], selectedColor[1], selectedColor[2], 1),
+          color: selectedColor,
+          //color: Color.fromRGBO(selectedColor[0], selectedColor[1], selectedColor[2], 1),
           //title: countries[i].country
-          showTitle: false
-          ));
+          showTitle: false));
     }
     return w;
   }
+
+/*   List<Widget> _buildList(List<CountryResponse> countries, color) {
+    var contents = <Widget>[];
+    for (var i = 0; i < countries.length; i++) {
+      contents.add(ListTile(
+          leading: CircleAvatar(
+            backgroundColor: color[i],
+            radius: 25,
+          ),
+          // ignore: unnecessary_string_interpolations
+          title: Text(countries[i].country),
+          subtitle: Text(widget.type == 'cases'
+              ? '${countries[i].cases.toDouble()}'
+              : widget.type == 'deaths'
+                  ? '${countries[i].deaths.toDouble()}'
+                  : widget.type == 'tests'
+                      ? '${countries[i].tests.toDouble()}'
+                      : '${countries[i].recovered.toDouble()}'),
+          onTap: () {}));
+    }
+    return contents;
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +164,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                         height: 300,
                         child: PieChart(
                           PieChartData(
-                            centerSpaceRadius: 0,
+                              centerSpaceRadius: 100,
                               sections: _buildChartData(countriesData)),
                           swapAnimationDuration:
                               const Duration(milliseconds: 150), // Optional

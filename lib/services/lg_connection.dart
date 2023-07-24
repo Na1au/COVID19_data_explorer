@@ -44,8 +44,7 @@ class LGConnection {
     client = SSHClient(socket,
         username: '${credencials['user']}',
         onPasswordRequest: () => '${credencials['pass']}');
-    var result =
-        client.execute("grep -oP '(?<=DHCP_LG_FRAMES_MAX=).*' personavars.txt");
+    client.execute("grep -oP '(?<=DHCP_LG_FRAMES_MAX=).*' personavars.txt");
     return '3';
   }
 

@@ -1,9 +1,9 @@
 import 'package:covid19_data_explorer/pages/about_page.dart';
 import 'package:covid19_data_explorer/pages/search_page.dart';
-import 'package:covid19_data_explorer/services/http_request.dart';
+//import 'package:covid19_data_explorer/services/http_request.dart';
 import 'package:covid19_data_explorer/widgets/global_contamination_card.dart';
 import 'package:covid19_data_explorer/widgets/global_evolution_card.dart';
-import 'package:fl_chart/fl_chart.dart';
+//import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'config_page.dart';
 import 'package:covid19_data_explorer/widgets/statistics_card.dart';

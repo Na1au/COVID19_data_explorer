@@ -1,7 +1,7 @@
-import 'package:covid19_data_explorer/services/http_request.dart';
+//import 'package:covid19_data_explorer/services/http_request.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:numeral/numeral.dart';
+//import 'package:numeral/numeral.dart';
 
 class GlobalEvolutionCard extends StatefulWidget {
   const GlobalEvolutionCard({super.key});
@@ -24,43 +24,43 @@ class GlobalEvolutionCardState extends State<GlobalEvolutionCard> {
           dotData: FlDotData(show: false),
           belowBarData: BarAreaData(show: false),
           spots: const [
-            FlSpot(0, 557.0),
-            FlSpot(1, 78608.0),
-            FlSpot(2, 339156.0),
-            FlSpot(3, 2654011.0),
-            FlSpot(4, 5223477.0),
-            FlSpot(5, 9082502.0),
-            FlSpot(6, 15231791.0),
-            FlSpot(7, 23261601.0),
-            FlSpot(8, 31668754.0),
-            FlSpot(9, 41778168.0),
-            FlSpot(10, 58785996.0),
-            FlSpot(11, 78227986.0),
-            FlSpot(12, 98526596.0),
-            FlSpot(13, 112141380.0),
-            FlSpot(14, 124150452.0),
-            FlSpot(15, 145220252.0),
-            FlSpot(16, 166895763.0),
-            FlSpot(17, 179701349.0),
-            FlSpot(18, 193094403.0),
-            FlSpot(19, 212402204.0),
-            FlSpot(20, 230604815.0),
-            FlSpot(21, 258500870.0),
-            FlSpot(22, 277566671.0),
-            FlSpot(23, 349801473.0),
-            FlSpot(24, 428169102.0),
-            FlSpot(25, 474730951.0),
-            FlSpot(26, 509326073.0),
-            FlSpot(27, 525862056.0),
-            FlSpot(28, 541984328.0),
-            FlSpot(29, 569227609.0),
-            FlSpot(30, 597060819.0),
-            FlSpot(31, 614365390.0),
-            FlSpot(32, 627745374.0),
-            FlSpot(33, 639328415.0),
-            FlSpot(34, 655963530.0),
-            FlSpot(35, 668830077.0),
-            FlSpot(36, 674569824.0),
+            FlSpot(0, 0.000557),
+            FlSpot(1, 0.078608),
+            FlSpot(2, 0.339156),
+            FlSpot(3, 2.654011),
+            FlSpot(4, 5.223477),
+            FlSpot(5, 9.082502),
+            FlSpot(6, 15.231791),
+            FlSpot(7, 23.261601),
+            FlSpot(8, 31.668754),
+            FlSpot(9, 41.778168),
+            FlSpot(10, 58.785996),
+            FlSpot(11, 78.227986),
+            FlSpot(12, 98.526596),
+            FlSpot(13, 112.141380),
+            FlSpot(14, 124.150452),
+            FlSpot(15, 145.220252),
+            FlSpot(16, 166.895763),
+            FlSpot(17, 179.701349),
+            FlSpot(18, 193.094403),
+            FlSpot(19, 212.402204),
+            FlSpot(20, 230.604815),
+            FlSpot(21, 258.500870),
+            FlSpot(22, 277.566671),
+            FlSpot(23, 349.801473),
+            FlSpot(24, 428.169102),
+            FlSpot(25, 474.730951),
+            FlSpot(26, 509.326073),
+            FlSpot(27, 525.862056),
+            FlSpot(28, 541.984328),
+            FlSpot(29, 569.227609),
+            FlSpot(30, 597.060819),
+            FlSpot(31, 614.365390),
+            FlSpot(32, 627.745374),
+            FlSpot(33, 639.328415),
+            FlSpot(34, 655.963530),
+            FlSpot(35, 668.830077),
+            FlSpot(36, 674.569824),
           ]),
       LineChartBarData(
           isCurved: true,
@@ -70,23 +70,23 @@ class GlobalEvolutionCardState extends State<GlobalEvolutionCard> {
           dotData: FlDotData(show: false),
           belowBarData: BarAreaData(show: false),
           spots: const [
-            FlSpot(0, 30.0),
-            FlSpot(1, 22892.0),
-            FlSpot(2, 710017.0),
-            FlSpot(3, 2053576.0),
-            FlSpot(4, 4526440.0),
-            FlSpot(5, 8647437.0),
-            FlSpot(6, 14921384.0),
-            FlSpot(7, 21733546.0),
-            FlSpot(8, 28388093.0),
-            FlSpot(9, 37520305.0),
-            FlSpot(10, 44086739.0),
-            FlSpot(11, 54147168.0),
-            FlSpot(12, 63016513.0),
-            FlSpot(13, 83128166.0),
-            FlSpot(14, 103118308.0),
-            FlSpot(15, 117107408.0),
-            FlSpot(16, 126671708.0),
+            FlSpot(0, 0.000030),
+            FlSpot(1, 0.022892),
+            FlSpot(2, 0.710017),
+            FlSpot(3, 2.053576),
+            FlSpot(4, 4.526440),
+            FlSpot(5, 8.647437),
+            FlSpot(6, 14.921384),
+            FlSpot(7, 21.733546),
+            FlSpot(8, 28.388093),
+            FlSpot(9, 37.520305),
+            FlSpot(10, 44.086739),
+            FlSpot(11, 54.147168),
+            FlSpot(12, 63.016513),
+            FlSpot(13, 83.128166),
+            FlSpot(14, 103.118308),
+            FlSpot(15, 117.107408),
+            FlSpot(16, 126.671708),
           ]),
       LineChartBarData(
         isCurved: true,
@@ -96,41 +96,41 @@ class GlobalEvolutionCardState extends State<GlobalEvolutionCard> {
         dotData: FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
         spots: const [
-          FlSpot(0, 17.0),
-          FlSpot(1, 2462.0),
-          FlSpot(2, 203205.0),
-          FlSpot(3, 368901.0),
-          FlSpot(4, 513205.0),
-          FlSpot(5, 672857.0),
-          FlSpot(6, 862838.0),
-          FlSpot(7, 1036127.0),
-          FlSpot(8, 1206346.0),
-          FlSpot(9, 1463040.0),
-          FlSpot(10, 1797308.0),
-          FlSpot(11, 2198512.0),
-          FlSpot(12, 2573874.0),
-          FlSpot(13, 3201909.0),
-          FlSpot(14, 3595588.0),
-          FlSpot(15, 3911876.0),
-          FlSpot(16, 4165094.0),
-          FlSpot(17, 4458738.0),
-          FlSpot(18, 4747809.0),
-          FlSpot(19, 4968369.0),
-          FlSpot(20, 5188530.0),
-          FlSpot(21, 5411559.0),
-          FlSpot(22, 5626133.0),
-          FlSpot(23, 5935518.0),
-          FlSpot(24, 6245549.0),
-          FlSpot(25, 6303048.0),
-          FlSpot(26, 6348658.0),
-          FlSpot(27, 6403118.0),
-          FlSpot(28, 6474866.0),
-          FlSpot(29, 6535513.0),
-          FlSpot(30, 6580259.0),
-          FlSpot(31, 6625184.0),
-          FlSpot(32, 6676603.0),
-          FlSpot(33, 6813633.0),
-          FlSpot(34, 6881802.0)
+          FlSpot(0, 0.000017),
+          FlSpot(1, 0.002462),
+          FlSpot(2, 0.203205),
+          FlSpot(3, 0.368901),
+          FlSpot(4, 0.513205),
+          FlSpot(5, 0.672857),
+          FlSpot(6, 0.862838),
+          FlSpot(7, 1.036127),
+          FlSpot(8, 1.206346),
+          FlSpot(9, 1.463040),
+          FlSpot(10, 1.797308),
+          FlSpot(11, 2.198512),
+          FlSpot(12, 2.573874),
+          FlSpot(13, 3.201909),
+          FlSpot(14, 3.595588),
+          FlSpot(15, 3.911876),
+          FlSpot(16, 4.165094),
+          FlSpot(17, 4.458738),
+          FlSpot(18, 4.747809),
+          FlSpot(19, 4.968369),
+          FlSpot(20, 5.188530),
+          FlSpot(21, 5.411559),
+          FlSpot(22, 5.626133),
+          FlSpot(23, 5.935518),
+          FlSpot(24, 6.245549),
+          FlSpot(25, 6.303048),
+          FlSpot(26, 6.348658),
+          FlSpot(27, 6.403118),
+          FlSpot(28, 6.474866),
+          FlSpot(29, 6.535513),
+          FlSpot(30, 6.580259),
+          FlSpot(31, 6.625184),
+          FlSpot(32, 6.676603),
+          FlSpot(33, 6.813633),
+          FlSpot(34, 6.881802)
         ],
       ),
     ];
@@ -145,24 +145,57 @@ class GlobalEvolutionCardState extends State<GlobalEvolutionCard> {
     );
     Widget text;
     switch (value.toInt()) {
-      case 1000:
-        text = const Text('1M', style: style);
+      case 100:
+        text = const Text('100M', style: style);
         break;
-      case 2000:
-        text = const Text('2M', style: style);
+      case 200:
+        text = const Text('200M', style: style);
         break;
-      case 3000:
-        text = const Text('3M', style: style);
+      case 300:
+        text = const Text('300M', style: style);
         break;
-      case 4000:
-        text = const Text('5M', style: style);
+      case 400:
+        text = const Text('400M', style: style);
         break;
-      case 5000:
-        text = const Text('6M', style: style);
+      case 500:
+        text = const Text('500M', style: style);
+        break;
+      case 600:
+        text = const Text('600M', style: style);
+        break;
+      case 700:
+        text = const Text('700M', style: style);
         break;
       default:
-        return Container();
+        text = const Text('');
+        break;
     }
+    /* switch (value.toInt()) {
+      case 10:
+        text = const Text('Jan 2020', style: style);
+        break;
+      case 5:
+        text = const Text('July', style: style);
+        break;
+      case 11:
+        text = const Text('Jan 2021', style: style);
+        break;
+      case 17:
+        text = const Text('July', style: style);
+        break;
+      case 23:
+        text = const Text('Jan 2022', style: style);
+        break;
+      case 29:
+        text = const Text('July', style: style);
+        break;
+      case 35:
+        text = const Text('Jan 2023', style: style);
+        break;
+      default:
+        text = const Text('');
+        break;
+    }  */
 
     return SideTitleWidget(
       axisSide: meta.axisSide,
@@ -227,11 +260,12 @@ class GlobalEvolutionCardState extends State<GlobalEvolutionCard> {
           sideTitles: SideTitles(showTitles: false),
         ),
         leftTitles: AxisTitles(
+          //sideTitles: SideTitles(showTitles: false)
           sideTitles: SideTitles(
             getTitlesWidget: leftTitleWidgets,
             showTitles: true,
             interval: 1,
-            reservedSize: 40,
+            reservedSize: 50,
           ),
         ),
       );
@@ -310,7 +344,7 @@ class GlobalEvolutionCardState extends State<GlobalEvolutionCard> {
                         lineBarsData: data1,
                         minX: 0,
                         maxX: 40,
-                        maxY: 700000000,
+                        maxY: 700,
                         minY: 0,
                       ),
                       swapAnimationDuration:

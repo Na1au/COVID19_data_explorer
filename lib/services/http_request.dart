@@ -28,6 +28,7 @@ class APIRequest {
   getContinentData() async {
     try {
       final res = await dio.get('https://disease.sh/v3/covid-19/countries');
+      print('RES SIZE ==>> ${res.data.length}');
       List<CountryResponse> response = [];
       for (var i = 0; i < res.data.length; i++) {
         response.add(CountryResponse.fromJson(res.data[i]));

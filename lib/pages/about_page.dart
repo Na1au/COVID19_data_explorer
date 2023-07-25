@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class AboutPage extends StatefulWidget {
-  const AboutPage({Key? key}) : super(key: key);
+  const AboutPage({super.key});
 
   @override
-  _AboutPageState createState() => _AboutPageState();
+  State<AboutPage> createState() => _AboutPageState();
 }
 
 class _AboutPageState extends State<AboutPage> {
@@ -23,9 +23,9 @@ class _AboutPageState extends State<AboutPage> {
       body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(children: [
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             Image.asset('assets/logos.png', height: 400),
-            Center(
+            const Center(
               child: Padding(
                 padding: EdgeInsets.all(50),
                 child: SizedBox(

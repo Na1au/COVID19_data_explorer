@@ -15,6 +15,7 @@ class GlobalContaminationCardState extends State<GlobalContaminationCard> {
   late String date;
   late double critical;
   late double notCritical;
+  late List<GlobalResponse> globalData;
   bool loaded = false;
 
   @override
@@ -24,14 +25,19 @@ class GlobalContaminationCardState extends State<GlobalContaminationCard> {
   }
 
   _getData() async {
-    GlobalResponse data =
-        await APIRequest().get('https://corona.lmao.ninja/v2/all');
+    globalData = await APIRequest().getGlobalData();
+    var c = 0.0;
+    var n = 0.0;
+    for(var i = 0; i < globalData.length; i++) {
+      c += globalData[i].critical;
+      n += (globalData[i].active - globalData[i].critical);
+    }
     setState(() {
-      date = DateTime.fromMillisecondsSinceEpoch(data.updated)
+      date = DateTime.fromMillisecondsSinceEpoch(globalData.first.updated)
           .toString()
           .substring(0, 16);
-      critical = data.critical.toDouble() / 10;
-      notCritical = (data.active.toDouble() - critical) / 10;
+      critical = c;
+      notCritical = n;
       loaded = true;
     });
   }
@@ -59,21 +65,21 @@ class GlobalContaminationCardState extends State<GlobalContaminationCard> {
                               color: Colors.black54, fontSize: 15))
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     children: [
-                      Spacer(),
-                      CircleAvatar(backgroundColor: Colors.amber, radius: 10),
-                      SizedBox(width: 5),
+                      const Spacer(),
+                      const CircleAvatar(backgroundColor: Colors.amber, radius: 10),
+                      const SizedBox(width: 5),
                       Text('Not critical: ${numeral(notCritical.toInt())}'),
-                      SizedBox(width: 30),
-                      CircleAvatar(backgroundColor: Colors.red, radius: 10),
-                      SizedBox(width: 5),
+                      const SizedBox(width: 30),
+                      const CircleAvatar(backgroundColor: Colors.red, radius: 10),
+                      const SizedBox(width: 5),
                       Text('Critical: ${numeral(critical.toInt())}')
                     ],
                   ),
-                  SizedBox(height: 20),
-                  Container(
+                  const SizedBox(height: 20),
+                  SizedBox(
                     height: 300,
                     width: 300,
                     child: PieChart(

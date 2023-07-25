@@ -92,7 +92,7 @@ class ConfigPageState extends State<ConfigPage> {
       appBar: AppBar(
         title: const Text('Config LG'),
       ),
-      body: Container(
+      body: SizedBox(
         width: double.infinity,
         height: double.infinity,
         child: ListView(

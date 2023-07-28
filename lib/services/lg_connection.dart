@@ -1,3 +1,4 @@
+import 'package:covid19_data_explorer/services/kml_generator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dartssh2/dartssh2.dart';
 
@@ -76,6 +77,13 @@ class LGConnection {
 
       await openLogos();
 
+      String balloonKML = kmlGenerator().testBalloon;
+      try {
+        await client.execute(
+            "echo '$balloonKML' > /var/www/html/kml/slave_$rightScreen.kml");
+      } catch (e) {
+        print('ERROR ON SEND BALLOON ==>> $e');
+      }
       return true;
     } catch (e) {
       print('ERROR IN STABILISH CONNECTION ==>> $e');

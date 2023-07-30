@@ -11,6 +11,7 @@ import 'package:covid19_data_explorer/utils/coordinates.dart';
 import 'package:covid19_data_explorer/utils/colors.dart';
 import 'package:flutter_randomcolor/flutter_randomcolor.dart';
 
+// ignore: must_be_immutable
 class StatisticsKMLPage extends StatefulWidget {
   StatisticsKMLPage(
       {super.key,
@@ -24,8 +25,12 @@ class StatisticsKMLPage extends StatefulWidget {
   final int total;
   final String continent;
   final List<CountryResponse> totalContinents;
-  final _random = Random();
   final List<Color> chartColors = [];
+  List<Widget> labels = [];
+  List<Widget> labels2 = [];
+  List<Widget> labels3 = [];
+  List<Widget> labels4 = [];
+  List<PieChartSectionData> chartSections = [];
 
   @override
   State<StatisticsKMLPage> createState() {
@@ -34,31 +39,11 @@ class StatisticsKMLPage extends StatefulWidget {
 }
 
 class StatisticsKMLPageState extends State<StatisticsKMLPage> {
-/*   late double usaValue;
-  late double canadaValue;
-  late double mexicoValue; */
   bool loaded = false;
   late List<CountryResponse> countriesData;
 
   @override
-  void initState() {
-/*     if (widget.type == 'cases') {
-      usaValue = widget.usa.cases.toDouble();
-      canadaValue = widget.canada.cases.toDouble();
-      mexicoValue = widget.mexico.cases.toDouble();
-    } else if (widget.type == 'deaths') {
-      usaValue = widget.usa.deaths.toDouble();
-      canadaValue = widget.canada.deaths.toDouble();
-      mexicoValue = widget.mexico.deaths.toDouble();
-    } else if (widget.type == 'tests') {
-      usaValue = widget.usa.tests.toDouble();
-      canadaValue = widget.canada.tests.toDouble();
-      mexicoValue = widget.mexico.tests.toDouble();
-    } else if (widget.type == 'recovered') {
-      usaValue = widget.usa.recovered.toDouble();
-      canadaValue = widget.canada.recovered.toDouble();
-      mexicoValue = widget.mexico.recovered.toDouble();
-    } */
+  void initState() {=
     _buildData();
     _buildChartData(countriesData);
     super.initState();
@@ -78,52 +63,103 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
     });
   }
 
-  MaterialColor getMaterialColor(Color color) {
-    final int red = color.red;
-    final int green = color.green;
-    final int blue = color.blue;
-
-    final Map<int, Color> shades = {
-      50: Color.fromRGBO(red, green, blue, .1),
-      100: Color.fromRGBO(red, green, blue, .2),
-      200: Color.fromRGBO(red, green, blue, .3),
-      300: Color.fromRGBO(red, green, blue, .4),
-      400: Color.fromRGBO(red, green, blue, .5),
-      500: Color.fromRGBO(red, green, blue, .6),
-      600: Color.fromRGBO(red, green, blue, .7),
-      700: Color.fromRGBO(red, green, blue, .8),
-      800: Color.fromRGBO(red, green, blue, .9),
-      900: Color.fromRGBO(red, green, blue, 1),
-    };
-
-    return MaterialColor(color.value, shades);
-  }
-
-  List<PieChartSectionData> _buildChartData(List<CountryResponse> countries) {
-    var w = <PieChartSectionData>[];
-    var options = Options(
-        format: Format.rgbArray,
-        colorType: ColorType.random,
-        luminosity: Luminosity.random);
+  List<CountryResponse> _buildChartData(List<CountryResponse> countries) {
+    List<CountryResponse> finalCountries = [];
     for (var i = 0; i < countries.length; i++) {
-      var selectedColor =
-          Colors.primaries[Random().nextInt(Colors.primaries.length)];
-      widget.chartColors.add(selectedColor);
-      //var selectedColor = RandomColor.getColor(options);
-      w.add(PieChartSectionData(
-          value: widget.type == 'cases'
-              ? countries[i].cases.toDouble()
-              : widget.type == 'deaths'
-                  ? countries[i].deaths.toDouble()
-                  : widget.type == 'tests'
-                      ? countries[i].tests.toDouble()
-                      : countries[i].recovered.toDouble(),
-          color: selectedColor,
-          //color: Color.fromRGBO(selectedColor[0], selectedColor[1], selectedColor[2], 1),
-          //title: countries[i].country
-          showTitle: false));
+      widget.type == 'cases' && countries[i].cases > 0
+          ? finalCountries.add(countries[i])
+          : widget.type == 'deaths' && countries[i].deaths > 0
+              ? finalCountries.add(countries[i])
+              : widget.type == 'tests' && countries[i].tests > 0
+                  ? finalCountries.add(countries[i])
+                  : widget.type == 'recovered' && countries[i].recovered > 0
+                      ? finalCountries.add(countries[i])
+                      : null;
     }
-    return w;
+    print('FINAL COUNTRIES LENGTH ==>> ${finalCountries.length}');
+    if (finalCountries.length <= 15) {
+      for (var i = 0; i < finalCountries.length; i++) {
+        var selectedData = widget.type == 'cases'
+            ? finalCountries[i].cases
+            : widget.type == 'deaths'
+                ? finalCountries[i].deaths
+                : widget.type == 'tests'
+                    ? finalCountries[i].tests
+                    : finalCountries[i].recovered;
+        var selectedColor =
+            Colors.primaries[Random().nextInt(Colors.primaries.length)];
+        widget.chartColors.add(selectedColor);
+        widget.chartSections.add(PieChartSectionData(
+            value: selectedData.toDouble(),
+            color: selectedColor,
+            showTitle: false));
+        widget.labels.add(Expanded(
+            child: ListTile(
+          leading: CircleAvatar(backgroundColor: selectedColor, radius: 15),
+          title: Text(finalCountries[i].country),
+          subtitle: Text(numeral(selectedData)),
+        )));
+      }
+    } else {
+      for (var i = 0; i < finalCountries.length; i++) {
+        var selectedData = widget.type == 'cases'
+            ? finalCountries[i].cases
+            : widget.type == 'deaths'
+                ? finalCountries[i].deaths
+                : widget.type == 'tests'
+                    ? finalCountries[i].tests
+                    : finalCountries[i].recovered;
+        var selectedColor =
+            Colors.primaries[Random().nextInt(Colors.primaries.length)];
+        widget.chartColors.add(selectedColor);
+        widget.chartSections.add(PieChartSectionData(
+            value: selectedData.toDouble(),
+            color: selectedColor,
+            showTitle: false));
+
+        if (i <= 15) {
+          widget.labels.add(Expanded(
+              child: ListTile(
+                  leading:
+                      CircleAvatar(backgroundColor: selectedColor, radius: 15),
+                  title: Text(finalCountries[i].country,
+                      style: const TextStyle(fontSize: 13)),
+                  subtitle: Text(numeral(selectedData),
+                      style: const TextStyle(fontSize: 10)))));
+        }
+        if (i > 15 && i <= 30) {
+          widget.labels2.add(Expanded(
+              child: ListTile(
+            leading: CircleAvatar(backgroundColor: selectedColor, radius: 15),
+            title: Text(finalCountries[i].country,
+                style: const TextStyle(fontSize: 13)),
+            subtitle: Text(numeral(selectedData),
+                style: const TextStyle(fontSize: 10)),
+          )));
+        }
+        if (i > 30 && i <= 45) {
+          widget.labels3.add(Expanded(
+              child: ListTile(
+            leading: CircleAvatar(backgroundColor: selectedColor, radius: 15),
+            title: Text(finalCountries[i].country,
+                style: const TextStyle(fontSize: 13)),
+            subtitle: Text(numeral(selectedData),
+                style: const TextStyle(fontSize: 10)),
+          )));
+        }
+        if (i > 45) {
+          widget.labels4.add(Expanded(
+              child: ListTile(
+            leading: CircleAvatar(backgroundColor: selectedColor, radius: 15),
+            title: Text(finalCountries[i].country,
+                style: const TextStyle(fontSize: 13)),
+            subtitle: Text(numeral(selectedData),
+                style: const TextStyle(fontSize: 10)),
+          )));
+        }
+      }
+    }
+    return finalCountries;
   }
 
 /*   List<Widget> _buildList(List<CountryResponse> countries, color) {
@@ -155,47 +191,34 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
       body: Center(
           child: loaded == false
               ? const CircularProgressIndicator()
-              : Column(
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const SizedBox(height: 50),
-                    Container(
-                        alignment: Alignment.center,
-                        width: 300,
-                        height: 300,
-                        child: PieChart(
-                          PieChartData(
-                              centerSpaceRadius: 100,
-                              sections: _buildChartData(countriesData)),
-                          swapAnimationDuration:
-                              const Duration(milliseconds: 150), // Optional
-                          swapAnimationCurve: Curves.linear,
-                        )
-                        /* child: PieChart(
-                        PieChartData(sections: [
-                          PieChartSectionData(
-                              value: usaValue,
-                              color: Colors.blue,
-                              title: 'USA'),
-                          PieChartSectionData(
-                              value: canadaValue,
-                              color: Colors.amber,
-                              title: 'Canada'),
-                          PieChartSectionData(
-                              value: mexicoValue,
-                              color: const Color.fromARGB(255, 250, 170, 146),
-                              title: 'Mexico')
-                        ]),
-                        swapAnimationDuration:
-                            const Duration(milliseconds: 150), // Optional
-                        swapAnimationCurve: Curves.linear, // Optional
-                      ), */
+                    Column(
+                      children: [
+                        const SizedBox(height: 50),
+                        Container(
+                            alignment: Alignment.center,
+                            width: 300,
+                            height: 300,
+                            child: PieChart(
+                              PieChartData(
+                                  centerSpaceRadius: 100,
+                                  sections: widget.chartSections),
+                              swapAnimationDuration:
+                                  const Duration(milliseconds: 150), // Optional
+                              swapAnimationCurve: Curves.linear,
+                            )
+                            ),
+                        const SizedBox(height: 20),
+                        Text(
+                          'Total ${widget.type}: ${numeral(widget.total)}',
+                          style: TextStyle(fontSize: 15),
                         ),
-                    const SizedBox(height: 20),
-                    Text('Total ${widget.type}: ${numeral(widget.total)}'),
-                    const SizedBox(height: 50),
-                    ElevatedButton(
-                        onPressed: () async {
-                          /* 
+                        const SizedBox(height: 50),
+                        ElevatedButton(
+                            onPressed: () async {
+                              /* 
                           var usaCoordinates = Coordinates().usa1(800000);
                           var usaCoordinates2 = Coordinates().usa2(800000);
                           var canadaCoordinates = Coordinates()
@@ -219,8 +242,33 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                           var flyTo = kmlGenerator().FlyTo({'lon': -80.140506, 'alt': 8700000, 'tilt': 15.68179673613697, 'lat': 12.543370 });
                           await LGConnection().sendKML(
                               'NorthAmerica_${widget.type}', kml, flyTo); */
-                        },
-                        child: const Text('See on Liquid Galaxy'))
+                            },
+                            child: const Text('See on Liquid Galaxy'))
+                      ],
+                    ),
+                    SizedBox(
+                      width: 200,
+                      height: 620,
+                      child: Column(children: widget.labels),
+                    ),
+                    countriesData.length > 15
+                        ? SizedBox(
+                            width: 200,
+                            height: widget.labels2.length <= 5 ? 200 : 620,
+                            child: Column(children: widget.labels2))
+                        : const SizedBox(),
+                    countriesData.length > 30
+                        ? SizedBox(
+                            width: 200,
+                            height: widget.labels3.length <= 5 ? 200 : widget.labels3.length <= 10 ? 400 : 620,
+                            child: Column(children: widget.labels3))
+                        : const SizedBox(),
+                    countriesData.length > 45
+                        ? SizedBox(
+                            width: 200,
+                            height: widget.labels4.length <= 5 ? 200 : widget.labels4.length <= 10 ? 400 : 620,
+                            child: Column(children: widget.labels4))
+                        : const SizedBox()
                   ],
                 )),
     );

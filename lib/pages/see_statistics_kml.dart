@@ -43,7 +43,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
   late List<CountryResponse> countriesData;
 
   @override
-  void initState() {=
+  void initState() {
     _buildData();
     _buildChartData(countriesData);
     super.initState();

@@ -312,7 +312,7 @@ http://maps.google.com/mapfiles/kml/paddle/purple-blank.png
         <ScreenOverlay>
         <name>Logo</name>
         <Icon>
-        <href>https://i.imgur.com/0wcv3Vg.png</href>
+        <href>https://i.imgur.com/HGUUSHb.png</href>
         </Icon>
         <overlayXY x="0" y="1" xunits="fraction" yunits="fraction"/>
         <screenXY x="0.02" y="0.95" xunits="fraction" yunits="fraction"/>

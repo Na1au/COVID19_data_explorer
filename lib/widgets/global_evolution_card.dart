@@ -306,8 +306,8 @@ class GlobalEvolutionCardState extends State<GlobalEvolutionCard> {
         child: Padding(
             padding: const EdgeInsets.all(15),
             child: Column(children: [
-              Row(
-                children: const [
+              const Row(
+                children: [
                   Text('Global data evolution',
                       style: TextStyle(
                           color: Colors.black54,
@@ -316,8 +316,8 @@ class GlobalEvolutionCardState extends State<GlobalEvolutionCard> {
                 ],
               ),
               const SizedBox(height: 20),
-              Row(
-                children: const [
+              const Row(
+                children: [
                   Spacer(),
                   CircleAvatar(backgroundColor: Colors.blue, radius: 10),
                   SizedBox(width: 5),
@@ -351,9 +351,9 @@ class GlobalEvolutionCardState extends State<GlobalEvolutionCard> {
                           const Duration(milliseconds: 150), // Optional
                       swapAnimationCurve: Curves.linear)),
               const SizedBox(height: 20),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: const [
+                children: [
                   Text('Data from Disease.sh API',
                       style: TextStyle(color: Colors.black54, fontSize: 15))
                 ],

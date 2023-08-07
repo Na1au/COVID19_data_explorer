@@ -106,65 +106,11 @@ class StatisticsCardState extends State<StatisticsCard> {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: _buildContent()
-                            /* Expanded(
-                            child: ListTile(
-                                leading: const CircleAvatar(
-                                  backgroundColor: Colors.amber,
-                                  radius: 25,
-                                ),
-                                title: Text('${numeral(cases)}'),
-                                subtitle: const Text('Total cases')),
-                          )
-                          const CircleAvatar(
-                          backgroundColor: Colors.amber, radius: 25),
-                      const SizedBox(width: 10),
-                      Column(
-                        children: [
-                          Text('$cases',
-                              style: const TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold)),
-                          const SizedBox(height: 5),
-                          const Text('Total cases')
-                        ],
-                      ),
-                      const Spacer(),
-                      const CircleAvatar(
-                          backgroundColor: Colors.red, radius: 25),
-                      const SizedBox(width: 10),
-                      Column(children: [
-                        Text('$deaths',
-                            style: const TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 10),
-                        const Text('Total deaths')
-                      ]),
-                      const Spacer(),
-                      const CircleAvatar(
-                          backgroundColor: Colors.deepPurple, radius: 25),
-                      const SizedBox(width: 10),
-                      Column(children: [
-                        Text('$tests',
-                            style: const TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 10),
-                        const Text('Total tests')
-                      ]),
-                      const Spacer(),
-                      const CircleAvatar(
-                          backgroundColor: Colors.blue, radius: 25),
-                      const SizedBox(width: 10),
-                      Column(children: [
-                        Text('$recovered',
-                            style: const TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 10),
-                        const Text('Total recovered')
-                      ]), */
                             ),
                         const SizedBox(height: 20),
-                        Row(
+                        const Row(
                           mainAxisAlignment: MainAxisAlignment.end,
-                          children: const [
+                          children: [
                             Text('Data from Disease.sh API',
                                 style: TextStyle(
                                     color: Colors.black54, fontSize: 15))

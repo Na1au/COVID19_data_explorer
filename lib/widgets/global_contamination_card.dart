@@ -99,9 +99,9 @@ class GlobalContaminationCardState extends State<GlobalContaminationCard> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: const [
+                    children: [
                       Text('Data from Disease.sh API',
                           style: TextStyle(color: Colors.black54, fontSize: 15))
                     ],

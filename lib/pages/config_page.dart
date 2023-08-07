@@ -64,6 +64,7 @@ class ConfigPageState extends State<ConfigPage> {
     setState(() {
       isConnected = res;
     });
+    return res;
   }
 
   init() async {

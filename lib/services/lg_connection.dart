@@ -1,4 +1,5 @@
-import 'package:covid19_data_explorer/services/kml_generator.dart';
+import 'dart:typed_data';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dartssh2/dartssh2.dart';
 
@@ -6,7 +7,6 @@ class LGConnection {
   late SSHClient client;
   late SSHSocket socket;
   late dynamic credencials;
-
   late int screenAmount;
 
   int get leftScreen {
@@ -74,66 +74,7 @@ class LGConnection {
       client = SSHClient(socket,
           username: '${credencials['user']}',
           onPasswordRequest: () => '${credencials['pass']}');
-
       await openLogos();
-      var testBalloon = kmlGenerator().balloon({'name': 'TestBalloon', 'title': 'North America Total deaths', 'description': 'Test kml balloon description'});
-      print('TESTE BALLOON ==>> $testBalloon');
-      await sendBalloon(testBalloon, 'TESTEBALLOON');
-/*   String testBalloon = '''
-<?xml version="1.0" encoding="UTF-8"?>
-<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
-<Document>
- <name>balloon_teste.kml</name>
- <Style id="purple_paddle">
-   <BalloonStyle>
-     <text>\$[description]</text>
-     <bgColor>fffcfcfc</bgColor>
-   </BalloonStyle>
- </Style>
- <Placemark>
-   <name>North America total cases</name>
-   <Snippet maxLines="0"></Snippet>
-   <description><![CDATA[<!-- BalloonStyle background color:
-ffffffff
--->
-<!-- Icon URL:
-http://maps.google.com/mapfiles/kml/paddle/purple-blank.png
--->
-<table width="400" border="0" cellspacing="0" cellpadding="5">
- <tr>
-   <td colspan="2" align="center">
-     <img src="https://i.imgur.com/NiRb4Az.png" alt="picture" height="150" />
-   </td>
- </tr>
- <tr>
-   <td colspan="2" align="center">
-     <h2><font color='#1387ed'>North America total cases</font></h2>
-     <h2><font color='#1d1e1f'>27M</h2>
-     </td>
- </tr>
- <tr>
-   <td colspan="2" align="center">
-     <font color="#999999">@COVID-19 data explorer 2023</font>
-   </td>
- </tr>
-</table>]]></description>
-   <styleUrl>#purple_paddle</styleUrl>
-   <gx:balloonVisibility>1</gx:balloonVisibility>
-   <Point>
-     <coordinates>-17.841486,28.638478,0</coordinates>
-   </Point>
- </Placemark>
-</Document>
-</kml>
-''';
-      try {
-        print(leftScreen);
-        print(rightScreen);
-        await client.execute(
-            "echo '$testBalloon' > /var/www/html/kml/slave_$rightScreen.kml");
-      } catch (e) {
-        print('ERROR ON SEND BALLOON ==>> $e');
-      } */
       return true;
     } catch (e) {
       print('ERROR IN STABILISH CONNECTION ==>> $e');
@@ -176,16 +117,18 @@ http://maps.google.com/mapfiles/kml/paddle/purple-blank.png
       client = SSHClient(socket,
           username: '${credencials['user']}',
           onPasswordRequest: () => '${credencials['pass']}');
+
       await client.run("echo '$kml' > /var/www/html/$fileName.kml");
       await client
           .run('echo "http://lg1:81/$fileName.kml" > /var/www/html/kmls.txt');
       await client.run("echo '$flyTo' > /tmp/query.txt");
+      client.close();
     } catch (e) {
       throw ('ERROR ON SEND KML FILE: $e');
     }
   }
 
-  sendBalloon(balloon, name) async {
+  sendBalloon(balloon, balloonName) async {
     credencials = await _getCredencials();
     try {
       socket = await SSHSocket.connect('${credencials['ip']}', 22,
@@ -193,8 +136,10 @@ http://maps.google.com/mapfiles/kml/paddle/purple-blank.png
       client = SSHClient(socket,
           username: '${credencials['user']}',
           onPasswordRequest: () => '${credencials['pass']}');
-      await client.run("echo '$balloon' > /var/www/html/$name.kml");
-      //await client.execute("echo '$balloon' > /var/www/html/kml/slave_$rightScreen.kml");
+      await client.execute(
+          "echo '$balloon' > /var/www/html/kml/slave_$rightScreen.kml");
+      print('SLAVE RIGHT ==>> $rightScreen');
+      client.close();
     } catch (e) {
       throw ('ERROR ON SEND KML FILE: $e');
     }
@@ -210,6 +155,7 @@ http://maps.google.com/mapfiles/kml/paddle/purple-blank.png
         onPasswordRequest: () => '${credencials['pass']}');
     try {
       await client.run("echo '' > /var/www/html/kmls.txt");
+      client.close();
     } catch (e) {
       throw ('ERROR ON CLEAN VISUALIZATION: $e');
     }
@@ -283,6 +229,7 @@ http://maps.google.com/mapfiles/kml/paddle/purple-blank.png
       await client
           .run('echo "http://lg1:81/$filename.kml" >> /var/www/html/kmls.txt');
       await client.run("echo 'playtour=$filename' > /tmp/query.txt");
+      client.close();
     } catch (e) {
       throw ('ERROR ON SEND ORBIT KML FILE: $e');
     }
@@ -297,6 +244,7 @@ http://maps.google.com/mapfiles/kml/paddle/purple-blank.png
           username: '${credencials['user']}',
           onPasswordRequest: () => '${credencials['pass']}');
       await client.run("echo 'exittour=true' > /tmp/query.txt");
+      client.close();
     } catch (e) {
       throw ('ERROR ON STO P TOUR: $e');
     }

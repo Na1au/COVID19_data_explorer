@@ -1,10 +1,11 @@
+// ignore: camel_case_types
 class kmlGenerator {
 
   orbitTag(content) {
     double heading = 0;
     int orbit = 0;
     String finalOrbit = '';
-    //String range = '800';
+    String range = '800';
 
     while (orbit <= 36) {
       if (heading >= 360) heading -= 360;
@@ -43,19 +44,19 @@ class kmlGenerator {
     return orbit;
   }
 
-  polygon(content) {
+  polygon(name, color, coordinates) {
     String polygon = '''
 
-      <Style id="${content['name']}">
+      <Style id="$name">
         <PolyStyle>
-          <color>${content['color']}</color>
+          <color>$color</color>
           <fill>true</fill>
           <outline></outline>
         </PolyStyle>
       </Style>
       <Placemark>
-        <name>${content['name']}</name>
-        <styleUrl>#${content['name']}</styleUrl>
+        <name>$name</name>
+        <styleUrl>#$name</styleUrl>
         <Polygon>
           <extrude>1</extrude>
           <altitudeMode>relativeToGround</altitudeMode>
@@ -63,7 +64,7 @@ class kmlGenerator {
             <LinearRing>
             <altitudeMode>relativeToGround</altitudeMode>
               <coordinates>
-              ${content['coordinates']}
+              $coordinates
               </coordinates>
             </LinearRing>
           </outerBoundaryIs>
@@ -88,12 +89,9 @@ xmlns:gx="http://www.google.com/kml/ext/2.2">
     return kml;
   }
 
-  balloon(content) {
+  balloon(name, description, content) {
     String kml = '''
-<?xml version="1.0" encoding="UTF-8"?>
-<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
-<Document>
- <name>${content['name']}.kml</name>
+
  <Style id="purple_paddle">
    <BalloonStyle>
      <text>\$[description]</text>
@@ -101,7 +99,7 @@ xmlns:gx="http://www.google.com/kml/ext/2.2">
    </BalloonStyle>
  </Style>
  <Placemark>
-   <name>${content['title']}</name>
+   <name>$name</name>
    <Snippet maxLines="0"></Snippet>
    <description><![CDATA[<!-- BalloonStyle background color:
 ffffffff
@@ -117,10 +115,15 @@ http://maps.google.com/mapfiles/kml/paddle/purple-blank.png
  </tr>
  <tr>
    <td colspan="2" align="center">
-     <h2><font color='#1387ed'>${content['title']}</font></h2>
-     <h2><font color='#1d1e1f'>${content['description']}</h2>
+     <h1><font color='#1387ed'>$name</font></h1>
+     <h1><font color='#1d1e1f'>$description</h1>
      </td>
  </tr>
+  <tr>
+    <td align="center">
+      $content
+    </td>
+  </tr>
  <tr>
    <td colspan="2" align="center">
      <font color="#999999">@COVID-19 data explorer 2023</font>
@@ -129,14 +132,9 @@ http://maps.google.com/mapfiles/kml/paddle/purple-blank.png
 </table>]]></description>
    <styleUrl>#purple_paddle</styleUrl>
    <gx:balloonVisibility>1</gx:balloonVisibility>
-   <Point>
-     <coordinates>-80.140506,12.543370,0</coordinates>
-   </Point>
  </Placemark>
-</Document>
-</kml>
-
 ''';
+return kml;
   }
 
   FlyTo(content) {
@@ -145,7 +143,7 @@ http://maps.google.com/mapfiles/kml/paddle/purple-blank.png
     return flyTo;
   }
 
-  testKML(content) {
+  testKML(balloon) {
     String kml = '''
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2"
@@ -218,7 +216,7 @@ xmlns:gx="http://www.google.com/kml/ext/2.2">
       </outerBoundaryIs>
     </Polygon>
   </Placemark>
-  ${content['balloon']}
+  $balloon
   </Document>
   </kml>
   ''';

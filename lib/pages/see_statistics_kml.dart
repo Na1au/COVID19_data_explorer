@@ -1,6 +1,6 @@
-import 'dart:async';
 import 'dart:math';
 
+import 'package:basic_utils/basic_utils.dart';
 import 'package:covid19_data_explorer/services/kml_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -8,8 +8,6 @@ import 'package:covid19_data_explorer/services/http_request.dart';
 import 'package:numeral/numeral.dart';
 import 'package:covid19_data_explorer/services/lg_connection.dart';
 import 'package:covid19_data_explorer/utils/coordinates.dart';
-import 'package:covid19_data_explorer/utils/colors.dart';
-import 'package:flutter_randomcolor/flutter_randomcolor.dart';
 
 // ignore: must_be_immutable
 class StatisticsKMLPage extends StatefulWidget {
@@ -25,12 +23,15 @@ class StatisticsKMLPage extends StatefulWidget {
   final int total;
   final String continent;
   final List<CountryResponse> totalContinents;
-  final List<Color> chartColors = [];
+  final List<String> chartColors = [];
+  final List<int> chartCountriesData = [];
   List<Widget> labels = [];
   List<Widget> labels2 = [];
   List<Widget> labels3 = [];
   List<Widget> labels4 = [];
   List<PieChartSectionData> chartSections = [];
+  String balloonLabels = '';
+  List<CountryResponse> finalCountries = [];
 
   @override
   State<StatisticsKMLPage> createState() {
@@ -76,7 +77,6 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                       ? finalCountries.add(countries[i])
                       : null;
     }
-    print('FINAL COUNTRIES LENGTH ==>> ${finalCountries.length}');
     if (finalCountries.length <= 15) {
       for (var i = 0; i < finalCountries.length; i++) {
         var selectedData = widget.type == 'cases'
@@ -88,7 +88,9 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                     : finalCountries[i].recovered;
         var selectedColor =
             Colors.primaries[Random().nextInt(Colors.primaries.length)];
-        widget.chartColors.add(selectedColor);
+        widget.chartColors
+            .add(ColorUtils.intToHex(selectedColor.value).substring(1));
+        widget.chartCountriesData.add(selectedData);
         widget.chartSections.add(PieChartSectionData(
             value: selectedData.toDouble(),
             color: selectedColor,
@@ -111,7 +113,9 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                     : finalCountries[i].recovered;
         var selectedColor =
             Colors.primaries[Random().nextInt(Colors.primaries.length)];
-        widget.chartColors.add(selectedColor);
+        widget.chartColors
+            .add(ColorUtils.intToHex(selectedColor.value).substring(1));
+        widget.chartCountriesData.add(selectedData);
         widget.chartSections.add(PieChartSectionData(
             value: selectedData.toDouble(),
             color: selectedColor,
@@ -159,9 +163,41 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
         }
       }
     }
+    widget.finalCountries = finalCountries;
     return finalCountries;
   }
 
+  _buildPolygonsData(List<CountryResponse> countries) {
+    String polygons = '';
+    if (widget.continent == 'North America') {
+      for (var i = 0; i < countries.length; i++) {
+        if (!noInfo.contains(countries[i].country) &&
+            countries[i].country != 'USA') {
+          print('NÃO TA NO ARRAY');
+          widget.balloonLabels += '''<h2><font color='#${widget.chartColors[i]}'>⚫</font> ${countries[i].country}: ${numeral(widget.chartCountriesData[i])}</h2>
+''';
+          var countryCoordinates = _buildPolygonCoordinates(
+              countries[i].country, (widget.chartCountriesData[i] / 100));
+          polygons += kmlGenerator().polygon(countries[i].country,
+              'ff${widget.chartColors[i]}', countryCoordinates);
+        }
+      }
+    }
+    return polygons;
+  }
+
+  _buildPolygonCoordinates(country, double height) {
+    String coordinates = '';
+    List<Map<String, double>> selectedCountry =
+        Coordinates().getCountry(country);
+      for (var i = 0; i < selectedCountry.length; i++) {
+        coordinates +=
+            '${selectedCountry[i]['lon']},${selectedCountry[i]['lat']},$height \n';
+      }
+      coordinates +=
+          '${selectedCountry[0]['lon']},${selectedCountry[0]['lat']},$height \n';
+    return coordinates;
+  }
 /*   List<Widget> _buildList(List<CountryResponse> countries, color) {
     var contents = <Widget>[];
     for (var i = 0; i < countries.length; i++) {
@@ -208,8 +244,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                               swapAnimationDuration:
                                   const Duration(milliseconds: 150), // Optional
                               swapAnimationCurve: Curves.linear,
-                            )
-                            ),
+                            )),
                         const SizedBox(height: 20),
                         Text(
                           'Total ${widget.type}: ${numeral(widget.total)}',
@@ -218,6 +253,18 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                         const SizedBox(height: 50),
                         ElevatedButton(
                             onPressed: () async {
+                              var polygons =
+                                  _buildPolygonsData(widget.finalCountries);
+                              var balloon = kmlGenerator().balloon(widget.title,
+                                  'Total ${widget.type}: ${widget.total}', widget.balloonLabels);
+                              print('BALLOON ==>> $balloon');
+                              var finalKML = kmlGenerator().continentKML(
+                                  {'name': widget.title, 'polygons': polygons});
+                              print('FINAL KML ==>> $finalKML');
+                              await LGConnection().sendKML(
+                                  widget.title, finalKML, kmlGenerator().flyTo);
+                              await LGConnection()
+                                  .sendBalloon(balloon, widget.title);
                               /* 
                           var usaCoordinates = Coordinates().usa1(800000);
                           var usaCoordinates2 = Coordinates().usa2(800000);
@@ -260,13 +307,21 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                     countriesData.length > 30
                         ? SizedBox(
                             width: 200,
-                            height: widget.labels3.length <= 5 ? 200 : widget.labels3.length <= 10 ? 400 : 620,
+                            height: widget.labels3.length <= 5
+                                ? 200
+                                : widget.labels3.length <= 10
+                                    ? 400
+                                    : 620,
                             child: Column(children: widget.labels3))
                         : const SizedBox(),
                     countriesData.length > 45
                         ? SizedBox(
                             width: 200,
-                            height: widget.labels4.length <= 5 ? 200 : widget.labels4.length <= 10 ? 400 : 620,
+                            height: widget.labels4.length <= 5
+                                ? 200
+                                : widget.labels4.length <= 10
+                                    ? 400
+                                    : 620,
                             child: Column(children: widget.labels4))
                         : const SizedBox()
                   ],

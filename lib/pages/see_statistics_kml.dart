@@ -174,15 +174,16 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
     if (widget.continent == 'North America') {
       for (var i = 0; i < countries.length; i++) {
         if (!noInfo.contains(countries[i].country)) {
-          //print('NÃO TA NO ARRAY');
+          var c = widget.chartColors[i].split('');
+          var finalColor = '${c[4]}${c[5]}${c[2]}${c[3]}${c[0]}${c[1]}';
           print('COR ==>> ${widget.chartColors[i]}');
-          print('COR REVERSE ==>> ff${widget.chartColors[i].split('').reversed.join()}');
-          widget.balloonLabels += '''<h2><font color='#FF${widget.chartColors[i]}'>⚫</font> ${countries[i].country}: ${numeral(widget.chartCountriesData[i])}</h2>
+          print('COR REVERSE ==>> df$finalColor');
+          widget.balloonLabels += '''<h2><font color='#${widget.chartColors[i]}'>⚫</font> ${countries[i].country}: ${numeral(widget.chartCountriesData[i])}</h2>
 ''';
           var countryCoordinates = _buildPolygonCoordinates(
               countries[i].country, (widget.chartCountriesData[i] / 100));
           polygons += kmlGenerator().polygon(countries[i].country,
-              'ff${widget.chartColors[i].split('').reversed.join()}', countryCoordinates);
+              'df$finalColor}', countryCoordinates);
         }
       }
     }

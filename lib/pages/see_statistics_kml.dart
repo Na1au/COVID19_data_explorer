@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:basic_utils/basic_utils.dart';
@@ -8,6 +9,7 @@ import 'package:covid19_data_explorer/services/http_request.dart';
 import 'package:numeral/numeral.dart';
 import 'package:covid19_data_explorer/services/lg_connection.dart';
 import 'package:covid19_data_explorer/utils/coordinates.dart';
+import 'package:path_provider/path_provider.dart';
 
 // ignore: must_be_immutable
 class StatisticsKMLPage extends StatefulWidget {
@@ -171,15 +173,16 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
     String polygons = '';
     if (widget.continent == 'North America') {
       for (var i = 0; i < countries.length; i++) {
-        if (!noInfo.contains(countries[i].country) &&
-            countries[i].country != 'USA') {
-          print('NÃO TA NO ARRAY');
-          widget.balloonLabels += '''<h2><font color='#${widget.chartColors[i]}'>⚫</font> ${countries[i].country}: ${numeral(widget.chartCountriesData[i])}</h2>
+        if (!noInfo.contains(countries[i].country)) {
+          //print('NÃO TA NO ARRAY');
+          print('COR ==>> ${widget.chartColors[i]}');
+          print('COR REVERSE ==>> ff${widget.chartColors[i].split('').reversed.join()}');
+          widget.balloonLabels += '''<h2><font color='#FF${widget.chartColors[i]}'>⚫</font> ${countries[i].country}: ${numeral(widget.chartCountriesData[i])}</h2>
 ''';
           var countryCoordinates = _buildPolygonCoordinates(
               countries[i].country, (widget.chartCountriesData[i] / 100));
           polygons += kmlGenerator().polygon(countries[i].country,
-              'ff${widget.chartColors[i]}', countryCoordinates);
+              'ff${widget.chartColors[i].split('').reversed.join()}', countryCoordinates);
         }
       }
     }
@@ -256,13 +259,13 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                               var polygons =
                                   _buildPolygonsData(widget.finalCountries);
                               var balloon = kmlGenerator().balloon(widget.title,
-                                  'Total ${widget.type}: ${widget.total}', widget.balloonLabels);
-                              print('BALLOON ==>> $balloon');
+                                  'Total ${widget.type}: ${numeral(widget.total)}', widget.balloonLabels);
+                              //print('BALLOON ==>> $balloon');
                               var finalKML = kmlGenerator().continentKML(
-                                  {'name': widget.title, 'polygons': polygons});
-                              print('FINAL KML ==>> $finalKML');
+                                  {'name': widget.title.replaceAll(" ", "_"), 'polygons': polygons});
+                              //print('FINAL KML ==>> $finalKML');
                               await LGConnection().sendKML(
-                                  widget.title, finalKML, kmlGenerator().flyTo);
+                                  widget.title.replaceAll(" ", "_"), finalKML, kmlGenerator().flyTo);
                               await LGConnection()
                                   .sendBalloon(balloon, widget.title);
                               /* 

@@ -91,7 +91,10 @@ xmlns:gx="http://www.google.com/kml/ext/2.2">
 
   balloon(name, description, content) {
     String kml = '''
-
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+ <name>$name</name>
  <Style id="purple_paddle">
    <BalloonStyle>
      <text>\$[description]</text>
@@ -133,6 +136,8 @@ http://maps.google.com/mapfiles/kml/paddle/purple-blank.png
    <styleUrl>#purple_paddle</styleUrl>
    <gx:balloonVisibility>1</gx:balloonVisibility>
  </Placemark>
+ </Document>
+</kml>
 ''';
 return kml;
   }

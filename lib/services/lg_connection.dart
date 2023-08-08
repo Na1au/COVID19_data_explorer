@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dartssh2/dartssh2.dart';
 
@@ -117,7 +115,7 @@ class LGConnection {
       client = SSHClient(socket,
           username: '${credencials['user']}',
           onPasswordRequest: () => '${credencials['pass']}');
-
+      print('FILE NAME KML ==>> $fileName');
       await client.run("echo '$kml' > /var/www/html/$fileName.kml");
       await client
           .run('echo "http://lg1:81/$fileName.kml" > /var/www/html/kmls.txt');

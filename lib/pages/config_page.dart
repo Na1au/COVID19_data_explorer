@@ -166,7 +166,7 @@ class ConfigPageState extends State<ConfigPage> {
                         visiblePassword
                             ? Icons.visibility_off
                             : Icons.visibility,
-                        color: Theme.of(context).primaryColorDark,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                       onPressed: () {
                         setState(() {

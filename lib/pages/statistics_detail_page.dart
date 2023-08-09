@@ -70,19 +70,20 @@ class StatisticsDetailPageState extends State<StatisticsDetailPage> {
     var titles = ['cases', 'deaths', 'tests', 'recovered'];
     for (var i = 0; i < 4; i++) {
       contents.add(SizedBox(
-        width: 200,
+        width: 250,
         child: ListTile(
             leading: CircleAvatar(
               backgroundColor: colors[i],
-              radius: 25,
+              radius: 30,
             ),
             // ignore: unnecessary_string_interpolations
             title: Text('${numeral(continentData[i])}'),
             subtitle: Text('Total ${titles[i]}'),
             onTap: () {
+              var finalTitle = title == 'North America' ? 'North and Central America' : title;
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => StatisticsKMLPage(
-                    title: '$title total ${titles[i]}',
+                    title: '$finalTitle total ${titles[i]}',
                     type: titles[i],
                     total: continentData[i],
                     continent: title,
@@ -105,19 +106,58 @@ class StatisticsDetailPageState extends State<StatisticsDetailPage> {
             color: Colors.grey.shade200,
             child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                    const EdgeInsets.all(15),
                 child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: Column(
                       children: [
                         Row(
-                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisSize: MainAxisSize.max,
                           children: [
                             //America
-                            for (var i = 0; i < 5; i++) ...[
+                            for (var i = 0; i < 3; i++) ...[
                               SizedBox(
                                 height: 400,
-                                width: 230,
+                                width: 350,
+                                child: Card(
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(15),
+                                      child: loaded == false
+                                          ? const Center(
+                                              child: SizedBox(
+                                                  height: 50,
+                                                  width: 50,
+                                                  child:
+                                                      CircularProgressIndicator()))
+                                          : Column(children: [
+                                              Text(continentTitles[i] == 'North America' ? 'North and Central America' : continentTitles[i],
+                                                  textAlign: TextAlign.start,
+                                                  style: const TextStyle(
+                                                      color: Colors.black54,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                              const SizedBox(height: 20),
+                                              ..._buildContents(
+                                                  continentTitles[i],
+                                                  continentData[i])
+                                            ]),
+                                    )),
+                              )
+                            ]
+                          ],
+                        ),
+                        const SizedBox(height: 15),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            for (var i = 3; i < 6; i++) ...[
+                              SizedBox(
+                                height: 400,
+                                width: 350,
                                 child: Card(
                                     color: Colors.white,
                                     child: Padding(
@@ -145,40 +185,6 @@ class StatisticsDetailPageState extends State<StatisticsDetailPage> {
                                     )),
                               )
                             ]
-                          ],
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(
-                              height: 400,
-                              width: 230,
-                              child: Card(
-                                  color: Colors.white,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15),
-                                    child: loaded == false
-                                        ? const Center(
-                                            child: SizedBox(
-                                                height: 50,
-                                                width: 50,
-                                                child:
-                                                    CircularProgressIndicator()))
-                                        : Column(children: [
-                                            Text(continentTitles[5],
-                                                textAlign: TextAlign.start,
-                                                style: const TextStyle(
-                                                    color: Colors.black54,
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            const SizedBox(height: 20),
-                                            ..._buildContents(
-                                                continentTitles[5],
-                                                continentData[5])
-                                          ]),
-                                  )),
-                            )
                           ],
                         )
                       ],

@@ -34,6 +34,7 @@ class StatisticsKMLPage extends StatefulWidget {
   List<PieChartSectionData> chartSections = [];
   String balloonLabels = '';
   List<CountryResponse> finalCountries = [];
+  String kml = '';
 
   @override
   State<StatisticsKMLPage> createState() {
@@ -178,12 +179,13 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
           var finalColor = '${c[4]}${c[5]}${c[2]}${c[3]}${c[0]}${c[1]}';
           print('COR ==>> ${widget.chartColors[i]}');
           print('COR REVERSE ==>> df$finalColor');
-          widget.balloonLabels += '''<h2><font color='#${widget.chartColors[i]}'>⚫</font> ${countries[i].country}: ${numeral(widget.chartCountriesData[i])}</h2>
+          widget.balloonLabels +=
+              '''<h2><font color='#${widget.chartColors[i]}'>⚫</font> ${countries[i].country}: ${numeral(widget.chartCountriesData[i])}</h2>
 ''';
           var countryCoordinates = _buildPolygonCoordinates(
               countries[i].country, (widget.chartCountriesData[i] / 100));
-          polygons += kmlGenerator().polygon(countries[i].country,
-              'df$finalColor}', countryCoordinates);
+          polygons += kmlGenerator().polygon(
+              countries[i].country, 'df$finalColor', countryCoordinates);
         }
       }
     }
@@ -194,12 +196,12 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
     String coordinates = '';
     List<Map<String, double>> selectedCountry =
         Coordinates().getCountry(country);
-      for (var i = 0; i < selectedCountry.length; i++) {
-        coordinates +=
-            '${selectedCountry[i]['lon']},${selectedCountry[i]['lat']},$height \n';
-      }
+    for (var i = 0; i < selectedCountry.length; i++) {
       coordinates +=
-          '${selectedCountry[0]['lon']},${selectedCountry[0]['lat']},$height \n';
+          '${selectedCountry[i]['lon']},${selectedCountry[i]['lat']},$height \n';
+    }
+    coordinates +=
+        '${selectedCountry[0]['lon']},${selectedCountry[0]['lat']},$height \n';
     return coordinates;
   }
 /*   List<Widget> _buildList(List<CountryResponse> countries, color) {
@@ -243,6 +245,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                             height: 300,
                             child: PieChart(
                               PieChartData(
+                                  sectionsSpace: 1,
                                   centerSpaceRadius: 100,
                                   sections: widget.chartSections),
                               swapAnimationDuration:
@@ -252,21 +255,27 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                         const SizedBox(height: 20),
                         Text(
                           'Total ${widget.type}: ${numeral(widget.total)}',
-                          style: TextStyle(fontSize: 15),
+                          style: const TextStyle(fontSize: 15),
                         ),
                         const SizedBox(height: 50),
                         ElevatedButton(
                             onPressed: () async {
                               var polygons =
                                   _buildPolygonsData(widget.finalCountries);
-                              var balloon = kmlGenerator().balloon(widget.title,
-                                  'Total ${widget.type}: ${numeral(widget.total)}', widget.balloonLabels);
+                              var balloon = kmlGenerator().balloon(
+                                  widget.title,
+                                  'Total ${widget.type}: ${numeral(widget.total)}',
+                                  widget.balloonLabels);
                               //print('BALLOON ==>> $balloon');
-                              var finalKML = kmlGenerator().continentKML(
-                                  {'name': widget.title.replaceAll(" ", "_"), 'polygons': polygons});
+                              var finalKML = kmlGenerator().continentKML({
+                                'name': widget.title.replaceAll(" ", "_"),
+                                'polygons': polygons
+                              });
                               //print('FINAL KML ==>> $finalKML');
                               await LGConnection().sendKML(
-                                  widget.title.replaceAll(" ", "_"), finalKML, kmlGenerator().flyTo);
+                                  widget.title.replaceAll(" ", "_"),
+                                  finalKML,
+                                  kmlGenerator().flyTo);
                               await LGConnection()
                                   .sendBalloon(balloon, widget.title);
                               /* 
@@ -294,7 +303,18 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                           await LGConnection().sendKML(
                               'NorthAmerica_${widget.type}', kml, flyTo); */
                             },
-                            child: const Text('See on Liquid Galaxy'))
+                            child: const Text('See on Liquid Galaxy')),
+                            ElevatedButton(onPressed: () async {
+                              String content = kmlGenerator().orbitTag({'lon': -80.140506, 'lat': 12.543370});
+                              widget.kml = kmlGenerator().orbit(content);
+                              await LGConnection().sendOrbit(widget.kml);
+                            }, child: Text('Build Orbit')),
+                            ElevatedButton(onPressed: () async {
+                              await LGConnection().startTour();
+                            }, child: Text('Play Tour')),
+                            ElevatedButton(onPressed: () async {
+                              await LGConnection().stopTour();
+                            }, child: Text('Stop Tour'))
                       ],
                     ),
                     SizedBox(

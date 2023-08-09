@@ -30,17 +30,16 @@ class StatisticsCardState extends State<StatisticsCard> {
     var d = 0;
     var t = 0;
     var r = 0;
-    for(var i = 0; i < globalData.length; i++) {
-        c += globalData[i].cases;
-        d += globalData[i].deaths;
-        t += globalData[i].tests;
-        r += globalData[i].recovered;
-      }
+    for (var i = 0; i < globalData.length; i++) {
+      c += globalData[i].cases;
+      d += globalData[i].deaths;
+      t += globalData[i].tests;
+      r += globalData[i].recovered;
+    }
     setState(() {
-      date =
-          DateTime.fromMillisecondsSinceEpoch(globalData.first.updated)
-              .toString()
-              .substring(0, 16);
+      date = DateTime.fromMillisecondsSinceEpoch(globalData.first.updated)
+          .toString()
+          .substring(0, 16);
       cases = c;
       deaths = d;
       tests = t;
@@ -49,7 +48,7 @@ class StatisticsCardState extends State<StatisticsCard> {
     });
   }
 
-  List<Widget> _buildContent() {
+  Widget _buildContent() {
     var data = [cases, deaths, tests, recovered];
     var titles = ['cases', 'deaths', 'tests', 'recovered'];
     var colors = [Colors.amber, Colors.red, Colors.deepPurple, Colors.blue];
@@ -59,38 +58,47 @@ class StatisticsCardState extends State<StatisticsCard> {
         child: ListTile(
             leading: CircleAvatar(
               backgroundColor: colors[i],
-              radius: 25,
+              radius: 30,
             ),
             title: Text(numeral(data[i])),
             subtitle: Text('Total ${titles[i]}')),
       ));
     }
-    return statistics;
+    var finalStatistics = Column(children: [
+      Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [statistics[0], statistics[1]]),
+      const SizedBox(height: 50),
+      Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [statistics[2], statistics[3]])
+    ]);
+    return finalStatistics;
   }
 
   @override
   Widget build(BuildContext context) {
-    return loaded == false
-        ? const CircularProgressIndicator()
-        : GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => StatisticsDetailPage(
-                    globalData: globalData,
-                  ),
-                ),
-              );
-            },
-            child: Card(
-                color: Colors.white,
-                child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Column(
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => StatisticsDetailPage(
+              globalData: globalData,
+            ),
+          ),
+        );
+      },
+      child: Card(
+          color: Colors.white,
+          child: Padding(
+              padding: const EdgeInsets.all(15),
+              child: loaded == false
+                  ? const Center(child: CircularProgressIndicator())
+                  : Column(
                       children: [
                         Row(
                           children: [
-                            const Text('Statistics',
+                            const Text('Global statistics',
                                 style: TextStyle(
                                     color: Colors.black54,
                                     fontSize: 20,
@@ -103,11 +111,8 @@ class StatisticsCardState extends State<StatisticsCard> {
                           ],
                         ),
                         const SizedBox(height: 30),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: _buildContent()
-                            ),
-                        const SizedBox(height: 20),
+                        _buildContent(),
+                        const SizedBox(height: 40),
                         const Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -118,6 +123,6 @@ class StatisticsCardState extends State<StatisticsCard> {
                         )
                       ],
                     ))),
-          );
+    );
   }
 }

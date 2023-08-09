@@ -215,7 +215,7 @@ class LGConnection {
     }
   }
 
-  sendOrbit(String filename, String orbit) async {
+  sendOrbit(String orbit) async {
     credencials = await _getCredencials();
     try {
       socket = await SSHSocket.connect('${credencials['ip']}', 22,
@@ -223,10 +223,24 @@ class LGConnection {
       client = SSHClient(socket,
           username: '${credencials['user']}',
           onPasswordRequest: () => '${credencials['pass']}');
-      await client.run("echo '$orbit' > /var/www/html/$filename.kml");
+      await client.run("echo '$orbit' > /var/www/html/Orbit.kml");
       await client
-          .run('echo "http://lg1:81/$filename.kml" >> /var/www/html/kmls.txt');
-      await client.run("echo 'playtour=$filename' > /tmp/query.txt");
+          .run('echo "http://lg1:81/Orbit.kml" >> /var/www/html/kmls.txt');
+      client.close();
+    } catch (e) {
+      throw ('ERROR ON SEND ORBIT KML FILE: $e');
+    }
+  }
+
+  startTour() async {
+    credencials = await _getCredencials();
+    try {
+      socket = await SSHSocket.connect('${credencials['ip']}', 22,
+          timeout: const Duration(seconds: 10));
+      client = SSHClient(socket,
+          username: '${credencials['user']}',
+          onPasswordRequest: () => '${credencials['pass']}');
+      await client.run("echo 'playtour=Orbit' > /tmp/query.txt");
       client.close();
     } catch (e) {
       throw ('ERROR ON SEND ORBIT KML FILE: $e');

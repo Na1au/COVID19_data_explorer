@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:basic_utils/basic_utils.dart';
@@ -9,7 +8,6 @@ import 'package:covid19_data_explorer/services/http_request.dart';
 import 'package:numeral/numeral.dart';
 import 'package:covid19_data_explorer/services/lg_connection.dart';
 import 'package:covid19_data_explorer/utils/coordinates.dart';
-import 'package:path_provider/path_provider.dart';
 
 // ignore: must_be_immutable
 class StatisticsKMLPage extends StatefulWidget {
@@ -31,6 +29,7 @@ class StatisticsKMLPage extends StatefulWidget {
   List<Widget> labels2 = [];
   List<Widget> labels3 = [];
   List<Widget> labels4 = [];
+  List<Widget> labels5 = [];
   List<PieChartSectionData> chartSections = [];
   String balloonLabels = '';
   List<CountryResponse> finalCountries = [];
@@ -83,7 +82,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                       ? finalCountries.add(countries[i])
                       : null;
     }
-    if (finalCountries.length <= 15) {
+    if (finalCountries.length <= 12) {
       for (var i = 0; i < finalCountries.length; i++) {
         var selectedData = widget.type == 'cases'
             ? finalCountries[i].cases
@@ -127,7 +126,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
             color: selectedColor,
             showTitle: false));
 
-        if (i <= 15) {
+        if (i <= 11) {
           widget.labels.add(Expanded(
               child: ListTile(
                   leading:
@@ -137,7 +136,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                   subtitle: Text(numeral(selectedData),
                       style: const TextStyle(fontSize: 10)))));
         }
-        if (i > 15 && i <= 30) {
+        if (i >= 12 && i < 24) {
           widget.labels2.add(Expanded(
               child: ListTile(
             leading: CircleAvatar(backgroundColor: selectedColor, radius: 15),
@@ -147,7 +146,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                 style: const TextStyle(fontSize: 10)),
           )));
         }
-        if (i > 30 && i <= 45) {
+        if (i >= 24 && i < 36) {
           widget.labels3.add(Expanded(
               child: ListTile(
             leading: CircleAvatar(backgroundColor: selectedColor, radius: 15),
@@ -157,8 +156,18 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                 style: const TextStyle(fontSize: 10)),
           )));
         }
-        if (i > 45) {
+        if (i >= 36 && i < 48) {
           widget.labels4.add(Expanded(
+              child: ListTile(
+            leading: CircleAvatar(backgroundColor: selectedColor, radius: 15),
+            title: Text(finalCountries[i].country,
+                style: const TextStyle(fontSize: 13)),
+            subtitle: Text(numeral(selectedData),
+                style: const TextStyle(fontSize: 10)),
+          )));
+        }
+        if (i >= 48) {
+          widget.labels5.add(Expanded(
               child: ListTile(
             leading: CircleAvatar(backgroundColor: selectedColor, radius: 15),
             title: Text(finalCountries[i].country,
@@ -272,90 +281,99 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
       body: Center(
           child: loaded == false
               ? const CircularProgressIndicator()
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
+              : SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Row(
                       children: [
-                        const SizedBox(height: 50),
-                        Container(
-                            alignment: Alignment.center,
-                            width: 300,
-                            height: 300,
-                            child: PieChart(
-                              PieChartData(
-                                  sectionsSpace: 1,
-                                  centerSpaceRadius: 100,
-                                  sections: widget.chartSections),
-                              swapAnimationDuration:
-                                  const Duration(milliseconds: 150), // Optional
-                              swapAnimationCurve: Curves.linear,
-                            )),
-                        const SizedBox(height: 20),
-                        Text(
-                          'Total ${widget.type}: ${numeral(widget.total)}',
-                          style: const TextStyle(fontSize: 15),
-                        ),
-                        const SizedBox(height: 50),
-                        sendKML == false
-                            ? ElevatedButton(
-                                onPressed: () async {
-                                  var polygons =
-                                      _buildPolygonsData(widget.finalCountries);
-                                  var balloon = kmlGenerator().balloon(
-                                      widget.title,
-                                      'Total ${widget.type}: ${numeral(widget.total)}',
-                                      widget.balloonLabels);
-                                  var finalKML = kmlGenerator().continentKML({
-                                    'name': widget.title.replaceAll(" ", "_"),
-                                    'polygons': polygons
-                                  });
-                                  var lon = widget.continent == 'North America'
-                                      ? -94.260584
-                                      : widget.continent == 'Africa'
-                                          ? 18.50675184146605
-                                          : widget.continent == 'Asia'
-                                              ? 96.67343735776248
-                                              : widget.continent == 'Europe'
-                                                  ? 18.666769022896464
-                                                  : widget.continent ==
-                                                          'Australia-Oceania'
-                                                      ? 141.74397009325503
-                                                      : -57.14873614683469;
-                                  var lat = widget.continent == 'North America'
-                                      ? 42.872698
-                                      : widget.continent == 'Africa'
-                                          ? 7.729659071024626
-                                          : widget.continent == 'Asia'
-                                              ? 35.55188457751092
-                                              : widget.continent == 'Europe'
-                                                  ? 49.90994122738823
-                                                  : widget.continent ==
-                                                          'Australia-Oceania'
-                                                      ? -26.028662619598208
-                                                      : -15.567501701815752;
-                                  String content = kmlGenerator().orbitTag({
-                                    'lon': lon,
-                                    'lat': lat,
-                                    'alt': orbitHeigth
-                                  });
-                                  widget.kml = kmlGenerator().orbit(content);
-                                  await LGConnection().sendKML(
-                                      widget.title.replaceAll(" ", "_"),
-                                      finalKML,
-                                      kmlGenerator().FlyTo({
+                        Column(
+                          children: [
+                            const SizedBox(height: 50),
+                            Container(
+                                alignment: Alignment.center,
+                                width: 300,
+                                height: 300,
+                                child: PieChart(
+                                  PieChartData(
+                                      sectionsSpace: 1,
+                                      centerSpaceRadius: 100,
+                                      sections: widget.chartSections),
+                                  swapAnimationDuration: const Duration(
+                                      milliseconds: 150), // Optional
+                                  swapAnimationCurve: Curves.linear,
+                                )),
+                            const SizedBox(height: 20),
+                            Text(
+                              'Total ${widget.type}: ${numeral(widget.total)}',
+                              style: const TextStyle(fontSize: 15),
+                            ),
+                            const SizedBox(height: 50),
+                            sendKML == false
+                                ? ElevatedButton(
+                                    onPressed: () async {
+                                      var polygons = _buildPolygonsData(
+                                          widget.finalCountries);
+                                      var balloon = kmlGenerator().balloon(
+                                          widget.title,
+                                          'Total ${widget.type}: ${numeral(widget.total)}',
+                                          widget.balloonLabels);
+                                      var finalKML = kmlGenerator()
+                                          .continentKML({
+                                        'name':
+                                            widget.title.replaceAll(" ", "_"),
+                                        'polygons': polygons
+                                      });
+                                      var lon = widget.continent ==
+                                              'North America'
+                                          ? -94.260584
+                                          : widget.continent == 'Africa'
+                                              ? 18.50675184146605
+                                              : widget.continent == 'Asia'
+                                                  ? 96.67343735776248
+                                                  : widget.continent == 'Europe'
+                                                      ? 18.666769022896464
+                                                      : widget.continent ==
+                                                              'Australia-Oceania'
+                                                          ? 141.74397009325503
+                                                          : -57.14873614683469;
+                                      var lat = widget.continent ==
+                                              'North America'
+                                          ? 42.872698
+                                          : widget.continent == 'Africa'
+                                              ? 7.729659071024626
+                                              : widget.continent == 'Asia'
+                                                  ? 35.55188457751092
+                                                  : widget.continent == 'Europe'
+                                                      ? 49.90994122738823
+                                                      : widget.continent ==
+                                                              'Australia-Oceania'
+                                                          ? -26.028662619598208
+                                                          : -15.567501701815752;
+                                      String content = kmlGenerator().orbitTag({
                                         'lon': lon,
                                         'lat': lat,
-                                        'alt': 8700000,
-                                        'tilt': 15.68179673613697
-                                      }));
-                                  await LGConnection()
-                                      .sendBalloon(balloon, widget.title);
-                                  await LGConnection().sendOrbit(widget.kml);
-                                  setState(() {
-                                    sendKML = true;
-                                  });
-                                  /* 
+                                        'alt': orbitHeigth
+                                      });
+                                      widget.kml =
+                                          kmlGenerator().orbit(content);
+                                      await LGConnection().sendKML(
+                                          widget.title.replaceAll(" ", "_"),
+                                          finalKML,
+                                          kmlGenerator().FlyTo({
+                                            'lon': lon,
+                                            'lat': lat,
+                                            'alt': 8700000,
+                                            'tilt': 15.68179673613697
+                                          }));
+                                      await LGConnection()
+                                          .sendBalloon(balloon, widget.title);
+                                      await LGConnection()
+                                          .sendOrbit(widget.kml);
+                                      setState(() {
+                                        sendKML = true;
+                                      });
+                                      /* 
                           var usaCoordinates = Coordinates().usa1(800000);
                           var usaCoordinates2 = Coordinates().usa2(800000);
                           var canadaCoordinates = Coordinates()
@@ -379,57 +397,69 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                           var flyTo = kmlGenerator().FlyTo({'lon': -80.140506, 'alt': 8700000, 'tilt': 15.68179673613697, 'lat': 12.543370 });
                           await LGConnection().sendKML(
                               'NorthAmerica_${widget.type}', kml, flyTo); */
-                                },
-                                child: const Text('See on Liquid Galaxy'))
-                            : playTour == false
-                                ? ElevatedButton(
-                                    onPressed: () async {
-                                      await LGConnection().startTour();
-                                      setState(() {
-                                        playTour = true;
-                                      });
                                     },
-                                    child: Text('Play Tour'))
-                                : ElevatedButton(
-                                    onPressed: () async {
-                                      await LGConnection().stopTour();
-                                    },
-                                    child: Text('Stop Tour'))
+                                    child: const Text('See on Liquid Galaxy'))
+                                : playTour == false
+                                    ? ElevatedButton(
+                                        onPressed: () async {
+                                          await LGConnection().startTour();
+                                          setState(() {
+                                            playTour = true;
+                                          });
+                                        },
+                                        child: Text('Play Tour'))
+                                    : ElevatedButton(
+                                        onPressed: () async {
+                                          await LGConnection().stopTour();
+                                        },
+                                        child: Text('Stop Tour'))
+                          ],
+                        ),
+                        const SizedBox(width: 50),
+                        SizedBox(
+                          width: 250,
+                          height: 620,
+                          child: Column(children: widget.labels),
+                        ),
+                        countriesData.length > 12
+                            ? SizedBox(
+                                width: 250,
+                                height: widget.labels2.length <= 5 ? 200 : 620,
+                                child: Column(children: widget.labels2))
+                            : const SizedBox(),
+                        countriesData.length > 24
+                            ? SizedBox(
+                                width: 250,
+                                height: widget.labels3.length <= 5
+                                    ? 200
+                                    : widget.labels3.length <= 10
+                                        ? 400
+                                        : 620,
+                                child: Column(children: widget.labels3))
+                            : const SizedBox(),
+                        countriesData.length > 36
+                            ? SizedBox(
+                                width: 250,
+                                height: widget.labels4.length <= 5
+                                    ? 200
+                                    : widget.labels4.length <= 10
+                                        ? 400
+                                        : 620,
+                                child: Column(children: widget.labels4))
+                            : const SizedBox(),
+                        countriesData.length > 48
+                            ? SizedBox(
+                                width: 250,
+                                height: widget.labels5.length <= 5
+                                    ? 250
+                                    : widget.labels5.length <= 10
+                                        ? 500
+                                        : 620,
+                                child: Column(children: widget.labels5))
+                            : const SizedBox()
                       ],
                     ),
-                    SizedBox(
-                      width: 200,
-                      height: 620,
-                      child: Column(children: widget.labels),
-                    ),
-                    countriesData.length > 15
-                        ? SizedBox(
-                            width: 200,
-                            height: widget.labels2.length <= 5 ? 200 : 620,
-                            child: Column(children: widget.labels2))
-                        : const SizedBox(),
-                    countriesData.length > 30
-                        ? SizedBox(
-                            width: 200,
-                            height: widget.labels3.length <= 5
-                                ? 200
-                                : widget.labels3.length <= 10
-                                    ? 400
-                                    : 620,
-                            child: Column(children: widget.labels3))
-                        : const SizedBox(),
-                    countriesData.length > 45
-                        ? SizedBox(
-                            width: 200,
-                            height: widget.labels4.length <= 5
-                                ? 200
-                                : widget.labels4.length <= 10
-                                    ? 400
-                                    : 620,
-                            child: Column(children: widget.labels4))
-                        : const SizedBox()
-                  ],
-                )),
+                  ))),
     );
   }
 }

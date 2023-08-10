@@ -1,13 +1,13 @@
 import 'package:covid19_data_explorer/pages/about_page.dart';
-import 'package:covid19_data_explorer/pages/search_page.dart';
+//import 'package:covid19_data_explorer/pages/search_page.dart';
 import 'package:covid19_data_explorer/services/lg_connection.dart';
 import 'package:covid19_data_explorer/widgets/global_contamination_card.dart';
 import 'package:covid19_data_explorer/widgets/global_evolution_card.dart';
 import 'package:flutter/material.dart';
 import 'config_page.dart';
 import 'package:covid19_data_explorer/widgets/statistics_card.dart';
-import 'package:covid19_data_explorer/widgets/new_data_card.dart';
-import 'package:covid19_data_explorer/services/http_request.dart';
+//import 'package:covid19_data_explorer/widgets/new_data_card.dart';
+//import 'package:covid19_data_explorer/services/http_request.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -81,15 +81,15 @@ class DashboardPageState extends State<DashboardPage> {
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: Row(children: [
-            const Icon(Icons.coronavirus_outlined, size: 35),
-            const SizedBox(width: 15),
-            const Text('COVID-19 DATA EXPLORER'),
+          title: const Row(children: [
+            Icon(Icons.coronavirus_outlined, size: 35),
+            SizedBox(width: 15),
+            Text('COVID-19 DATA EXPLORER'),
           ]),
           actions: [
             Chip(
                 label: Row(children: [
-                  Text('Connection: '),
+                  const Text('Connection: '),
                   isConnected == true
                       ? const Icon(
                           Icons.circle,
@@ -128,7 +128,7 @@ class DashboardPageState extends State<DashboardPage> {
         ),
         body: Center(
           child: Container(
-              color: Colors.grey.shade200,
+              color: Theme.of(context).colorScheme.background,
               width: double.infinity,
               height: double.infinity,
               child: Padding(

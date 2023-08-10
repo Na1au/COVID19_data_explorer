@@ -103,7 +103,7 @@ class StatisticsDetailPageState extends State<StatisticsDetailPage> {
             alignment: Alignment.topLeft,
             height: double.infinity,
             width: double.infinity,
-            color: Colors.grey.shade200,
+            color: Theme.of(context).colorScheme.background,
             child: Padding(
                 padding:
                     const EdgeInsets.all(15),

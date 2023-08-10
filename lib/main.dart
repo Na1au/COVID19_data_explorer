@@ -19,10 +19,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        colorScheme:
-            ColorScheme.fromSwatch(primarySwatch: Colors.blue).copyWith(
-          primary: const Color.fromARGB(255, 165, 16, 16),
-        ),
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
+            .copyWith(
+                primary: const Color.fromARGB(255, 165, 16, 16),
+                background: Colors.grey.shade200),
       ),
       initialRoute: '/splash',
       routes: {

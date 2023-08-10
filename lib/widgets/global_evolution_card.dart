@@ -282,6 +282,10 @@ class GlobalEvolutionCardState extends State<GlobalEvolutionCard> {
                   width: 1000,
                   child: LineChart(
                       LineChartData(
+                        lineTouchData: LineTouchData(
+                            touchTooltipData: LineTouchTooltipData(
+                              tooltipBorder: BorderSide(width: 1, color: Theme.of(context).colorScheme.primary),
+                                tooltipBgColor: Colors.white)),
                         titlesData: _titlesData,
                         gridData: FlGridData(show: false),
                         borderData: FlBorderData(show: false),

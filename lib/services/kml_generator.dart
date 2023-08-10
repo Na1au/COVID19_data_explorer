@@ -5,7 +5,7 @@ class kmlGenerator {
     double heading = 0;
     int orbit = 0;
     String finalOrbit = '';
-    String range = '5000000';
+    String range = '15000000';
 
     while (orbit <= 36) {
       if (heading >= 360) heading -= 360;
@@ -17,7 +17,8 @@ class kmlGenerator {
                   <longitude>${content['lon']}</longitude>
                   <latitude>${content['lat']}</latitude>
                   <heading>$heading</heading>
-                  <tilt>60</tilt>
+                  <altitude>${content['alt']}</altitude>
+                  <tilt>70</tilt>
                   <gx:fovy>35</gx:fovy>
                   <range>$range</range>
                   <altitudeMode>relativeToGround</altitudeMode>

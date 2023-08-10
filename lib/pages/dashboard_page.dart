@@ -135,7 +135,7 @@ class DashboardPageState extends State<DashboardPage> {
                 padding: const EdgeInsets.all(15),
                 child: ListView(
                   scrollDirection: Axis.vertical,
-                  children: [
+                  children: const  [
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         mainAxisSize: MainAxisSize.max,
@@ -147,7 +147,7 @@ class DashboardPageState extends State<DashboardPage> {
                               width: 720,
                               child: GlobalContaminationCard())
                         ]),
-                    SizedBox(height: 15),
+                    //SizedBox(height: 15),
                     /* Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         mainAxisSize: MainAxisSize.max,

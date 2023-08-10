@@ -151,8 +151,15 @@ class LGConnection {
     client = SSHClient(socket,
         username: '${credencials['user']}',
         onPasswordRequest: () => '${credencials['pass']}');
+    String nullKML = '''<?xml version="1.0" encoding="UTF-8"?>
+  <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+    <Document>
+    </Document>
+  </kml>''';
     try {
       await client.run("echo '' > /var/www/html/kmls.txt");
+      await client.run("echo '$nullKML' > /var/www/html/kml/slave_$rightScreen.kml");
+      await client.run("echo '$nullKML' > /var/www/html/kml/slave_$leftScreen.kml");
       client.close();
     } catch (e) {
       throw ('ERROR ON CLEAN VISUALIZATION: $e');
@@ -277,7 +284,7 @@ class LGConnection {
         <overlayXY x="0" y="1" xunits="fraction" yunits="fraction"/>
         <screenXY x="0.02" y="0.95" xunits="fraction" yunits="fraction"/>
         <rotationXY x="0" y="0" xunits="fraction" yunits="fraction"/>
-        <size x="0.6" y="0.8" xunits="fraction" yunits="fraction"/>
+        <size x="0.6" y="0.4" xunits="fraction" yunits="fraction"/>
         </ScreenOverlay>
         </Folder>
     </Document>

@@ -134,20 +134,20 @@ class ConfigPageState extends State<ConfigPage> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: _usernameController,
+                  controller: _ipAddressController,
                   decoration: const InputDecoration(
-                    label: Text('Master machine username'),
-                    hintText: 'lg',
+                    label: Text('Master machine IP address'),
+                    hintText: '192.168.10.21',
                     hintStyle: TextStyle(color: Colors.grey),
                     border: OutlineInputBorder(),
                   ),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: _ipAddressController,
+                  controller: _usernameController,
                   decoration: const InputDecoration(
-                    label: Text('Master machine IP address'),
-                    hintText: '192.168.10.21',
+                    label: Text('Master machine username'),
+                    hintText: 'lg',
                     hintStyle: TextStyle(color: Colors.grey),
                     border: OutlineInputBorder(),
                   ),

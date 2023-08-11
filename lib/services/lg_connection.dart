@@ -5,7 +5,6 @@ class LGConnection {
   late SSHClient client;
   late SSHSocket socket;
   late dynamic credencials;
-
   late int screenAmount;
 
   int get leftScreen {
@@ -73,9 +72,7 @@ class LGConnection {
       client = SSHClient(socket,
           username: '${credencials['user']}',
           onPasswordRequest: () => '${credencials['pass']}');
-
       await openLogos();
-
       return true;
     } catch (e) {
       print('ERROR IN STABILISH CONNECTION ==>> $e');
@@ -118,10 +115,29 @@ class LGConnection {
       client = SSHClient(socket,
           username: '${credencials['user']}',
           onPasswordRequest: () => '${credencials['pass']}');
+      print('FILE NAME KML ==>> $fileName');
       await client.run("echo '$kml' > /var/www/html/$fileName.kml");
       await client
           .run('echo "http://lg1:81/$fileName.kml" > /var/www/html/kmls.txt');
       await client.run("echo '$flyTo' > /tmp/query.txt");
+      client.close();
+    } catch (e) {
+      throw ('ERROR ON SEND KML FILE: $e');
+    }
+  }
+
+  sendBalloon(balloon, balloonName) async {
+    credencials = await _getCredencials();
+    try {
+      socket = await SSHSocket.connect('${credencials['ip']}', 22,
+          timeout: const Duration(seconds: 10));
+      client = SSHClient(socket,
+          username: '${credencials['user']}',
+          onPasswordRequest: () => '${credencials['pass']}');
+      await client.execute(
+          "echo '$balloon' > /var/www/html/kml/slave_$rightScreen.kml");
+      print('SLAVE RIGHT ==>> $rightScreen');
+      client.close();
     } catch (e) {
       throw ('ERROR ON SEND KML FILE: $e');
     }
@@ -135,8 +151,16 @@ class LGConnection {
     client = SSHClient(socket,
         username: '${credencials['user']}',
         onPasswordRequest: () => '${credencials['pass']}');
+    String nullKML = '''<?xml version="1.0" encoding="UTF-8"?>
+  <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+    <Document>
+    </Document>
+  </kml>''';
     try {
       await client.run("echo '' > /var/www/html/kmls.txt");
+      await client.run("echo '$nullKML' > /var/www/html/kml/slave_$rightScreen.kml");
+      await client.run("echo '$nullKML' > /var/www/html/kml/slave_$leftScreen.kml");
+      client.close();
     } catch (e) {
       throw ('ERROR ON CLEAN VISUALIZATION: $e');
     }
@@ -198,7 +222,7 @@ class LGConnection {
     }
   }
 
-  sendOrbit(String filename, String orbit) async {
+  sendOrbit(String orbit, String fileName) async {
     credencials = await _getCredencials();
     try {
       socket = await SSHSocket.connect('${credencials['ip']}', 22,
@@ -206,10 +230,25 @@ class LGConnection {
       client = SSHClient(socket,
           username: '${credencials['user']}',
           onPasswordRequest: () => '${credencials['pass']}');
-      await client.run("echo '$orbit' > /var/www/html/$filename.kml");
+      await client.run("echo '$orbit' > /var/www/html/$fileName.kml");
       await client
-          .run('echo "http://lg1:81/$filename.kml" >> /var/www/html/kmls.txt');
-      await client.run("echo 'playtour=$filename' > /tmp/query.txt");
+          .run('echo "http://lg1:81/$fileName.kml" >> /var/www/html/kmls.txt');
+      client.close();
+    } catch (e) {
+      throw ('ERROR ON SEND ORBIT KML FILE: $e');
+    }
+  }
+
+  startTour() async {
+    credencials = await _getCredencials();
+    try {
+      socket = await SSHSocket.connect('${credencials['ip']}', 22,
+          timeout: const Duration(seconds: 10));
+      client = SSHClient(socket,
+          username: '${credencials['user']}',
+          onPasswordRequest: () => '${credencials['pass']}');
+      await client.run("echo 'playtour=Orbit' > /tmp/query.txt");
+      client.close();
     } catch (e) {
       throw ('ERROR ON SEND ORBIT KML FILE: $e');
     }
@@ -224,6 +263,7 @@ class LGConnection {
           username: '${credencials['user']}',
           onPasswordRequest: () => '${credencials['pass']}');
       await client.run("echo 'exittour=true' > /tmp/query.txt");
+      client.close();
     } catch (e) {
       throw ('ERROR ON STO P TOUR: $e');
     }
@@ -239,12 +279,12 @@ class LGConnection {
         <ScreenOverlay>
         <name>Logo</name>
         <Icon>
-        <href>https://i.imgur.com/0wcv3Vg.png</href>
+        <href>https://i.imgur.com/HGUUSHb.png</href>
         </Icon>
         <overlayXY x="0" y="1" xunits="fraction" yunits="fraction"/>
         <screenXY x="0.02" y="0.95" xunits="fraction" yunits="fraction"/>
         <rotationXY x="0" y="0" xunits="fraction" yunits="fraction"/>
-        <size x="0.6" y="0.8" xunits="fraction" yunits="fraction"/>
+        <size x="0.6" y="0.4" xunits="fraction" yunits="fraction"/>
         </ScreenOverlay>
         </Folder>
     </Document>

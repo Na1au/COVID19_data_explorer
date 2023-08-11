@@ -1,97 +1,2416 @@
+// ignore_for_file: non_constant_identifier_names
+
 class Coordinates {
-  usa1(height) {
-    var coordinates = [
-      { 'lon': -124.781629, 'lat': 48.498806},
-      { 'lon': -122.585387, 'lat': 48.963954},
-      { 'lon': -95.249389, 'lat': 48.988106},
-      { 'lon': -82.593842, 'lat': 45.370193},
-      { 'lon': -81.928924, 'lat': 42.048841},
-      { 'lon': -74.875010, 'lat': 44.982995},
-      { 'lon': -70.914411, 'lat': 45.410798},
-      { 'lon': -68.977476, 'lat': 47.638139},
-      { 'lon': -66.838174, 'lat': 44.798666},
-      { 'lon': -81.257686, 'lat': 30.862163},
-      { 'lon': -79.914571, 'lat': 26.518506},
-      { 'lon': -80.522151, 'lat': 25.001593},
-      { 'lon': -85.291696, 'lat': 29.620527},
-      { 'lon': -97.219665, 'lat': 25.815203},
-      { 'lon': -117.393704, 'lat': 32.350783},
-      { 'lon': -124.807485, 'lat': 40.265177},
-    ];
-    String USACoordinates = '';
-    for(var i = 0; i < coordinates.length; i++) {
-      USACoordinates += '${coordinates[i]['lon']},${coordinates[i]['lat']},$height \n';
-    }
-    USACoordinates += '${coordinates[0]['lon']},${coordinates[0]['lat']},$height \n';
-    return USACoordinates;
-  }
+  getCountry(country) {
+    dynamic res;
+    switch (country) {
+      case "Anguilla":
+        res = Anguilla;
+        break;
+      case "Belize":
+        res = Belize;
+        break;
+      case "Canada":
+        res = Canada;
+        break;
+      case "Costa Rica":
+        res = Costa_Rica;
+        break;
+      case "Cuba":
+        res = Cuba;
+        break;
+      case "Dominican Republic":
+        res = Dominican_Republic;
+        break;
+      case "El Salvador":
+        res = El_Salvador;
+        break;
+      case "Greenland":
+        res = Greenland;
+        break;
+      case "Guatemala":
+        res = Guatemala;
+        break;
+      case "Haiti":
+        res = Haiti;
+        break;
+      case "Honduras":
+        res = Honduras;
+        break;
+      case "Jamaica":
+        res = Jamaica;
+        break;
+      case "Mexico":
+        res = Mexico;
+        break;
+      case "Nicaragua":
+        res = Nicaragua;
+        break;
+      case "Panama":
+        res = Panama;
+        break;
+      case "USA":
+        res = USA;
 
-  usa2(height) {
-    var coordinates = [
-      {'lat': 69.83209915101473, 'lon': -141.32141031921168},
-      {'lat': 71.57363491925182, 'lon': -156.96594131795428},
-      {'lat': 68.90315099442729, 'lon': -169.18273799674762},
-      {'lat': 53.05451194772462, 'lon': -169.44640986751295},
-      {'lat': 59.523251434388165, 'lon': -141.05773844844637}
-    ];
-    String USACoordinates = '';
-    for(var i = 0; i < coordinates.length; i++) {
-      USACoordinates += '${coordinates[i]['lon']},${coordinates[i]['lat']},$height \n';
-    }
-    USACoordinates += '${coordinates[0]['lon']},${coordinates[0]['lat']},$height \n';
-    return USACoordinates;
-  }
 
-  canada(height) {
-    var coordinates = [
-      {'lat': 69.78767871098114, 'lon': -141.34597507879818},
-      {'lat': 74.59681696124024, 'lon': -124.2951941026405},
-      {'lat': 77.54754257664334, 'lon': -119.19753784699421},
-      {'lat': 83.17703589840266, 'lon': -77.36160101889602},
-      {'lat': 82.56665747176554, 'lon': -60.13503879556149},
-      {'lat': 74.26658773736122, 'lon': -79.64675723219551},
-      {'lat': 67.00870994219987, 'lon': -61.013945031445886},
-      {'lat': 60.59936741201164, 'lon': -64.5295700737925},
-      {'lat': 47.53425420982638, 'lon': -51.87332027705693},
-      {'lat': 43.443872184977046, 'lon': -65.40888224301098},
-      {'lat': 47.39801448546225, 'lon': -69.15849355044855},
-      {'lat': 41.77093347380173, 'lon': -83.30466566880175},
-      {'lat': 48.91582640000619, 'lon': -95.26917571922813},
-      {'lat': 48.47836317100931, 'lon': -128.19190151227482},
-      {'lat': 60.48941251303364, 'lon': -141.48836724497838}
-    ];
-    String CanadaCoordinates = '';
-    for(var i = 0; i < coordinates.length; i++) {
-      CanadaCoordinates += '${coordinates[i]['lon']},${coordinates[i]['lat']},$height \n';
+        break;
+      case 'Italy':
+        res = Italy;
+        break;
+      case 'Russia':
+        res = Russia;
+        break;
+      case 'Portugal':
+        res = Portugal;
+        break;
+      case 'Montenegro':
+        res = Montenegro;
+        break;
+      case 'Poland':
+        res = Poland;
+        break;
+      case 'Iran':
+        res = Iran;
+        break;
+      case 'Iraq':
+        res = Iraq;
+        break;
+      case 'Israel':
+        res = Israel;
+        break;
+      case 'Japan':
+        res = Japan;
+        break;
+      case 'Jordan':
+        res = Jordan;
+        break;
+      case 'Kazakhstan':
+        res = Kazakhstan;
+        break;
+      case 'Kuwait':
+        res = Kuwait;
+        break;
+      case 'Kyrgyzstan':
+        res = Kyrgyzstan;
+        break;
+      case "Lao People's Democratic Republic":
+        res = Lao;
+        break;
+      case 'Lebanon':
+        res = Lebanon;
+        break;
+      case 'Malasya':
+        res = Malasya;
+        break;
+      case 'Mongolia':
+        res = Mongolia;
+        break; 
+      case 'Myanmar':
+        res = Myanmar;
+        break;
+      case 'N. Korea':
+        res = N_Korea;
+        break;
+      case 'Nepal':
+        res = Nepal;
+        break;
+      case 'Oman':
+        res = Oman;
+        break;
+      case 'Chile':
+        res = Chile;
+        break;
+      case 'Colombia':
+        res = Colombia;
+        break;
+      case 'Equador':
+        res = Equador;
+        break;
+      case 'Falkland Islands (Malvinas)':
+        res = Falkland_Islands;
+        break;
+      case 'French Guiana':
+        res = French_Guiana;
+        break;
+      case 'Guyana':
+        res = Guyana;
+        break;
+      case 'Liberia':
+        res = Liberia;
+        break;
+      case 'Mauritania':
+        res = Mauritania;
+        break;
+      case 'Morocco':
+        res = Morocco;
+        break;
+      case 'Mozambique':
+        res = Mozambique;
+        break;
+      case 'Namibia':
+        res = Namibia;
+        break;
+      case 'Niger':
+        res = Niger;
+        break;
+      case 'Nigeria':
+        res = Nigeria;
+        break;
+      case 'Ruanda':
+        res = Ruanda;
+        break;
+      case 'Senegal':
+        res = Senegal;
+        break; 
+      case 'Sierra_Leone':
+        res = Sierra_Leone;
+        break;
+      case 'Somalia':
+        res = Somalia;
+        break;
+      case 'South Sudan':
+        res = South_Sudan;
+        break;
+      case 'Sudan':
+        res = Sudan;
+        break;
+      case 'Swaziland':
+        res = Swaziland;
+        break;
+      case 'Tanzania':
+        res = Tanzania;
+        break;
+      case 'Togo':
+        res = Togo;
+        break;
+      case 'Tunisia':
+        res = Tunisia;
+        break;
+      case 'Greece':
+        res = Greece;
+        break;
+      case 'Vaticano':
+        res = Vaticano;
+        break;
+      case 'Hungary':
+        res = Hungary;
+        break;
+      case 'Iceland':
+        res = Iceland;
+        break;
+      case 'Ireland':
+        res = Ireland;
+        break;
+      case 'North Ireland':
+        res = North_Ireland;
+        break;
+      case 'Latvia':
+        res = Latvia;
+        break;
+      case 'DRC':
+        res = DRC;
+        break;
+      case 'Djibouti':
+        res = Djibouti;
+        break;
+      case 'Egypt':
+        res = Egypt;
+        break;
+      case 'Equatorial Guinea':
+        res = Equatorial_Guinea;
+        break;
+      case 'Eritrea':
+        res = Eritrea;
+        break;
+      case 'Ethiopia':
+        res = Ethiopia;
+        break;
+      case 'Gabon':
+        res = Gabon;
+        break;
+      case 'Gambia':
+        res = Gambia;
+        break;
+      case 'Ghana':
+        res = Ghana;
+        break;
+      case 'Guinea':
+        res = Guinea;
+        break;
+      case 'Guinea-Bissau':
+        res = Guinea_Bissau;
+        break;
+      case 'Kenya':
+        res = Kenya;
+        break;
+      case 'Lesotho':
+        res = Lesotho;
+        break;
+      case 'Pakistan':
+        res = Pakistan;
+        break;
+      case 'Philippines':
+        res = Philippines;
+        break;
+      case 'Qatar':
+        res = Qatar;
+        break;
+      case 'S. Korea':
+        res = S_Korea;
+        break;
+      case 'Saudi Arabia':
+        res = Saudi_Arabia;
+        break;
+      case 'Singapore':
+        res = Singapore;
+        break;
+      case 'Sri Lanka':
+        res = Sri_Lanka;
+        break;
+      case 'Syrian Arab Republic':
+        res = Syrian_Arab_Republic;
+        break;
+      case 'Taiwan':
+        res = Taiwan;
+        break;
+      case 'Tajikistan':
+        res = Tajikistan;
+        break;
+      case 'Thailand':
+        res = Thailand;
+        break;
+      case 'Timor-Leste':
+        res = Timor_Leste;
+        break;
+      case 'Turkey':
+        res = Turkey;
+        break;
+      case 'UAE':
+        res = UAE;
+        break;
+      case 'Uzbekistan':
+        res = Uzbekistan;
+        break;
+      case 'Vietnam':
+        res = Vietnam;
+        break;
+      case 'Yemen':
+        res = Yemen;
+        break;
+      case 'Croatia':
+        res = Croatia;
+        break;
+      case 'Czechia':
+        res = Czechia;
+        break;
+      case 'Denmark':
+        res = Denmark;
+        break;
+      case 'Estonia':
+        res = Estonia;
+        break;
+      case 'Finland':
+        res = Finland;
+        break;
+      case 'Libyan Arab Jamahiriya':
+        res = Libyan_Arab_Jamahiriya;
+        break;
+      case 'Madagascar':
+        res = Madagascar;
+        break;
+      case 'Malawi':
+        res = Malawi;
+        break;
+      case 'Mali':
+        res = Mali;
+        break;
+      case 'Uganda':
+        res = Uganda;
+        break;
+      case 'Western Sahara':
+        res = Western_Sahara;
+        break;
+      case 'Zambia':
+        res = Zambia;
+        break;
+      case 'Zimbabwe':
+        res = Zimbabwe;
+        break;
+      case 'France':
+        res = France;
+        break;
+      case 'Germany':
+        res = Germany;
+        break;
+      case 'Gibraltar':
+        res = Gibraltar;
+        break;
+      case 'Afghanistan':
+        res = Afghanistan;
+        break;
+      case 'Albania':
+        res = Albania;
+        break;
+      case 'Algeria':
+        res = Algeria;
+        break;
+      case 'Andorra':
+        res = Andorra;
+        break;
+      case 'Angola':
+        res = Angola;
+        break;
+      case 'Argentina':
+        res = Argentina;
+        break;
+      case 'Armenia':
+        res = Armenia;
+        break;
+      case 'Australia':
+        res = Australia;
+        break;
+      case 'Austria':
+        res = Austria;
+        break;
+      case 'Azerbaijan':
+        res = Azerbaijan;
+        break;
+      case 'Bangladesh':
+        res = Bangladesh;
+        break;
+      case 'Belarus':
+        res = Belarus;
+        break;
+      case 'Belgium':
+        res = Belgium;
+        break;
+      case 'Benin':
+        res = Benin;
+        break;
+      case 'Bhutan':
+        res = Bhutan;
+        break;
+      case 'Bolivia':
+        res = Bolivia;
+        break;
+      case 'Bosnia':
+        res = Bosnia;
+        break;
+      case 'Botswana':
+        res = Botswana;
+        break;
+      case 'Brazil':
+        res = Brazil;
+        break;
+      case 'Bulgaria':
+        res = Bulgaria;
+        break;
+      case 'Burkina Faso':
+        res = Burkina_Faso;
+        break;
+      case 'Cambodia':
+        res = Cambodia;
+        break;
+      case 'Cameroon':
+        res = Cameroon;
+        break;
+      case 'Central African Republic':
+        res = Central_African_Republic;
+        break;
+      case 'Chad':
+        res = Chad;
+        break;
+      case 'China':
+        res = China;
+        break;
+      case 'Chipre':
+        res = Chipre;
+        break;
+      case 'Georgia':
+        res = Georgia;
+        break;
+      case 'Hong Kong':
+        res = Hong_Kong;
+        break;
+      case 'India':
+        res = India;
+        break;
+      case 'Indonesia':
+        res = Indonesia;
+        break;
+      case 'Spain':
+        res = Spain;
+        break;
     }
-    CanadaCoordinates += '${coordinates[0]['lon']},${coordinates[0]['lat']},$height \n';
-    return CanadaCoordinates;
+    return res;
   }
+}
 
-  mexico(height) {
-    var coordinates = [
-      {'lat': 32.68612893439156, 'lon': -117.31604183081026},
-      {'lat': 26.067195609999306, 'lon': -97.01330778188033},
-      {'lat': 18.927644873323857, 'lon': -95.73889373984791},
-      {'lat': 19.756933755648856, 'lon': -91.0367453778663},
-      {'lat': 21.892645716545168, 'lon': -90.33362038915877},
-      {'lat': 21.892645716545168, 'lon': -86.59826888665},
-      {'lat': 18.21949091817505, 'lon': -87.69690168150552},
-      {'lat': 17.676004435975827, 'lon': -90.77307350710097},
-      {'lat': 16.204706164055267, 'lon': -90.33362038915877},
-      {'lat': 14.161916671558757, 'lon': -92.52064789644047},
-      {'lat': 16.13425939422036, 'lon': -94.60805024971853},
-      {'lat': 15.24580470326511, 'lon': -96.71742521584113},
-      {'lat': 20.14237702203285, 'lon': -105.85805006903904},
-      {'lat': 24.370904065118673, 'lon': -112.3619563430355},
-      {'lat': 32.439124886554694, 'lon': -117.28383126398825}
-    ];
-    String mexicoCoordinates = '';
-    for(var i = 0; i < coordinates.length; i++) {
-      mexicoCoordinates += '${coordinates[i]['lon']},${coordinates[i]['lat']},$height \n';
-    }
-    mexicoCoordinates += '${coordinates[0]['lon']},${coordinates[0]['lat']},$height \n';
-    print('COORDENADA ==>> $mexicoCoordinates');
-    return mexicoCoordinates;
+var noInfo = [
+  'Antigua and Barbuda',
+  'Aruba',
+  'Bahamas',
+  'Barbados',
+  'Bermuda',
+  'British Virgin Islands',
+  'Caribbean Netherlands',
+  'Cayman Islands',
+  "Curaçao",
+  "Dominica",
+  "Grenada",
+  "Guadeloupe",
+  "Martinique",
+  "Montserrat",
+  "Saint Kitts and Nevis",
+  "Saint Lucia",
+  "Saint Martin",
+  "Saint Pierre Miquelon",
+  "Saint Vincent and the Grenadines",
+  "Sint Maarten",
+  "St. Barth",
+  "Trinidad and Tobago",
+  "Turks and Caicos Islands",
+  'Macao',
+  'Palestine',
+  'Channel Islands',
+  'Faroe Islands',
+  'Bahri',
+  'Brunei',
+  'Cyprus',
+  'Holy See (Vatican City State)',
+  'Isle of Man',
+  'Liechtenstein',
+  'Luxembourg',
+  "Lithuania",
+  "Luxembourg",
+  "Macedonia",
+  "Malta",
+  "Moldova",
+  "Monaco",
+  "Netherlands",
+  "Norway",
+  "Romania",
+  "San Marino",
+  "Serbia",
+  "Slovakia",
+  "Slovenia",
+  'Somalia',
+  "Sweden",
+  "Switzerland",
+  "UK",
+  "Ukraine",
+  "Ecuador",
+  "Paraguay",
+  "Peru",
+  "Suriname",
+  "Uruguay",
+  "Venezuela",
+  "Cook Islands",
+  "Fiji",
+  "French Polynesia",
+  "Kiribati",
+  "Marshall Islands",
+  "Micronesia",
+  "Nauru",
+  "New Caledonia",
+  "New Zealand",
+  "Niue",
+  "Palau",
+  "Papua New Guinea",
+  "Samoa",
+  "Solomon Islands",
+  "Tokelau",
+  "Tonga",
+  "Tuvalu",
+  "Vanuatu",
+  "Wallis and Futuna",
+  "Burundi",
+  "Cabo Verde",
+  "Comoros",
+  "Congo",
+  "Côte d'Ivoire",
+  "Mauritius",
+  "Mayotte",
+  "Rwanda",
+  "Réunion",
+  "Saint Helena",
+  "Sao Tome and Principe",
+  "Seychelles",
+  "South Africa",
+  "Maldives"
+];
+
+var USA = [
+  //[
+  {'lon': -124.781629, 'lat': 48.498806},
+  {'lon': -122.585387, 'lat': 48.963954},
+  {'lon': -95.249389, 'lat': 48.988106},
+  {'lon': -82.593842, 'lat': 45.370193},
+  {'lon': -81.928924, 'lat': 42.048841},
+  {'lon': -74.875010, 'lat': 44.982995},
+  {'lon': -70.914411, 'lat': 45.410798},
+  {'lon': -68.977476, 'lat': 47.638139},
+  {'lon': -66.838174, 'lat': 44.798666},
+  {'lon': -81.257686, 'lat': 30.862163},
+  {'lon': -79.914571, 'lat': 26.518506},
+  {'lon': -80.522151, 'lat': 25.001593},
+  {'lon': -85.291696, 'lat': 29.620527},
+  {'lon': -97.219665, 'lat': 25.815203},
+  {'lon': -117.393704, 'lat': 32.350783},
+  {'lon': -124.807485, 'lat': 40.265177},
+  /* ],
+  [
+    {'lat': 69.83209915101473, 'lon': -141.32141031921168},
+    {'lat': 71.57363491925182, 'lon': -156.96594131795428},
+    {'lat': 68.90315099442729, 'lon': -169.18273799674762},
+    {'lat': 53.05451194772462, 'lon': -169.44640986751295},
+    {'lat': 59.523251434388165, 'lon': -141.05773844844637}
+  ] */
+];
+
+var Italy = [
+  {'lat': 37.73374286524673, 'lon': 12.358365182509568},
+  {'lat': 36.622981652550735, 'lon': 15.17632339275619},
+  {'lat': 40.155704150679696, 'lon': 18.468885091044342},
+  {'lat': 44.958834492594846, 'lon': 12.50667877252255},
+  {'lat': 45.792283077933256, 'lon': 13.633862056621194},
+  {'lat': 47.04745282095035, 'lon': 11.938628215829208},
+  {'lat': 45.9032357069744, 'lon': 6.858012046653767},
+  {'lat': 43.658255542306684, 'lon': 7.624897506151948},
+  {'lat': 44.32491785322569, 'lon': 9.094761303523457},
+  {'lat': 38.9819214774837, 'lon': 15.80500907413254},
+];
+
+var Spain = [
+  {'lat': 37.226790982674636, 'lon': -7.379001018793144},
+  {'lat': 36.0038855215771, 'lon': -5.565154644235314},
+  {'lat': 36.78258276370236, 'lon': -1.9374618951196505},
+  {'lat': 38.69493066111247, 'lon': 0.31170760933206226},
+  {'lat': 42.29812148051336, 'lon': 3.3589695185892183},
+  {'lat': 43.32708290616729, 'lon': -1.937461895119649},
+  {'lat': 43.607919591810365, 'lon': -9.410508958297914},
+  {'lat': 41.97531045366051, 'lon': -8.830078118439408},
+  {'lat': 41.723098150979745, 'lon': -6.3148778123858795}
+];
+
+var Russia = [
+  {'lat': 53.19431851511427, 'lon': 140.4637646560395},
+  {'lat': 66.1392764543375, 'lon': -171.19639205991083},
+  {'lat': 74.29314298140761, 'lon': 110.75673369238714},
+  {'lat': 73.56331440427992, 'lon': 70.327046238135},
+  {'lat': 63.20996771018243, 'lon': 31.65517161089526},
+  {'lat': 56.38001890364482, 'lon': 28.208309400886446},
+  {'lat': 49.622969529899855, 'lon': 40.218887488639474},
+  {'lat': 54.01715795361312, 'lon': 61.195737471519195},
+  {'lat': 55.59060511414418, 'lon': 70.86675380242228},
+  {'lat': 49.51469855771718, 'lon': 87.70758611165982},
+  {'lat': 52.102399303396226, 'lon': 99.08652686114463}
+];
+
+var Portugal = [
+  {'lat': 37.043894904785226, 'lon': -8.977217581948297},
+  {'lat': 37.167989137941056, 'lon': -7.369351412066189},
+  {'lat': 41.98845165382298, 'lon': -6.556773885351576},
+  {'lat': 41.924166852497706, 'lon': -9.616906273191718}
+];
+
+var Montenegro = [
+  {'lat': 41.8743742605212, 'lon': 19.31855768048948},
+  {'lat': 42.921725403207425, 'lon': 20.346831356633576},
+  {'lat': 43.61023635181431, 'lon': 19.034895976725593},
+  {'lat': 42.47873739785485, 'lon': 18.3375609549727}
+];
+
+var Poland = [
+  {'lat': 50.902707701791506, 'lon': 14.908981240936777},
+  {'lat': 49.12388189116944, 'lon': 22.643356166384716},
+  {'lat': 50.5689554176241, 'lon': 24.093551464906206},
+  {'lat': 54.40584295117586, 'lon': 23.0388639750724},
+  {'lat': 54.02037660574998, 'lon': 14.271774215828849}
+];
+
+var Canada = [
+  {'lat': 69.78767871098114, 'lon': -141.34597507879818},
+  {'lat': 74.59681696124024, 'lon': -124.2951941026405},
+  {'lat': 77.54754257664334, 'lon': -119.19753784699421},
+  {'lat': 83.17703589840266, 'lon': -77.36160101889602},
+  {'lat': 82.56665747176554, 'lon': -60.13503879556149},
+  {'lat': 74.26658773736122, 'lon': -79.64675723219551},
+  {'lat': 67.00870994219987, 'lon': -61.013945031445886},
+  {'lat': 60.59936741201164, 'lon': -64.5295700737925},
+  {'lat': 47.53425420982638, 'lon': -51.87332027705693},
+  {'lat': 43.443872184977046, 'lon': -65.40888224301098},
+  {'lat': 47.39801448546225, 'lon': -69.15849355044855},
+  {'lat': 41.77093347380173, 'lon': -83.30466566880175},
+  {'lat': 48.91582640000619, 'lon': -95.26917571922813},
+  {'lat': 48.47836317100931, 'lon': -128.19190151227482},
+  {'lat': 60.48941251303364, 'lon': -141.48836724497838}
+];
+
+var Mexico = [
+  {'lat': 32.68612893439156, 'lon': -117.31604183081026},
+  {'lat': 26.067195609999306, 'lon': -97.01330778188033},
+  {'lat': 18.927644873323857, 'lon': -95.73889373984791},
+  {'lat': 19.756933755648856, 'lon': -91.0367453778663},
+  {'lat': 21.892645716545168, 'lon': -90.33362038915877},
+  {'lat': 21.892645716545168, 'lon': -86.59826888665},
+  {'lat': 18.21949091817505, 'lon': -87.69690168150552},
+  {'lat': 17.676004435975827, 'lon': -90.77307350710097},
+  {'lat': 16.204706164055267, 'lon': -90.33362038915877},
+  {'lat': 14.161916671558757, 'lon': -92.52064789644047},
+  {'lat': 16.13425939422036, 'lon': -94.60805024971853},
+  {'lat': 15.24580470326511, 'lon': -96.71742521584113},
+  {'lat': 20.14237702203285, 'lon': -105.85805006903904},
+  {'lat': 24.370904065118673, 'lon': -112.3619563430355},
+  {'lat': 32.439124886554694, 'lon': -117.28383126398825}
+];
+
+var Afghanistan = [
+  {'lat': 29.865110, 'lon': 60.918954},
+  {'lat': 29.979372, 'lon': 66.346200},
+  {'lat': 34.981111, 'lon': 71.575692},
+  {'lat': 38.421921, 'lon': 71.008150},
+  {'lat': 37.560406, 'lon': 65.688726},
+  {'lat': 35.413016, 'lon': 60.760060},
+  {'lat': 29.819525, 'lon': 60.792959}
+];
+
+var Albania = [
+  {'lat': 42.676209, 'lon': 19.698041},
+  {'lat': 42.182753, 'lon': 19.269870},
+  {'lat': 40.239034, 'lon': 19.390058},
+  {'lat': 39.616916, 'lon': 20.156260},
+  {'lat': 40.656333, 'lon': 21.065185},
+  {'lat': 42.288423, 'lon': 20.449219},
+  {'lat': 42.654115, 'lon': 19.713065}
+];
+
+var Algeria = [
+  {'lat': 27.294355, 'lon': -8.708435},
+  {'lat': 19.062826, 'lon': 3.288635},
+  {'lat': 23.685460, 'lon': 11.945862},
+  {'lat': 36.880219, 'lon': 8.606018},
+  {'lat': 35.102547, 'lon': -2.160583},
+  {'lat': 32.250608, 'lon': -1.457458},
+  {'lat': 28.806830, 'lon': -8.620544},
+  {'lat': 27.255295, 'lon': -8.664490}
+];
+
+var Andorra = [
+  {'lat': 42.440415, 'lon': 1.445603},
+  {'lat': 42.433320, 'lon': 1.550660},
+  {'lat': 42.504230, 'lon': 1.726441},
+  {'lat': 42.618025, 'lon': 1.736741},
+  {'lat': 42.653385, 'lon': 1.479249},
+  {'lat': 42.537125, 'lon': 1.414704},
+  {'lat': 42.513680, 'lon': 1.463030},
+  {'lat': 42.492745, 'lon': 1.426390}
+];
+
+var Angola = [
+  {'lat': -17.590922, 'lon': 23.465565},
+  {'lat': -16.097847, 'lon': 21.905506},
+  {'lat': -12.971681, 'lon': 21.971424},
+  {'lat': -12.950268, 'lon': 24.058827},
+  {'lat': -10.886487, 'lon': 23.948963},
+  {'lat': -11.059054, 'lon': 22.103260},
+  {'lat': -7.263619, 'lon': 21.729725},
+  {'lat': -8.025821, 'lon': 17.532948},
+  {'lat': -5.801050, 'lon': 16.544178},
+  {'lat': -6.281762, 'lon': 12.325428},
+  {'lat': -17.234505, 'lon': 11.754139},
+  {'lat': -18.030232, 'lon': 21.488026}
+];
+
+var Anguilla = [
+  {'lat': 18.162068, 'lon': -63.173511},
+  {'lat': 18.304736, 'lon': -62.959596},
+  {'lat': 18.284362, 'lon': -62.921373},
+  {'lat': 18.206664, 'lon': -62.993796}
+];
+
+var Argentina = [
+  {'lat': -22.096531, 'lon': -62.918677},
+  {'lat': -29.321111, 'lon': -57.004709},
+  {'lat': -34.516975, 'lon': -58.588807},
+  {'lat': -36.706044, 'lon': -56.529479},
+  {'lat': -52.241637, 'lon': -68.275950},
+  {'lat': -50.052115, 'lon': -73.820658},
+  {'lat': -22.762383, 'lon': -67.249152}
+];
+
+var Armenia = [
+  {'lat': 38.927705, 'lon': 46.522694},
+  {'lat': 39.572890, 'lon': 46.559723},
+  {'lat': 41.299021, 'lon': 45.022998},
+  {'lat': 41.110970, 'lon': 43.467757},
+  {'lat': 40.091839, 'lon': 43.634390},
+  {'lat': 39.708337, 'lon': 44.754533},
+  {'lat': 39.408574, 'lon': 45.782103},
+  {'lat': 38.862412, 'lon': 46.137881}
+];
+
+var Australia = [
+  {'lat': -33.827568, 'lon': 114.876394},
+  {'lat': -21.895183, 'lon': 113.558034},
+  {'lat': -10.437078, 'lon': 130.433034},
+  {'lat': -10.696279, 'lon': 142.386159},
+  {'lat': -25.436370, 'lon': 153.460377},
+  {'lat': -43.088045, 'lon': 148.690748},
+];
+
+var Austria = [
+  {'lat': 46.795123, 'lon': 11.023826},
+  {'lat': 47.067554, 'lon': 9.572093},
+  {'lat': 47.615733, 'lon': 9.782650},
+  {'lat': 47.690383, 'lon': 12.752607},
+  {'lat': 48.173008, 'lon': 12.752607},
+  {'lat': 49.030398, 'lon': 15.002239},
+  {'lat': 48.716980, 'lon': 16.919413},
+  {'lat': 47.720213, 'lon': 17.107806},
+  {'lat': 46.681200, 'lon': 15.999613},
+  {'lat': 46.399163, 'lon': 14.558962},
+  {'lat': 46.999576, 'lon': 11.699824}
+];
+
+var Azerbaijan = [
+  {'lat': 40.348813, 'lon': 50.337543},
+  {'lat': 41.837769, 'lon': 48.575174},
+  {'lat': 41.239839, 'lon': 47.777138},
+  {'lat': 41.931939, 'lon': 46.488934},
+  {'lat': 41.729151, 'lon': 46.144203},
+  {'lat': 41.130601, 'lon': 46.579652},
+  {'lat': 41.519233, 'lon': 45.279000},
+  {'lat': 41.295450, 'lon': 45.006206},
+  {'lat': 38.899486, 'lon': 46.498038},
+  {'lat': 39.641783, 'lon': 47.946970},
+  {'lat': 38.283277, 'lon': 48.841899}
+];
+
+var Bangladesh = [
+  {'lat': 20.778810, 'lon': 92.327121},
+  {'lat': 21.337288, 'lon': 92.666780},
+  {'lat': 25.063528, 'lon': 92.384971},
+  {'lat': 25.307966, 'lon': 89.854396},
+  {'lat': 26.229763, 'lon': 89.669579},
+  {'lat': 26.624425, 'lon': 88.375858},
+  {'lat': 25.808162, 'lon': 88.105741},
+  {'lat': 25.256547, 'lon': 88.972960},
+  {'lat': 24.728243, 'lon': 88.020441},
+  {'lat': 21.750283, 'lon': 89.072477}
+];
+
+var Belarus = [
+  {'lat': 51.517347, 'lon': 23.621481},
+  {'lat': 51.284311, 'lon': 30.608785},
+  {'lat': 52.141974, 'lon': 31.817281},
+  {'lat': 53.443955, 'lon': 32.762105},
+  {'lat': 56.214393, 'lon': 28.235738},
+  {'lat': 53.912483, 'lon': 23.555563}
+];
+
+var Belgium = [
+  {'lat': 49.546395, 'lon': 5.830676},
+  {'lat': 50.161035, 'lon': 6.134636},
+  {'lat': 50.342141, 'lon': 6.390239},
+  {'lat': 51.168112, 'lon': 5.816859},
+  {'lat': 51.397951, 'lon': 3.364460},
+  {'lat': 51.100841, 'lon': 2.506991},
+];
+
+var Belize = [
+  {'lat': 15.916073, 'lon': -89.242658},
+  {'lat': 17.964054, 'lon': -89.159914},
+  {'lat': 18.592605, 'lon': -88.141125},
+  {'lat': 16.392934, 'lon': -88.048037},
+  {'lat': 15.896179, 'lon': -88.916852}
+];
+
+var Benin = [
+  {'lat': 12.475532, 'lon': 2.833833},
+  {'lat': 10.489022, 'lon': 3.837954},
+  {'lat': 6.404565, 'lon': 2.776996},
+  {'lat': 6.265763, 'lon': 1.642358},
+  {'lat': 10.096854, 'lon': 1.366226},
+  {'lat': 10.395433, 'lon': 0.809959},
+];
+
+var Bhutan = [
+  {'lat': 26.896317, 'lon': 92.053031},
+  {'lat': 27.479779, 'lon': 92.012541},
+  {'lat': 28.074459, 'lon': 91.316110},
+  {'lat': 28.195859, 'lon': 89.583133},
+  {'lat': 27.033452, 'lon': 88.740938}
+];
+
+var Bolivia = [
+  {'lat': -22.767319, 'lon': -67.833661},
+  {'lat': -22.045812, 'lon': -62.618941},
+  {'lat': -19.592356, 'lon': -61.696610},
+  {'lat': -19.892858, 'lon': -58.078232},
+  {'lat': -16.251385, 'lon': -58.362026},
+  {'lat': -16.217325, 'lon': -60.206689},
+  {'lat': -13.543401, 'lon': -60.490484},
+  {'lat': -11.500322, 'lon': -65.173090},
+  {'lat': -9.547279, 'lon': -65.456884},
+  {'lat': -10.873921, 'lon': -69.571901},
+  {'lat': -22.767319, 'lon': -67.869136}
+];
+
+var Bosnia = [
+  {'lat': 42.593018, 'lon': 18.531555},
+  {'lat': 44.040213, 'lon': 19.626882},
+  {'lat': 44.499981, 'lon': 19.135873},
+  {'lat': 44.965061, 'lon': 19.362493},
+  {'lat': 45.213940, 'lon': 15.661040},
+];
+
+var Botswana = [
+  {'lat': -26.914624, 'lon': 21.216174},
+  {'lat': -25.278983, 'lon': 23.268877},
+  {'lat': -25.748635, 'lon': 25.466137},
+  {'lat': -22.129345, 'lon': 29.224607},
+  {'lat': -17.727542, 'lon': 25.177024},
+  {'lat': -18.387233, 'lon': 21.013795},
+  {'lat': -22.022178, 'lon': 20.927061},
+  {'lat': -21.914930, 'lon': 20.030811},
+  {'lat': -24.781259, 'lon': 20.001899}
+];
+
+var Brazil = [
+  {'lat': -32.696027, 'lon': -52.601779},
+  {'lat': -23.242614, 'lon': -41.967014},
+  {'lat': -13.241289, 'lon': -37.924045},
+  {'lat': -5.617359, 'lon': -32.123264},
+  {'lat': 0.789610, 'lon': -49.701389},
+  {'lat': 4.570514, 'lon': -51.515142},
+  {'lat': 2.627980, 'lon': -52.951821},
+  {'lat': 1.423799, 'lon': -59.115634},
+  {'lat': 5.493821, 'lon': -60.274246},
+  {'lat': 1.748086, 'lon': -70.006583},
+  {'lat': -3.995115, 'lon': -70.052928},
+  {'lat': -7.315203, 'lon': -74.131240},
+  {'lat': -11.086536, 'lon': -70.701788},
+  {'lat': -9.916140, 'lon': -65.543580},
+  {'lat': -11.786564, 'lon': -65.464223},
+  {'lat': -16.174716, 'lon': -60.385372},
+  {'lat': -16.403231, 'lon': -58.639517},
+  {'lat': -21.873529, 'lon': -58.004661},
+  {'lat': -26.488965, 'lon': -53.780885},
+  {'lat': -30.212201, 'lon': -57.624490}
+];
+
+var Bulgaria = [
+  {'lat': 42.010428, 'lon': 28.021031},
+  {'lat': 43.754013, 'lon': 28.591178},
+  {'lat': 44.164421, 'lon': 26.930314},
+  {'lat': 43.655451, 'lon': 25.566918},
+  {'lat': 44.244387, 'lon': 22.604631},
+  {'lat': 41.343897, 'lon': 22.939283},
+  {'lat': 41.529737, 'lon': 24.513385},
+  {'lat': 41.343897, 'lon': 26.137066}
+];
+
+var Burkina_Faso = [
+  {'lat': 11.004012, 'lon': -2.831073},
+  {'lat': 11.055044, 'lon': 1.066036},
+  {'lat': 11.935990, 'lon': 2.390223},
+  {'lat': 15.206669, 'lon': -0.294596},
+  {'lat': 11.840887, 'lon': -5.360521},
+  {'lat': 10.362707, 'lon': -5.457709},
+  {'lat': 9.620929, 'lon': -4.291453},
+  {'lat': 9.417249, 'lon': -2.760742},
+  {'lat': 10.983497, 'lon': -2.809336}
+];
+
+var Cambodia = [
+  {'lat': 10.061702, 'lon': 103.989847},
+  {'lat': 10.845100, 'lon': 106.103121},
+  {'lat': 11.593938, 'lon': 105.881836},
+  {'lat': 12.416423, 'lon': 107.541474},
+  {'lat': 14.653714, 'lon': 107.519346},
+  {'lat': 14.353788, 'lon': 103.093642},
+  {'lat': 13.559210, 'lon': 102.319144},
+  {'lat': 10.638563, 'lon': 103.160028},
+];
+
+var Cameroon = [
+  {'lat': 1.792086, 'lon': 16.053043},
+  {'lat': 3.038358, 'lon': 16.077991},
+  {'lat': 6.096862, 'lon': 14.481312},
+  {'lat': 7.756127, 'lon': 15.603977},
+  {'lat': 10.244656, 'lon': 13.458440},
+  {'lat': 6.642331, 'lon': 11.487539},
+  {'lat': 7.162442, 'lon': 10.090445},
+  {'lat': 4.606544, 'lon': 8.493765},
+  {'lat': 2.265801, 'lon': 9.741171}
+];
+
+var Central_African_Republic = [
+  {'lat': 2.382568, 'lon': 16.101166},
+  {'lat': 3.587517, 'lon': 18.537586},
+  {'lat': 5.160743, 'lon': 19.535358},
+  {'lat': 4.189429, 'lon': 22.459062},
+  {'lat': 5.160743, 'lon': 27.401514},
+  {'lat': 11.221163, 'lon': 22.505470},
+  {'lat': 7.535925, 'lon': 15.428250},
+  {'lat': 6.084427, 'lon': 14.430478},
+];
+
+var Chad = [
+  {'lat': 11.024415, 'lon': 22.815595},
+  {'lat': 15.825245, 'lon': 24.007358},
+  {'lat': 19.474847, 'lon': 23.922232},
+  {'lat': 23.487232, 'lon': 15.977142},
+  {'lat': 23.044079, 'lon': 14.927255},
+  {'lat': 16.887079, 'lon': 15.494762},
+  {'lat': 14.455765, 'lon': 13.394988},
+  {'lat': 10.131845, 'lon': 15.551512},
+  {'lat': 9.768515, 'lon': 13.962494},
+  {'lat': 7.524439, 'lon': 15.494762}
+];
+
+var Costa_Rica = [
+  {'lat': 10.941756, 'lon': -83.673980},
+  {'lat': 11.238794, 'lon': -85.605438},
+  {'lat': 10.552328, 'lon': -86.117130},
+  {'lat': 9.565976, 'lon': -85.115367},
+  {'lat': 7.991956, 'lon': -82.902838},
+  {'lat': 9.651246, 'lon': -82.729872}
+];
+
+var Cuba = [
+  {'lat': 20.189985, 'lon': -74.117846},
+  {'lat': 22.528893, 'lon': -78.136461},
+  {'lat': 23.381704, 'lon': -81.746935},
+  {'lat': 22.861983, 'lon': -84.023104},
+  {'lat': 21.874874, 'lon': -84.964967},
+  {'lat': 21.466405, 'lon': -82.673101},
+  {'lat': 21.911183, 'lon': -80.412049},
+  {'lat': 20.479182, 'lon': -78.418008},
+  {'lat': 19.745393, 'lon': -77.717400}
+];
+
+var Dominican_Republic = [
+  {'lat': 20.104178854810446, 'lon': -71.79508211910893},
+  {'lat': 17.41319983639501, 'lon': -72.08969465071033},
+  {'lat': 18.134803644008674, 'lon': -68.2386123445381},
+  {'lat': 20.052715091717882, 'lon': -68.259681750068}
+];
+
+var El_Salvador = [
+  {'lat': 13.688849867400789, 'lon': -90.23607594210432},
+  {'lat': 14.500356425961495, 'lon': -89.50878779375957},
+  {'lat': 13.87637554371915, 'lon': -87.65516844222603},
+  {'lat': 13.006261296567747, 'lon': -87.70022169035356}
+];
+
+var Greenland = [
+  {'lat': 78.65235484237428, 'lon': -73.11168412445102},
+  {'lat': 83.76624463876009, 'lon': -35.142934490433994},
+  {'lat': 81.48308314271206, 'lon': -11.41246596917336},
+  {'lat': 70.0593239936246, 'lon': -22.135122115817072},
+  {'lat': 59.98980749165468, 'lon': -43.22887189853736},
+  {'lat': 65.74114291303762, 'lon': -54.478871790098005}
+];
+
+var Guatemala = [
+  {'lat': 14.603608, 'lon': -92.681628},
+  {'lat': 16.051034, 'lon': -91.758025},
+  {'lat': 16.051034, 'lon': -90.468830},
+  {'lat': 17.291262, 'lon': -91.451280},
+  {'lat': 17.291262, 'lon': -90.996838},
+  {'lat': 17.830627, 'lon': -90.978289},
+  {'lat': 17.821798, 'lon': -89.151249},
+  {'lat': 18.618522, 'lon': -88.253236},
+  {'lat': 15.897254, 'lon': -88.117527},
+  {'lat': 13.560843, 'lon': -90.305975}
+];
+
+var Haiti = [
+  {'lat': 20.111778888025285, 'lon': -71.66774534584268},
+  {'lat': 17.713408754904115, 'lon': -71.73896629174432},
+  {'lat': 18.065850639636146, 'lon': -74.75873439797371},
+  {'lat': 20.27220393604402, 'lon': -73.37704804748196}
+];
+
+var Honduras = [
+  {'lat': 14.465487964353805, 'lon': -89.3569901589012},
+  {'lat': 15.949665264439494, 'lon': -87.90679486037973},
+  {'lat': 16.034154564956175, 'lon': -85.02837691937496},
+  {'lat': 15.04980015932648, 'lon': -83.16070115612757},
+  {'lat': 13.003442326938876, 'lon': -87.2586015072527},
+  {'lat': 13.975604488430752, 'lon': -87.84087689226511},
+];
+
+var Jamaica = [
+  {'lat': 17.59288330343456, 'lon': -76.09947917212217},
+  {'lat': 17.86650547698334, 'lon': -78.50932643211563},
+  {'lat': 18.639465996631856, 'lon': -78.38697215622192},
+  {'lat': 18.271096964448443, 'lon': -76.00904340298334}
+];
+
+var Nicaragua = [
+  {'lat': 12.931814066532453, 'lon': -87.92447200149054},
+  {'lat': 15.373195103287774, 'lon': -83.18761188230047},
+  {'lat': 10.674630339640885, 'lon': -83.57403994465545},
+  {'lat': 10.919525012282131, 'lon': -85.95493542561678}
+];
+
+var Panama = [
+  {'lat': 8.145114908612282, 'lon': -82.96294719524539},
+  {'lat': 7.208769928538998, 'lon': -80.08452925424062},
+  {'lat': 8.753668552515567, 'lon': -79.66704878951475},
+  {'lat': 8.40604098901886, 'lon': -78.4805253634517},
+  {'lat': 7.208769928538998, 'lon': -77.9092363064584},
+  {'lat': 8.666791592478182, 'lon': -77.35991990550329},
+  {'lat': 9.613474138208252, 'lon': -79.60792626557785},
+  {'lat': 8.826648964077878, 'lon': -81.32926590563102},
+  {'lat': 9.69319737037314, 'lon': -82.75023755480242}
+];
+
+var China = [
+  {'lat': 39.68870104526988, 'lon': 73.13429609675264},
+  {'lat': 49.99229566799254, 'lon': 86.6694520518112},
+  {'lat': 43.37162002970429, 'lon': 102.57765483015928},
+  {'lat': 54.81216547291687, 'lon': 121.38624844226446},
+  {'lat': 47.619591874057726, 'lon': 136.59132623593416},
+  {'lat': 38.87233047300858, 'lon': 122.7924984422644},
+  {'lat': 17.704873155059342, 'lon': 117.34327981100705},
+  {'lat': 28.910112290155258, 'lon': 80.83162084377538}
+];
+
+var Chipre = [
+  {'lat': 35.318906351208696, 'lon': 32.10222284034544},
+  {'lat': 35.77284538691213, 'lon': 34.622651077574496},
+  {'lat': 34.85701894201672, 'lon': 34.08443463108287},
+  {'lat': 34.506186634005005, 'lon': 32.377894678792366}
+];
+
+var Georgia = [
+  {'lat': 43.62052574790336, 'lon': 40.01206281182849},
+  {'lat': 41.394624728425754, 'lon': 41.508438049672826},
+  {'lat': 41.12875568157796, 'lon': 46.84097526089992},
+  {'lat': 42.60766011602168, 'lon': 45.82071941691514}
+];
+
+var Hong_Kong = [
+  {'lat': 22.571398477544104, 'lon': 114.36906319486845},
+  {'lat': 22.527154071600446, 'lon': 113.99265195300153},
+  {'lat': 22.175225421747726, 'lon': 113.81334332505766},
+  {'lat': 22.14733709185862, 'lon': 114.355375513346}
+];
+
+var India = [
+  {'lat': 7.475168411298157, 'lon': 77.57119665148812},
+  {'lat': 23.144933865710662, 'lon': 67.06973866802316},
+  {'lat': 38.2947771312081, 'lon': 75.01492803177545},
+  {'lat': 29.247742971586728, 'lon': 80.93333081376376},
+  {'lat': 28.374540798861958, 'lon': 88.40364713309114},
+  {'lat': 27.036755212460918, 'lon': 90.49397662630405},
+  {'lat': 29.979665898987566, 'lon': 95.10277538844814},
+  {'lat': 27.081611017402828, 'lon': 97.44495180855417},
+  {'lat': 21.834440193650238, 'lon': 92.73541427565281},
+  {'lat': 26.068053052809187, 'lon': 88.98289506494532},
+  {'lat': 21.10790188911305, 'lon': 89.2347419879969}
+];
+
+var Indonesia = [
+  {'lat': -11.220271285815627, 'lon': 141.30323654798477},
+  {'lat': -0.6200924024488857, 'lon': 141.53031266840472},
+  {'lat': 5.954356114726014, 'lon': 94.639093801682},
+  {'lat': -8.311389286262836, 'lon': 100.88368711323103}
+];
+
+var Iran = [
+  {'lat': 30.29568914678578, 'lon': 47.29490925020269},
+  {'lat': 40.40805515443697, 'lon': 43.27014528135897},
+  {'lat': 36.94908925910684, 'lon': 61.661788227594236},
+  {'lat': 24.649047532221772, 'lon': 61.865573746114194}
+];
+
+var Iraq = [
+  {'lat': 32.94168104851867, 'lon': 38.0226680126681},
+  {'lat': 28.56529368206076, 'lon': 46.83639164064235},
+  {'lat': 33.83496614110803, 'lon': 48.72140767668307},
+  {'lat': 38.120633193704336, 'lon': 42.81162767179861}
+];
+
+var Israel = [
+  {'lat': 33.34181317657634, 'lon': 35.87247659914914},
+  {'lat': 33.17994750217059, 'lon': 35.038605584648465},
+  {'lat': 31.303517292250536, 'lon': 34.1153912471656},
+  {'lat': 29.298101815643967, 'lon': 34.90459059985064}
+];
+
+var Japan = [
+  {'lat': 33.359956193023784, 'lon': 129.212950528242},
+  {'lat': 45.71502575943496, 'lon': 142.0204919835841},
+  {'lat': 43.44093979516858, 'lon': 145.95062290040786},
+  {'lat': 35.09063248761805, 'lon': 140.71044839341033},
+  {'lat': 30.198330201128496, 'lon': 130.59854914943853}
+];
+
+var Jordan = [
+  {'lat': 33.44748971977782, 'lon': 38.823700430973986},
+  {'lat': 32.100676543443555, 'lon': 39.276402516770595},
+  {'lat': 31.399868574813397, 'lon': 37.33790896989792},
+  {'lat': 30.413900646720343, 'lon': 38.13884342938424},
+  {'lat': 29.08366014786655, 'lon': 35.99141045829774},
+  {'lat': 29.357186960813152, 'lon': 34.87706686249069},
+  {'lat': 32.79614825972588, 'lon': 35.51549288092181},
+  {'lat': 32.53230585433914, 'lon': 36.75752168041509}
+];
+
+var Kazakhstan = [
+  {'lat': 41.185757437329144, 'lon': 56.047392658815795},
+  {'lat': 45.11224327540783, 'lon': 57.22531071370354},
+  {'lat': 40.42151788107657, 'lon': 68.63428844533058},
+  {'lat': 42.6796447424099, 'lon': 73.96825415512954},
+  {'lat': 42.148451584549186, 'lon': 80.36210451848848},
+  {'lat': 49.29903866662268, 'lon': 87.59729233471687},
+  {'lat': 51.763287740415095, 'lon': 81.28446654607325},
+  {'lat': 54.65886982383762, 'lon': 76.83574644294774},
+  {'lat': 55.53247171860331, 'lon': 69.78560277913866},
+  {'lat': 54.10793412283492, 'lon': 60.793395974782484},
+  {'lat': 54.283287760383935, 'lon': 60.56859080467358},
+  {'lat': 51.66718631450659, 'lon': 59.36962989742609},
+  {'lat': 50.39487381640964, 'lon': 46.106124861000744},
+  {'lat': 41.79430117813285, 'lon': 52.10092939723818}
+];
+
+var Kuwait = [
+  {'lat': 29.13152888896356, 'lon': 46.54183965852421},
+  {'lat': 28.905635358851935, 'lon': 47.40291632085454},
+  {'lat': 28.498627580324438, 'lon': 47.68515811470443},
+  {'lat': 28.532302918817695, 'lon': 48.46407397821724},
+  {'lat': 29.92428973462336, 'lon': 48.39959557551082},
+  {'lat': 30.154084815683145, 'lon': 47.23644333249098}
+];
+
+var Kyrgyzstan = [
+  {'lat': 43.38628147963245, 'lon': 74.06131208472235},
+  {'lat': 42.38188264255751, 'lon': 80.25071181335795},
+  {'lat': 39.35134417828634, 'lon': 73.79130471401004},
+  {'lat': 39.52778855055111, 'lon': 69.20117941190108},
+  {'lat': 40.165630653043316, 'lon': 69.36733779387788},
+  {'lat': 40.75034889986494, 'lon': 72.81512421989636},
+  {'lat': 41.563496565982184, 'lon': 70.09428071502636},
+  {'lat': 42.901342535029976, 'lon': 71.5689363550704}
+];
+
+var Lao = [
+  {'lat': 14.347250023543651, 'lon': 105.15873832737607},
+  {'lat': 17.833221393988207, 'lon': 104.03028561868246},
+  {'lat': 17.41145882427044, 'lon': 100.99895187179963},
+  {'lat': 20.673758505915412, 'lon': 100.02538482900515},
+  {'lat': 22.586506191069475, 'lon': 101.81763324869499},
+  {'lat': 20.321423587502405, 'lon': 104.95959961407719},
+  {'lat': 19.30141114478319, 'lon': 104.29580390308095},
+  {'lat': 15.459105944538093, 'lon': 107.83604769506091},
+  {'lat': 14.475831610084477, 'lon': 107.45989679216302}
+];
+
+var Lebanon = [
+  {'lat': 33.115198618281994, 'lon': 35.12655364768594},
+  {'lat': 33.89386078496046, 'lon': 35.43417082848272},
+  {'lat': 34.660959910905525, 'lon': 35.96700773093429},
+  {'lat': 34.70161464707405, 'lon': 36.34603604298748},
+  {'lat': 34.20790040268937, 'lon': 36.63717373195586},
+  {'lat': 33.83456380732697, 'lon': 36.38998135452987},
+  {'lat': 33.05536616653125, 'lon': 35.461636648196716}
+];
+
+var Malasya = [
+  {'lat': 6.479617928261019, 'lon': 99.5531499467337},
+  {'lat': 2.683931524638189, 'lon': 101.37300396185215},
+  {'lat': 1.2190455466684873, 'lon': 103.49849776753656},
+  {'lat': 1.4582296684035971, 'lon': 104.32429474080259},
+  {'lat': 2.823281888332077, 'lon': 104.24711745358145},
+  {'lat': 6.296603998736718, 'lon': 102.45561303662308},
+  {'lat': 6.287393533689913, 'lon': 102.0806967187013},
+  {'lat': 5.829134364565831, 'lon': 101.24494667572567},
+  {'lat': 6.233044353771946, 'lon': 101.14340692534782},
+  {'lat': 6.737492508271271, 'lon': 100.22173865365507}
+/* {'lat ': 1.9938599015604832, 'lon': 109.45802731847758
+0.8369958779381134, 'lon': 110.41942404366063
+1.3888025696518578, 'lon': 114.63888744863061
+4.1448832615681725, 'lon': 115.93855339193361
+4.304680597605188, 'lon': 118.7693326383059
+5.457700689159286, 'lon': 119.37465650231002
+7.491950573933922, 'lon': 117.04237926158822
+2.8121003477969233, 'lon': 111.29180255354893
+1.8888583942183896, 'lon': 110.80984624917393  */
+];
+
+var Mongolia = [
+  {'lat': 49.033680490424636, 'lon': 87.58549573555537},
+  {'lat': 45.30131014220412, 'lon': 90.83744878969283},
+  {'lat': 42.58074141945084, 'lon': 96.24272210940778},
+  {'lat': 41.470874555497446, 'lon': 105.25151097559936},
+  {'lat': 46.76559343269095, 'lon': 119.8413544076755},
+  {'lat': 48.07381129975638, 'lon': 118.25932319214917},
+  {'lat': 48.044439864187964, 'lon': 116.19389354965647},
+  {'lat': 50.06009132948334, 'lon': 116.8530732227924},
+  {'lat': 50.53730347931169, 'lon': 106.04252658336252},
+  {'lat': 52.264248307634, 'lon': 98.79155017886691},
+  {'lat': 50.42544884422418, 'lon': 96.63822991328941},
+  {'lat': 50.92671213869196, 'lon': 92.287644070592}
+];
+
+var Myanmar = [
+  {'lat': 9.808816403736712, 'lon': 98.0527526561526},
+  {'lat': 15.98798851367834, 'lon': 94.15411679360753},
+  {'lat': 21.268568287727998, 'lon': 92.11164577526384},
+  {'lat': 24.01850659493156, 'lon': 93.3170384809194},
+  {'lat': 26.636073162550634, 'lon': 95.09164443422685},
+  {'lat': 28.57936515100468, 'lon': 97.63636236838856},
+  {'lat': 27.58977383772544, 'lon': 98.77478881261877},
+  {'lat': 25.900458753951018, 'lon': 98.70782255119347},
+  {'lat': 24.24985948718109, 'lon': 97.87586886539677},
+  {'lat': 24.133453086060165, 'lon': 98.9393144413843},
+  {'lat': 22.09627532006691, 'lon': 99.9886851853177},
+  {'lat': 21.644979485996043, 'lon': 101.2515617085268},
+  {'lat': 19.69705580113649, 'lon': 99.01713110843951},
+  {'lat': 19.54537694815736, 'lon': 97.94873287724174},
+  {'lat': 18.38269483624985, 'lon': 97.68338671903928},
+  {'lat': 16.2549852092944, 'lon': 98.96589315780356},
+  {'lat': 11.83730298836549, 'lon': 99.66463805168338},
+  {'lat': 9.935228518923491, 'lon': 98.55018418075719}
+];
+
+var N_Korea = [
+  {'lat': 39.79237275688086, 'lon': 124.08318219751821},
+  {'lat': 37.60549744760232, 'lon': 125.7249660378588},
+  {'lat': 38.57309412593665, 'lon': 128.42054599599774},
+  {'lat': 42.28633318606494, 'lon': 130.7420819740661},
+  {'lat': 43.05965366937299, 'lon': 130.01809988198934},
+  {'lat': 42.033187208295736, 'lon': 128.0647141048133},
+  {'lat': 41.51363153694757, 'lon': 128.07837414521313},
+  {'lat': 41.87064245847043, 'lon': 126.73969018602958}
+];
+
+var Nepal = [
+  {'lat': 28.92240384719826, 'lon': 79.92368989395213},
+  {'lat': 30.50624051961577, 'lon': 81.24431906303553},
+  {'lat': 27.88987286795597, 'lon': 88.11997568937451},
+  {'lat': 26.34130003301588, 'lon': 87.99420148279513}
+];
+
+var Oman = [
+  {'lat': 19.0383348883662, 'lon': 51.959280683781714},
+  {'lat': 16.604409349607042, 'lon': 53.10683672185803},
+  {'lat': 18.88601463312924, 'lon': 57.81785625668259},
+  {'lat': 22.464103727393663, 'lon': 59.89151015004858},
+  {'lat': 25.043584433073374, 'lon': 56.30791409824808},
+  {'lat': 23.94436450684284, 'lon': 55.3616836808869},
+  {'lat': 22.687182059737996, 'lon': 55.120092936028726},
+  {'lat': 20.04388568844515, 'lon': 54.9388998773851}
+];
+
+var Chile = [
+  {'lat': -52.280695492020335, 'lon': -68.38170460135181},
+  {'lat': -54.755534753290654, 'lon': -68.28848251797285},
+  {'lat': -55.14811484221739, 'lon': -66.33081876701479},
+  {'lat': -55.90440378952755, 'lon': -67.85344612887106},
+  {'lat': -52.88487607370673, 'lon': -75.12476863242955},
+  {'lat': -46.53073437584766, 'lon': -75.88618767931816},
+  {'lat': -17.41684899602902, 'lon': -69.30847264467016},
+  {'lat': -23.165576119300276, 'lon': -66.96533873934467},
+  {'lat': -43.14552013285866, 'lon': -71.80624135301011},
+  {'lat': -44.47874060139898, 'lon': -71.03021879920269},
+  {'lat': -50.628830042083216, 'lon': -73.13656571888694},
+  {'lat': -50.605383083902, 'lon': -72.32358971013633},
+  {'lat': -51.71768792815369, 'lon': -71.8431947958746}
+];
+
+var Colombia = [
+  {'lat': 1.6820235476446415, 'lon': -79.14817497733767},
+  {'lat': -2.315000586131747, 'lon': -73.11213606055296},
+  {'lat': -2.732674773614644, 'lon': -70.26396183327756},
+  {'lat': -3.932601758102105, 'lon': -70.8388226820071},
+  {'lat': -4.036869231018179, 'lon': -69.92427133175556},
+  {'lat': -1.1135788711158445, 'lon': -69.349410483026},
+  {'lat': 1.7081420993188143, 'lon': -69.11424013581848},
+  {'lat': 1.1857097729140427, 'lon': -66.78866670232169},
+  {'lat': 6.388889706385591, 'lon': -67.52380451952068},
+  {'lat': 6.279335237921248, 'lon': -69.37343675603444},
+  {'lat': 7.050107694065335, 'lon': -70.08479076369125},
+  {'lat': 7.095947995335652, 'lon': -71.960178664667},
+  {'lat': 9.20955421607175, 'lon': -72.7744041332325},
+  {'lat': 12.339006286053065, 'lon': -71.17040026193497},
+  {'lat': 10.678583229068948, 'lon': -75.48268593380507},
+  {'lat': 7.281696391508833, 'lon': -78.02066394556755}
+];
+
+var Equador = [
+  {'lat': -0.9960220755965912, 'lon': -75.17803117636701},
+  {'lat': -5.046035613978042, 'lon': -79.01245917687197},
+  {'lat': -4.411601987719794, 'lon': -80.49293330834107},
+  {'lat': -2.1651313390170426, 'lon': -81.07031821961401},
+  {'lat': -0.9368115362413956, 'lon': -80.93707554778179},
+  {'lat': 0.8396856325661444, 'lon': -80.12281477547378},
+  {'lat': 1.461356363416581, 'lon': -78.7903880571516},
+  {'lat': -0.12259240762633807, 'lon': -75.31127384819925}
+];
+
+var Falkland_Islands = [
+  {'lat': -50.989548769810405, 'lon': -61.374040174208076},
+  {'lat': -51.44092057615184, 'lon': -57.549357608189574},
+  {'lat': -52.510720160950825, 'lon': -59.036734161641206},
+  {'lat': -52.00176934156585, 'lon': -61.5403307205567}
+];
+
+var French_Guiana = [
+  {'lat': 5.823587494606231, 'lon': -54.00985338709785},
+  {'lat': 4.893841324551304, 'lon': -54.49325181146014},
+  {'lat': 2.207605934326624, 'lon': -54.559169778418635},
+  {'lat': 2.1283867042965703, 'lon': -52.822377892393526},
+  {'lat': 4.246197946108956, 'lon': -51.58622617183256},
+  {'lat': 4.607664525576285, 'lon': -51.78398007270803},
+];
+
+var Guyana = [
+  {'lat': 8.547595436307292, 'lon': -59.97733301574894},
+  {'lat': 7.5168423322978235, 'lon': -60.769720703182514},
+  {'lat': 7.000525474079982, 'lon': -60.51335998077752},
+  {'lat': 6.637989252019921, 'lon': -61.243599614294745},
+  {'lat': 5.973943733156355, 'lon': -61.40673825582518},
+  {'lat': 5.2150415975234825, 'lon': -60.71308331838634},
+  {'lat': 5.137059258238571, 'lon': -60.06709477288962},
+  {'lat': 4.5421405426016355, 'lon': -60.14539641476801},
+  {'lat': 4.181044831192917, 'lon': -59.704949679202045},
+  {'lat': 2.7058106230493206, 'lon': -60.018156248620535},
+  {'lat': 1.1994226672518553, 'lon': -58.91214554613497},
+  {'lat': 1.9430619657046662, 'lon': -56.49656851624487},
+  {'lat': 4.099576965342799, 'lon': -58.08134389111203},
+  {'lat': 5.011220383916342, 'lon': -57.76982721542317},
+  {'lat': 5.069193390579652, 'lon': -57.35662111493953},
+  {'lat': 6.141938550358085, 'lon': -57.17531129102004}
+];
+
+var Liberia = [
+  {'lat': 6.884345304513033, 'lon': -11.552363382371965},
+  {'lat': 4.3076974713006635, 'lon': -7.5272101015711215},
+  {'lat': 5.778288745030349, 'lon': -7.376962383780497},
+  {'lat': 6.525195992628276, 'lon': -8.4548264461915},
+  {'lat': 7.173781057197646, 'lon': -8.252318652647615},
+  {'lat': 7.717882756916456, 'lon': -8.61813918292044},
+  {'lat': 7.426483611974605, 'lon': -9.199532525675467},
+  {'lat': 8.442255548562946, 'lon': -9.493495452423252},
+  {'lat': 8.552089187530127, 'lon': -10.277396588722162}
+];
+
+var Mauritania = [
+  {'lat': 25.02630444421696, 'lon': -4.875121257415874},
+  {'lat': 15.53009342867918, 'lon': -5.449982090701737},
+  {'lat': 14.672361099054255, 'lon': -12.139271787119116},
+  {'lat': 16.133422495707915, 'lon': -16.581378226146285},
+  {'lat': 21.37659782096995, 'lon': -17.051718907925633},
+  {'lat': 21.668294528475393, 'lon': -13.65481398396368},
+  {'lat': 25.987528275575148, 'lon': -12.007890555180172},
+  {'lat': 26.266516700226145, 'lon': -9.05585799415312},
+  {'lat': 27.34813578722518, 'lon': -8.682969670654971}
+];
+
+var Morocco = [
+  {'lat': 27.704509766157862, 'lon': -13.267135930976037},
+  {'lat': 35.87987550180507, 'lon': -5.560777245347534},
+  {'lat': 35.09728833904494, 'lon': -2.0571958291521746},
+  {'lat': 32.52879562927216, 'lon': -1.0006789125740725},
+  {'lat': 32.08230829110628, 'lon': -1.202660087802238},
+  {'lat': 31.54098351607667, 'lon': -3.533212109665699},
+  {'lat': 30.703049220795677, 'lon': -3.6264341973439365},
+  {'lat': 27.721591809915846, 'lon': -8.665549976600385},
+];
+
+var Mozambique = [
+  {'lat': -26.81588371189076, 'lon': 32.11129498202235},
+  {'lat': -22.427188072559375, 'lon': 31.273156939386208},
+  {'lat': -18.055283383932753, 'lon': 32.951154321796956},
+  {'lat': -15.990389198959315, 'lon': 30.3409361038799},
+  {'lat': -14.972220675509343, 'lon': 30.185565971861028},
+  {'lat': -13.979346182728126, 'lon': 33.261894585834696},
+  {'lat': -14.38605798874153, 'lon': 34.396096549572455},
+  {'lat': -16.72088845987521, 'lon': 35.064188117253615},
+  {'lat': -14.70187934174181, 'lon': 35.76335371133853},
+  {'lat': -13.428391142150607, 'lon': 34.54369817499039},
+  {'lat': -11.621938240671458, 'lon': 34.54369828895785},
+  {'lat': -10.522209480073446, 'lon': 40.630123867111955},
+  {'lat': -14.872426110321994, 'lon': 40.8937957245785},
+  {'lat': -20.37742488526714, 'lon': 34.851315657636846},
+  {'lat': -24.27885818430404, 'lon': 35.62035859570328},
+  {'lat': -26.79646188339321, 'lon': 32.939694556581244},
+];
+
+var Namibia = [
+  {'lat': -17.313347155160592, 'lon': 11.630896858500634},
+  {'lat': -17.520892209507483, 'lon': 25.14809843919403},
+  {'lat': -18.43713721299391, 'lon': 23.81191530383173},
+  {'lat': -18.466613719558246, 'lon': 21.170623059510906},
+  {'lat': -21.93627582340884, 'lon': 21.07740098029958},
+  {'lat': -22.10911607824021, 'lon': 20.051958108975022},
+  {'lat': -28.3178118967271, 'lon': 20.114106161782576},
+  {'lat': -29.02666066651255, 'lon': 19.181885369669338},
+  {'lat': -28.481817440430138, 'lon': 16.229852861310768},
+];
+
+var Niger = [
+  {'lat': 19.206772297775043, 'lon': 4.233648779637135},
+  {'lat': 23.609050734859593, 'lon': 11.919967064196538},
+  {'lat': 23.066170884622963, 'lon': 14.987103687362072},
+  {'lat': 20.388901000560654, 'lon': 16.058753832805444},
+  {'lat': 16.781920878809125, 'lon': 15.615312393311637},
+  {'lat': 13.644426046252669, 'lon': 13.582872462298335},
+  {'lat': 13.069166702769076, 'lon': 12.511222316854953},
+  {'lat': 13.392918967692724, 'lon': 4.603183312548643},
+  {'lat': 11.589062394440687, 'lon': 3.5684866203964165},
+  {'lat': 12.023122005543929, 'lon': 2.2381623019149806},
+  {'lat': 15.004962507942507, 'lon': 0.16876891761052612},
+  {'lat': 15.753191370844455, 'lon': 3.420672807231812},
+];
+
+var Nigeria = [
+  {'lat': 6.368695785349397, 'lon': 2.6475209544783467},
+  {'lat': 9.059936855912605, 'lon': 2.7029511344150703},
+  {'lat': 10.352975677829928, 'lon': 3.5528805601115447},
+  {'lat': 12.489920227925877, 'lon': 3.534403833465969},
+  {'lat': 13.713606108367703, 'lon': 4.365856532516866},
+  {'lat': 13.85716212367778, 'lon': 5.880948117454056},
+  {'lat': 13.156504712563546, 'lon': 7.008028442834161},
+  {'lat': 13.785395147203403, 'lon': 13.493359495431159},
+  {'lat': 12.038545043559894, 'lon': 14.712823454039142},
+  {'lat': 6.51557621970286, 'lon': 11.47939629106343},
+  {'lat': 6.84589855866987, 'lon': 10.259932332455447},
+  {'lat': 4.455773267549677, 'lon': 8.28292258137887},
+  {'lat': 4.308391593404876, 'lon': 5.751611030935028},
+  {'lat': 5.927806067784989, 'lon': 4.864728151947404},
+];
+
+var Ruanda = [
+  {'lat': -1.0358771032261045, 'lon': 30.470975423575897},
+  {'lat': -1.6454393242001522, 'lon': 30.8451291381488},
+  {'lat': -2.0701797036461795, 'lon': 30.89594013642413},
+  {'lat': -2.379431224078048, 'lon': 30.82665241150322},
+  {'lat': -2.4394274976063293, 'lon': 30.16149025226251},
+  {'lat': -2.337056060776031, 'lon': 29.968378691654898},
+  {'lat': -2.744500870325955, 'lon': 29.90817276549759},
+  {'lat': -2.8447643099552664, 'lon': 29.36530464658144},
+  {'lat': -2.6554685055108402, 'lon': 29.30487984591202},
+  {'lat': -2.614313333665868, 'lon': 29.068673806931574},
+  {'lat': -2.7480073076992277, 'lon': 29.03875827862631},
+  {'lat': -2.664663570438261, 'lon': 28.890183933229743},
+  {'lat': -2.5288474002673396, 'lon': 28.85859822973384},
+  {'lat': -2.4135982577658974, 'lon': 28.86683797527967},
+  {'lat': -2.1804637868514964, 'lon': 29.14927341306708},
+  {'lat': -1.8507766170991597, 'lon': 29.12477650299479},
+  {'lat': -1.3862274676559818, 'lon': 29.536112026001167},
+];
+
+var Senegal = [
+  {'lat': 12.442362657013623, 'lon': -11.369134100709086},
+  {'lat': 12.327513864830243, 'lon': -16.751921807258327},
+  {'lat': 13.168541265380293, 'lon': -16.738856788553107},
+  {'lat': 13.201049743328598, 'lon': -15.845657029129177},
+  {'lat': 13.358397997869394, 'lon': -15.813322757499419},
+  {'lat': 13.37637414707953, 'lon': -15.33754704637585},
+  {'lat': 13.600962321536604, 'lon': -15.106587963306156},
+  {'lat': 13.250513034013114, 'lon': -14.23818181096411},
+  {'lat': 13.448265316693364, 'lon': -13.836313006422841},
+  {'lat': 13.802909834957315, 'lon': -15.069634510015007},
+  {'lat': 13.600962321536604, 'lon': -15.471503314556273},
+  {'lat': 13.61443087758607, 'lon': -16.64015627488892},
+  {'lat': 14.725749363610385, 'lon': -17.5482217344923},
+  {'lat': 16.574186329208796, 'lon': -16.29079663898251},
+  {'lat': 16.698109619770936, 'lon': -14.295310161260359},
+  {'lat': 14.741798132088826, 'lon': -12.152009870373602},
+];
+
+var Sierra_Leone = [
+  {'lat': 7.570471493720243, 'lon': -12.96254319943477},
+  {'lat': 6.8922846081897395, 'lon': -11.463221425452652},
+  {'lat': 8.170704131660624, 'lon': -10.29794543531111},
+  {'lat': 8.470486416079561, 'lon': -10.305713941912053},
+  {'lat': 8.347526592302298, 'lon': -10.647528232353572},
+  {'lat': 8.68557124456253, 'lon': -10.453315567329982},
+  {'lat': 9.299409999047388, 'lon': -10.63975972575263},
+  {'lat': 10.003991436530805, 'lon': -11.19909220102057},
+  {'lat': 9.904521163897478, 'lon': -12.465358776974377},
+  {'lat': 9.284076846415756, 'lon': -12.96254319943477},
+  {'lat': 9.03865590155018, 'lon': -13.31212599647723},
+  {'lat': 8.209150521992248, 'lon': -13.187829890862133}
+];
+
+var Somalia = [
+  {'lat': -1.6329625888897703, 'lon': 41.56196113404288},
+  {'lat': 4.481868123657125, 'lon': 48.17777651116951},
+  {'lat': 11.897926623434113, 'lon': 51.320288815304664},
+  {'lat': 11.47860537143406, 'lon': 43.28313421251385},
+  {'lat': 10.61409151205337, 'lon': 42.634092411809796},
+  {'lat': 9.038182975541677, 'lon': 43.88581588459619},
+  {'lat': 7.96070173239298, 'lon': 47.78006668882052},
+  {'lat': 5.059163633937957, 'lon': 44.95209884289571},
+  {'lat': 4.181192084204804, 'lon': 41.985050611105734},
+  {'lat': 2.816149709402472, 'lon': 40.94194771711709},
+  {'lat': -0.8219578892709675, 'lon': 40.96512775059968},
+];
+
+var South_Sudan = [
+  {'lat': 8.656782090783203, 'lon': 23.46823870238447},
+  {'lat': 4.521288073098628, 'lon': 27.880750451720438},
+  {'lat': 3.5603992656548704, 'lon': 30.832782960079008},
+  {'lat': 3.746464447106534, 'lon': 33.59837131001493},
+  {'lat': 4.6530664682383485, 'lon': 35.939864504897336},
+  {'lat': 5.342875432956548, 'lon': 35.84840937396082},
+  {'lat': 8.106304560476653, 'lon': 33.22234061421228},
+  {'lat': 8.519991316900132, 'lon': 34.123826904872224},
+  {'lat': 9.52232366936279, 'lon': 34.092353791376134},
+  {'lat': 12.240824349038947, 'lon': 33.279365564187614},
+  {'lat': 11.983022159553538, 'lon': 32.114814860377045},
+  {'lat': 9.933800170966066, 'lon': 31.32379928797741},
+  {'lat': 10.301525830268274, 'lon': 29.829658762333658},
+  {'lat': 9.37031597154133, 'lon': 28.403701944024228},
+  {'lat': 9.615503779487941, 'lon': 27.859906481958177},
+  {'lat': 10.431800630632589, 'lon': 25.871890570674765},
+  {'lat': 9.682770405714603, 'lon': 23.627750530794792}
+];
+
+var Sudan = [
+  {'lat': 22.00184758192958, 'lon': 36.89448029740892},
+  {'lat': 22.030655615534677, 'lon': 25.024201999384363},
+  {'lat': 20.058685675703718, 'lon': 23.967685082806263},
+  {'lat': 12.852373337612951, 'lon': 21.73035514181734},
+  {'lat': 9.714033603136434, 'lon': 23.656944813224467},
+  {'lat': 9.897753809373183, 'lon': 24.89990589155165},
+  {'lat': 10.375351990455927, 'lon': 25.511498452552143},
+  {'lat': 9.46161021714755, 'lon': 26.674285138062192},
+  {'lat': 9.299467109290587, 'lon': 27.99464727087944},
+  {'lat': 9.337797042792246, 'lon': 28.755960931354835},
+  {'lat': 9.751488215323855, 'lon': 29.525043098569782},
+  {'lat': 10.279344694523983, 'lon': 29.98338499620293},
+  {'lat': 9.712967292261713, 'lon': 30.828661989829303},
+  {'lat': 9.774218858572457, 'lon': 31.3219621677904},
+  {'lat': 12.226145451965627, 'lon': 32.916304492774294},
+  {'lat': 9.468148305445512, 'lon': 33.85861756851086},
+  {'lat': 9.5137078556383, 'lon': 34.11729191427712},
+  {'lat': 14.324238622219598, 'lon': 36.58055026646594},
+];
+
+var Swaziland = [
+  {'lat': -26.835708911664028, 'lon': 32.13562118225533},
+  {'lat': -26.011323952561305, 'lon': 32.08901014181805},
+  {'lat': -25.71423142777304, 'lon': 31.405381548738106},
+  {'lat': -25.8960708605167, 'lon': 31.137368066223807},
+  {'lat': -26.457293662429777, 'lon': 30.783901009574517},
+  {'lat': -26.839174796036772, 'lon': 30.79555376968383},
+  {'lat': -27.19213609742793, 'lon': 31.14902082633313},
+  {'lat': -27.323347301938256, 'lon': 31.968598287355107},
+];
+
+var Tanzania = [
+  {'lat': -4.621925427990319, 'lon': 39.28710680966878},
+  {'lat': -2.9786801598209287, 'lon': 37.67125740784344},
+  {'lat': -1.0223048249428988, 'lon': 33.97344819982008},
+  {'lat': -1.05337375477078, 'lon': 30.462083153545812},
+  {'lat': -2.268497189190089, 'lon': 30.833248224875092},
+  {'lat': -2.4002236907437386, 'lon': 30.54211054372814},
+  {'lat': -2.8776207606366397, 'lon': 30.426754104028397},
+  {'lat': -2.9873401586951966, 'lon': 30.83874138867032},
+  {'lat': -4.363255296786861, 'lon': 29.827999250348817},
+  {'lat': -4.445409425047831, 'lon': 29.399532474321216},
+  {'lat': -6.213020889931799, 'lon': 29.414676175520075},
+  {'lat': -8.183152728553042, 'lon': 30.721178080793997},
+  {'lat': -9.628753022139515, 'lon': 34.013562853249425},
+  {'lat': -11.503811921808397, 'lon': 34.87585419217471},
+];
+
+var Togo = [
+  {'lat': 6.29553669093951, 'lon': 1.7956616259621243},
+  {'lat': 9.128191440089397, 'lon': 1.6169859709525916},
+  {'lat': 9.970877488324438, 'lon': 1.3450882350685218},
+  {'lat': 10.383775346017625, 'lon': 0.8012927633003811},
+  {'lat': 11.01734576772847, 'lon': 0.9255888711330993},
+  {'lat': 11.169812648330666, 'lon': -0.1386965521845465},
+  {'lat': 10.666373725310082, 'lon': -0.09985401848682234},
+  {'lat': 10.299710012569559, 'lon': 0.29633982522996494},
+  {'lat': 9.45785253996604, 'lon': 0.24196027805315135},
+  {'lat': 9.158870621073135, 'lon': 0.45947846676040743},
+  {'lat': 8.759837823024826, 'lon': 0.3584878791463244},
+  {'lat': 8.375747944017805, 'lon': 0.6070800948117601},
+  {'lat': 6.797195666268791, 'lon': 0.5371635341558563},
+  {'lat': 6.110184130612535, 'lon': 1.1819495935380793},
+];
+
+var Tunisia = [
+  {'lat': 30.252280317356316, 'lon': 9.53421294443812},
+  {'lat': 32.08672880196837, 'lon': 9.03702851310725},
+  {'lat': 32.49388897835691, 'lon': 8.322325893069124},
+  {'lat': 34.09120105740281, 'lon': 7.452253138240098},
+  {'lat': 34.93614191080658, 'lon': 8.198029785236404},
+  {'lat': 36.500237895760264, 'lon': 8.182492771757314},
+  {'lat': 37.20885846615114, 'lon': 9.05256552658634},
+  {'lat': 37.32014445040952, 'lon': 10.031397375768993},
+  {'lat': 37.035420304308694, 'lon': 11.056840265388912},
+  {'lat': 34.74486305638322, 'lon': 11.32096949453344},
+  {'lat': 33.18574554514801, 'lon': 11.554024696719784},
+  {'lat': 32.4545663646635, 'lon': 11.616172750636146},
+  {'lat': 31.532188031474664, 'lon': 10.202304524038976},
+  {'lat': 30.800999293700407, 'lon': 10.264452577955337},
+];
+
+var Greece = [
+  {'lat': 39.75928648591313, 'lon': 19.65752982625214},
+  {'lat': 40.862626695662705, 'lon': 21.003564001816827},
+  {'lat': 41.58975551194689, 'lon': 24.47524352039939},
+  {'lat': 41.34277927267534, 'lon': 25.705712210529917},
+  {'lat': 41.729290962537235, 'lon': 26.145165314147956},
+  {'lat': 41.59797184810732, 'lon': 26.61757740053736},
+  {'lat': 41.32628074738351, 'lon': 26.61757740053736},
+  {'lat': 40.69822112177446, 'lon': 26.07242131977229},
+  {'lat': 38.302429539558375, 'lon': 26.259745706134375},
+  {'lat': 36.45014181144038, 'lon': 28.347614677882994},
+  {'lat': 34.772230349343694, 'lon': 26.800908378262285},
+  {'lat': 35.00344575058871, 'lon': 23.0667524843335},
+];
+
+var Vaticano = [
+  {'lat': 41.901999728919726, 'lon': 12.445614541442934},
+  {'lat': 41.90651977471894, 'lon': 12.450411853084345},
+  {'lat': 41.907526295975806, 'lon': 12.455387788031558},
+  {'lat': 41.90636784560364, 'lon': 12.45587262271872},
+  {'lat': 41.90585508217023, 'lon': 12.457735408622037},
+  {'lat': 41.90184778904836, 'lon': 12.458398866614997},
+  {'lat': 41.90046132102039, 'lon': 12.456434010251225},
+  {'lat': 41.90036635635526, 'lon': 12.451636698609814},
+  {'lat': 41.90068923564052, 'lon': 12.447860091572958},
+];
+
+var Hungary = [
+  {'lat':47.92038367469436, 'lon': 22.8344664440588},
+  {'lat':46.257116854766565, 'lon': 21.096818925262884},
+  {'lat':45.73067254373273, 'lon': 17.869759247499033},
+  {'lat':46.87688423375792, 'lon': 16.092916671888165},
+  {'lat':47.74497349308974, 'lon': 16.5501923347292},
+  {'lat':47.718610819313355, 'lon': 16.850687770310447},
+  {'lat':48.01660659441354, 'lon': 17.203443281644955},
+  {'lat':47.80643450402991, 'lon': 18.11799460732702},
+  {'lat':48.59018235029498, 'lon': 20.796323489681633},
+  {'lat':48.42572262655393, 'lon': 22.272670629711254},
+];
+
+var Iceland = [
+  {'lat':65.04789876172278, 'lon': -13.253637892247031},
+  {'lat':62.795331230956535, 'lon': -20.276367984795588},
+  {'lat':66.25200159907773, 'lon': -26.36687726859876},
+  {'lat':66.85777704240122, 'lon': -15.08700548277962},
+];
+
+var Ireland = [
+  {'lat': 55.254628977242554, 'lon': -6.940144480351385},
+  {'lat': 54.45394821881553, 'lon': -8.18974362363451},
+  {'lat': 54.093116501311165, 'lon': -7.333808586282378},
+  {'lat': 54.38678259073991, 'lon': -6.997768788848096},
+  {'lat': 54.026164799697135, 'lon': -6.62473378435683},
+  {'lat': 54.04246028187018, 'lon': -6.15304489438027},
+  {'lat': 52.05923322653716, 'lon': -6.209882721188249},
+  {'lat': 51.212788802005335, 'lon': -10.316079303728525},
+  {'lat': 54.40230851316086, 'lon': -10.594714072265239},
+  {'lat': 55.45553201229613, 'lon': -7.5590615939968115},
+];
+
+var North_Ireland = [
+  {'lat': 54.095732736790595, 'lon': -6.252544415099048},
+  {'lat': 54.045589690762164, 'lon': -6.6487382588158335},
+  {'lat': 54.36817547740588, 'lon': -7.0138580755744435},
+  {'lat': 54.1093976046351, 'lon': -7.347903865374873},
+  {'lat': 54.45407443399198, 'lon': -8.186902593245717},
+  {'lat': 55.06368994956324, 'lon': -7.293524318198058},
+  {'lat': 55.245673653998416, 'lon': -6.337997989234041},
+  {'lat': 55.19249605691394, 'lon': -6.035026226391791},
+  {'lat': 54.47213550000082, 'lon': -5.4057771804886565},
+  {'lat': 54.00451850843523, 'lon': -6.035026226391791},
+];
+
+var Latvia = [
+  {'lat': 56.077127850882334, 'lon': 21.026287341799044},
+  {'lat': 56.27604161910667, 'lon': 23.86956080847246},
+  {'lat': 55.653662383190635, 'lon': 26.682421063667164},
+  {'lat': 55.80359325558309, 'lon': 27.63332787719201},
+  {'lat': 56.27634535686682, 'lon': 28.25141730598316},
+  {'lat': 57.527630739280596, 'lon': 27.528728127704277},
+  {'lat': 58.08993460024318, 'lon': 25.227533638974148},
+  {'lat': 57.90852577628124, 'lon': 24.2956449617198},
+  {'lat': 57.58256535620314, 'lon': 21.671273850636442},
+];
+
+var DRC = [
+  {'lat': -6.053807763569294, 'lon': 12.304604487676137},
+  {'lat': -5.897879543968041, 'lon': 16.64219084914832},
+  {'lat': -8.128105472637337, 'lon': 17.53061215210046},
+  {'lat': -13.312356258136784, 'lon': 29.23686932041094},
+  {'lat': -13.502307831925105, 'lon': 29.824831337418825},
+  {'lat': -11.538247498581498, 'lon': 28.54445945963486},
+  {'lat': -8.243798046414536, 'lon': 30.739382678693083},
+  {'lat': -2.4965527829920577, 'lon': 28.89983757008647},
+  {'lat': 2.160236912257683, 'lon': 31.347256894092798},
+  {'lat': 5.136959683300988, 'lon': 29.296371001315283},
+  {'lat': 5.353566887302979, 'lon': 19.383756232655795},
+  {'lat': -4.29861056361766, 'lon': 14.47405971080647},
+  {'lat': -5.660674655813019, 'lon': 12.14350764920941}
+];
+
+var Djibouti = [
+  {'lat': 12.548503593366716, 'lon': 42.46643545688051},
+  {'lat': 11.509435357609002, 'lon': 41.77355818349664},
+  {'lat': 10.961228219639692, 'lon': 41.828988365367344},
+  {'lat': 10.995176100965715, 'lon': 42.95314703394706},
+  {'lat': 11.47247926009732, 'lon': 43.249859484585436},
+  {'lat': 11.563764759282947, 'lon': 42.668310362269516},
+  {'lat': 12.056327970661199, 'lon': 43.39769259538942},
+  {'lat': 12.724537931382004, 'lon': 43.14325693267318},
+  {'lat': 31.44804726258063, 'lon': 25.243001883406915}
+];
+
+var Egypt = [
+  {'lat': 22.077355361958293, 'lon': 25.35631238692896},
+  {'lat': 21.936295724608577, 'lon': 36.69112179739238},
+  {'lat': 31.33768054298579, 'lon': 34.17351297479681},
+  {'lat': 31.805688019866107, 'lon': 24.966970094789176}
+];
+
+var Equatorial_Guinea = [
+  {'lat': 1.032661199059302, 'lon': 11.350214072548118},
+  {'lat': 2.212184314491033, 'lon': 11.272480507871228},
+  {'lat': 2.3231499940821667, 'lon': 9.80919836183242},
+  {'lat': 1.1021395277385662, 'lon': 9.404182767839535},
+  {'lat': 0.9323211061227668, 'lon': 9.965978591765149}
+];
+
+var Eritrea = [
+  {'lat': 18.13370589587638, 'lon': 38.54891071367278},
+  {'lat': 12.703469803795478, 'lon': 43.0572321724905},
+  {'lat': 12.324677340051604, 'lon': 42.37359326275176},
+  {'lat': 14.409783934033406, 'lon': 38.43594908239781},
+  {'lat': 14.199009638981776, 'lon': 37.53480228524695},
+  {'lat': 14.298255086221143, 'lon': 36.53673551356116},
+  {'lat': 17.054979861327425, 'lon': 36.984966589309785}
+];
+
+var Ethiopia = [
+  {'lat': 8.018192993996413, 'lon': 47.78749660976946},
+  {'lat': 3.3913647346993194, 'lon': 39.6871848300008},
+  {'lat': 4.53831543530957, 'lon': 35.97671943410676},
+  {'lat': 7.603992453111, 'lon': 32.841114874196315},
+  {'lat': 14.270353631603786, 'lon': 36.49932019409184},
+  {'lat': 12.490983326865788, 'lon': 42.509228933920205}
+];
+
+var Gabon = [
+  {'lat': 2.2785752142861693, 'lon': 11.406994571648333},
+  {'lat': 0.9857565027308408, 'lon': 11.277657482214794},
+  {'lat': 1.0042304441771424, 'lon': 9.57779859251682},
+  {'lat': -0.2752587832532281, 'lon': 8.763821584742617},
+  {'lat': -3.9270745584728766, 'lon': 11.153532777047202},
+  {'lat': -3.546596219882441, 'lon': 11.857452195601214},
+  {'lat': -2.433592077923469, 'lon': 11.652142365189624},
+  {'lat': -2.4921978418118935, 'lon': 14.115860330128665},
+  {'lat': 0.9385811847377019, 'lon': 14.467820039405673},
+  {'lat': 2.2578874802358984, 'lon': 13.294621008482318}
+];
+
+var Gambia = [
+  {'lat': 13.15771964692497, 'lon': -15.800283897358606},
+  {'lat': 13.361877298275166, 'lon': -15.792515390582603},
+  {'lat': 13.210665850124217, 'lon': -14.145591954070392},
+  {'lat': 13.422335408331596, 'lon': -13.788240642374344},
+  {'lat': 13.55831040919596, 'lon': -13.98245331177437},
+  {'lat': 13.792306854433857, 'lon': -15.303099463694542},
+  {'lat': 13.61871882070571, 'lon': -16.54482455057852},
+  {'lat': 13.351918018394038, 'lon': -16.812657440070872},
+  {'lat': 13.053005468654137, 'lon': -16.75386485457255},
+  {'lat': 13.173886479568186, 'lon': -16.642812193075724}
+];
+
+var Ghana = [
+  {'lat': 6.2316144837357035, 'lon': 1.1653134214600547},
+  {'lat': 11.150646424984854, 'lon': -0.049733345505243234},
+  {'lat': 11.009610191944528, 'lon': -2.819517373426142},
+  {'lat': 5.1434265014669585, 'lon': -3.046209829685427},
+  {'lat': 4.86593861743249, 'lon': -2.0576292362974433},
+  {'lat': 5.750033887954268, 'lon': 0.2599708003994235}
+];
+
+var Guinea = [
+  {'lat': 9.047982560426286, 'lon': -13.282374532468232},
+  {'lat': 9.995524056589751, 'lon': -11.286888009779302},
+  {'lat': 8.317388703654995, 'lon': -10.677156016735468},
+  {'lat': 8.28082222427418, 'lon': -9.587029120081331},
+  {'lat': 7.383918173632696, 'lon': -9.457692030647788},
+  {'lat': 7.23730598945317, 'lon': -8.811006583480081},
+  {'lat': 8.463620361467555, 'lon': -7.591542597392405},
+  {'lat': 12.550252374304073, 'lon': -9.032727308223297},
+  {'lat': 12.730541310628592, 'lon': -13.762769436078528},
+  {'lat': 10.885884078257517, 'lon': -15.05614033041394}
+];
+
+var Guinea_Bissau = [
+  {'lat': 10.932823860563621, 'lon': -15.051745642292776},
+  {'lat': 11.686965214284664, 'lon': -13.723330983596602},
+  {'lat': 12.658963479328632, 'lon': -13.723330983596602},
+  {'lat': 12.68928034895349, 'lon': -15.199347271036793},
+  {'lat': 12.355597924136996, 'lon': -16.683132065252988},
+  {'lat': 11.070087144452906, 'lon': -16.23255867224493}
+];
+
+var Kenya = [
+  {'lat': 3.8743899974060345, 'lon': 41.81777967270739},
+  {'lat': 4.169289292878078, 'lon': 33.98364739844716},
+  {'lat': -0.9115976465857101, 'lon': 33.93979239247902},
+  {'lat': -4.721269727798253, 'lon': 39.270320144326796},
+  {'lat': -1.8519949212296447, 'lon': 41.569763488261124}
+];
+
+var Lesotho = [
+  {'lat': -30.656401142728505, 'lon': 28.06867488851963},
+  {'lat': -29.906911792220598, 'lon': 29.16730765272042},
+  {'lat': -29.242849949714437, 'lon': 29.414500024665603},
+  {'lat': -28.57445101648056, 'lon': 28.656443417367058},
+  {'lat': -29.649450023263597, 'lon': 27.00849427106587},
+  {'lat': -30.339279080361454, 'lon': 27.387522574715142}
+];
+
+var Pakistan = [
+  {'lat': 29.875132924539855, 'lon': 60.96361482411757},
+  {'lat': 25.305305404346807, 'lon': 61.33650314936562},
+  {'lat': 23.77896878604839, 'lon': 68.29708522066252},
+  {'lat': 32.58495372096816, 'lon': 79.29729081547995},
+  {'lat': 37.17113915245193, 'lon': 74.82263091250337},
+  {'lat': 36.22438719055999, 'lon': 71.34233987685492}
+];
+
+var Philippines = [
+  {'lat': 6.208305641165828, 'lon': 125.07347240458094},
+  {'lat': 7.142599089496646, 'lon': 126.45836441854142},
+  {'lat': 18.650602593112037, 'lon': 121.16872934733443},
+  {'lat': 8.424359487130582, 'lon': 117.22232790512595}
+];
+
+var Qatar = [
+  {'lat': 24.488433906475834, 'lon': 51.08112127399033},
+  {'lat': 24.64387313774325, 'lon': 51.422940724636106},
+  {'lat': 25.255333911242147, 'lon': 51.630803904082875},
+  {'lat': 25.905289421721363, 'lon': 51.60308881348997},
+  {'lat': 26.166765489072656, 'lon': 51.21507754518935},
+  {'lat': 25.80968494855674, 'lon': 50.91944991219839},
+  {'lat': 25.505734197518013, 'lon': 50.753159368640986},
+  {'lat': 24.744595328776523, 'lon': 50.81782791335775}
+];
+
+var S_Korea = [
+  {'lat': 38.5894771781329, 'lon': 128.35153391963715},
+  {'lat': 37.783491090125395, 'lon': 126.20742604946086},
+  {'lat': 34.38170237346558, 'lon': 126.16081500880486},
+  {'lat': 34.688878551355586, 'lon': 128.64673717712517},
+  {'lat': 36.031928930237754, 'lon': 129.5944950037973},
+  {'lat': 37.377161653734326, 'lon': 129.31482875986126}
+];
+
+var Saudi_Arabia = [
+  {'lat': 22.613820439459527, 'lon': 55.26726963172442},
+  {'lat': 28.76992393303189, 'lon': 47.80950312676345},
+  {'lat': 32.301876039826944, 'lon': 39.357367754474346},
+  {'lat': 31.28544944349373, 'lon': 36.97441585386625},
+  {'lat': 29.667510953981896, 'lon': 34.893622228787805},
+  {'lat': 28.144233669141684, 'lon': 34.582881957747766},
+  {'lat': 16.432768276094233, 'lon': 42.814994107305296},
+  {'lat': 16.954590821210818, 'lon': 47.13433407538896},
+  {'lat': 19.960672031900877, 'lon': 55.02713695980598},
+  {'lat': 21.876267512555593, 'lon': 55.710765556094074}
+];
+
+var Singapore = [
+  {'lat': 1.1706597340533327, 'lon': 103.73814829394655},
+  {'lat': 1.3126661881756243, 'lon': 104.0106800181101},
+  {'lat': 1.3853981330315839, 'lon': 104.0822773354751},
+  {'lat': 1.417722732115446, 'lon': 104.08689651724058},
+  {'lat': 1.4431203152885081, 'lon': 104.038395108703},
+  {'lat': 1.470826446025156, 'lon': 103.81320999763567},
+  {'lat': 1.4488924539078176, 'lon': 103.71505238511915},
+  {'lat': 1.269949607862432, 'lon': 103.60765640907165},
+  {'lat': 1.2226141952388256, 'lon': 103.60881120451302}
+];
+
+var Sri_Lanka = [
+  {'lat': 9.825113090564896, 'lon': 80.20540807147285},
+  {'lat': 7.4356698900528535, 'lon': 81.86434354541605},
+  {'lat': 6.58515080032803, 'lon': 81.76546659663796},
+  {'lat': 6.104714826480674, 'lon': 81.07332795519146},
+  {'lat': 5.952505952613244, 'lon': 80.43301068875599},
+  {'lat': 6.113353219572877, 'lon': 80.10755754093894},
+  {'lat': 6.820176537499319, 'lon': 79.84888336207187},
+  {'lat': 8.221450531854892, 'lon': 79.67335443995607},
+  {'lat': 8.915724873034392, 'lon': 79.90431352823026},
+  {'lat': 9.089091508529322, 'lon': 79.67335443995607}
+];
+
+var Syrian_Arab_Republic = [
+  {'lat': 32.32195337560917, 'lon': 36.86586699040235},
+  {'lat': 34.435506740983705, 'lon': 40.96770039815181},
+  {'lat': 37.088774564978586, 'lon': 42.37193165485883},
+  {'lat': 37.3095357356661, 'lon': 42.205641111301425},
+  {'lat': 37.118246680283974, 'lon': 40.7459796734086},
+  {'lat': 36.92647307997908, 'lon': 38.288574974171304},
+  {'lat': 36.852585177410774, 'lon': 36.718053173906874},
+  {'lat': 35.585599048542086, 'lon': 35.77574009374821},
+  {'lat': 34.637830409050125, 'lon': 35.98887900524183},
+  {'lat': 34.487202480696666, 'lon': 36.35469953723138},
+  {'lat': 33.609718728146774, 'lon': 35.929882732915765},
+  {'lat': 32.778819880090225, 'lon': 35.76003748592062}
+];
+
+var Taiwan = [
+  {'lat': 21.93549082377006, 'lon': 120.84297752607502},
+  {'lat': 25.013228647294238, 'lon': 121.99271652892315},
+  {'lat': 25.2933259127024, 'lon': 121.59379257860559},
+  {'lat': 25.038301474526335, 'lon': 121.05334831204402},
+  {'lat': 25.024238974175464, 'lon': 121.03734159393125},
+  {'lat': 23.787586406681285, 'lon': 120.17817378555128},
+  {'lat': 23.096810649294536, 'lon': 120.03497912807707},
+  {'lat': 22.525952922914158, 'lon': 120.34106207646064}
+];
+
+var Tajikistan = [
+  {'lat': 36.68390032678567, 'lon': 71.6970535439916},
+  {'lat': 37.351524713787164, 'lon': 74.98943833189757},
+  {'lat': 39.45456956639217, 'lon': 73.31995652504298},
+  {'lat': 39.60709352301986, 'lon': 69.38685118357985},
+  {'lat': 40.235877544308266, 'lon': 69.89265055072214},
+  {'lat': 40.122943702228795, 'lon': 70.63171964177278},
+  {'lat': 40.82569243617521, 'lon': 73.14455455134491},
+  {'lat': 41.52107252278213, 'lon': 71.66641636924365},
+  {'lat': 39.669330527187086, 'lon': 67.7493501866753},
+  {'lat': 36.97367102157762, 'lon': 67.97107091399049}
+];
+
+var Thailand = [
+  {'lat': 5.811849135002222, 'lon': 101.82812638694111},
+  {'lat': 6.2528340292860545, 'lon': 102.01289365970376},
+  {'lat': 9.25495533173671, 'lon': 99.6848260228943},
+  {'lat': 13.348780189147822, 'lon': 100.09131402297214},
+  {'lat': 12.23166714685133, 'lon': 102.45633511433415},
+  {'lat': 12.448265263842275, 'lon': 102.862823114412},
+  {'lat': 14.210129311918774, 'lon': 103.01063693262213},
+  {'lat': 14.389171904170807, 'lon': 105.48651838764175},
+  {'lat': 15.709522163685218, 'lon': 105.59737875129933},
+  {'lat': 18.53443632898687, 'lon': 103.5649387509101},
+  {'lat': 18.324086761174538, 'lon': 102.04984711425631},
+  {'lat': 20.381012908790012, 'lon': 100.5347554776025},
+  {'lat': 18.569469517364777, 'lon': 97.39371184063732},
+  {'lat': 8.268868595967245, 'lon': 98.31754820445062},
+  {'lat': 6.43646954935225, 'lon': 100.01740711386707}
+];
+
+var Timor_Leste = [
+  {'lat': -9.449617577824037, 'lon': 125.08929689709176},
+  {'lat': -8.404184889010086, 'lon': 127.2972851336415},
+  {'lat': -8.313701313533809, 'lon': 126.9967896931643},
+  {'lat': -8.636759491714917, 'lon': 125.10889442581852},
+  {'lat': -9.056320349384746, 'lon': 124.95211419600435},
+  {'lat': -9.030515120060251, 'lon': 125.19381705030118},
+  {'lat': -9.189720354157384, 'lon': 124.99260548998768}
+];
+
+var Turkey = [
+  {'lat': 37.079432631738314, 'lon': 44.76725417871969},
+  {'lat': 39.740654776158785, 'lon': 44.45369371909132},
+  {'lat': 41.4860407508205, 'lon': 41.474869352621816},
+  {'lat': 41.9152469168129, 'lon': 27.991769588602004},
+  {'lat': 40.69833710611727, 'lon': 26.00588667762234},
+  {'lat': 37.03772805806979, 'lon': 27.625949052368906},
+  {'lat': 36.19883665247987, 'lon': 30.447993189024217},
+  {'lat': 35.90307363963514, 'lon': 36.039821385730114},
+  {'lat': 37.49521576988422, 'lon': 42.729111191135296}
+];
+
+var UAE = [
+  {'lat': 24.222190781073166, 'lon': 51.71206515434043},
+  {'lat': 26.2493501466171, 'lon': 56.304350161970554},
+  {'lat': 24.742112942933975, 'lon': 56.150541573198254},
+  {'lat': 22.629497422756376, 'lon': 55.13979941840885},
+  {'lat': 22.973840794087753, 'lon': 52.568998720357534}
+];
+
+var Uzbekistan = [
+  {'lat': 41.30882979208127, 'lon': 55.98522159800247},
+  {'lat': 45.05254358376349, 'lon': 56.022175052555},
+  {'lat': 45.546407924683, 'lon': 58.535009962127155},
+  {'lat': 44.47532637184518, 'lon': 61.047844871699304},
+  {'lat': 43.732346634544164, 'lon': 64.96491105426766},
+  {'lat': 42.92594043216578, 'lon': 66.14742159994869},
+  {'lat': 40.72330734232064, 'lon': 68.47548923675818},
+  {'lat': 42.21840213407378, 'lon': 71.09918450998792},
+  {'lat': 40.80727194041591, 'lon': 72.90990378306198},
+  {'lat': 40.4426596436772, 'lon': 70.47097578259489},
+  {'lat': 40.24550605600647, 'lon': 68.73416341862591},
+  {'lat': 39.33690926120161, 'lon': 67.51469941839235},
+  {'lat': 37.16065320440233, 'lon': 67.84728050936513},
+  {'lat': 41.4474722691149, 'lon': 57.130778689130956}
+];
+
+var Vietnam = [
+  {'lat': 8.76430549050592, 'lon': 104.99689676156818},
+  {'lat': 11.486548220064014, 'lon': 109.00544630448415},
+  {'lat': 12.88371216332481, 'lon': 109.4094086615222},
+  {'lat': 15.384553575141304, 'lon': 108.8811501946263},
+  {'lat': 18.976040998759785, 'lon': 105.64945133832195},
+  {'lat': 21.598920162630435, 'lon': 107.9800034152528},
+  {'lat': 23.464444479003486, 'lon': 105.2454889983799},
+  {'lat': 22.376884678445037, 'lon': 102.1380862519334},
+  {'lat': 19.298964317161804, 'lon': 103.94037984487237},
+  {'lat': 14.986500523092088, 'lon': 107.5664655838448},
+  {'lat': 12.298724688452426, 'lon': 107.39021413780289},
+  {'lat': 10.788283076010302, 'lon': 106.16210232067895},
+  {'lat': 10.428715752711962, 'lon': 104.48977986932766}
+];
+
+var Yemen = [
+  {'lat': 16.718379429190506, 'lon': 53.02252640809053},
+  {'lat': 19.025008937349597, 'lon': 51.997083501763186},
+  {'lat': 18.672117139600406, 'lon': 49.013976865174556},
+  {'lat': 17.164261040288626, 'lon': 47.42920146448685},
+  {'lat': 17.520197695108273, 'lon': 43.29635581171301},
+  {'lat': 15.254683786870244, 'lon': 42.70594928988818},
+  {'lat': 12.722104021940595, 'lon': 43.48279997649981},
+  {'lat': 14.172721416952225, 'lon': 48.67216256306545}
+];
+
+var Croatia = [
+  {'lat': 42.440821649561066, 'lon': 18.443489211534555},
+  {'lat': 44.81405147879439, 'lon': 13.883797527772037},
+  {'lat': 45.514140213074874, 'lon': 13.544107029841308},
+  {'lat': 46.53017238959958, 'lon': 16.340021128194252},
+  {'lat': 45.89734063605757, 'lon': 18.796244728616465},
+  {'lat': 45.19279967710527, 'lon': 19.397235609570835},
+  {'lat': 44.86963445079089, 'lon': 18.979154996733012},
+  {'lat': 45.0175935430406, 'lon': 16.313891089891886},
+  {'lat': 45.22041464766156, 'lon': 15.79129032384461},
+  {'lat': 43.42603465594039, 'lon': 17.267637487928173}
+];
+
+var Czechia = [
+  {'lat': 50.267336238369474, 'lon': 12.145491536603277},
+  {'lat': 48.572851142269045, 'lon': 14.362698809755175},
+  {'lat': 48.816769046409064, 'lon': 17.4298355376153},
+  {'lat': 49.55342976806062, 'lon': 18.834066810611503},
+  {'lat': 50.06613531643463, 'lon': 17.984137355903272},
+  {'lat': 50.43239548218018, 'lon': 16.89401044660359},
+  {'lat': 50.149085338812895, 'lon': 16.63533626473587},
+  {'lat': 50.573418388954494, 'lon': 16.395138810144413},
+  {'lat': 51.02883808382886, 'lon': 15.046337718977009},
+  {'lat': 51.075296989625116, 'lon': 14.418128991583972}
+];
+
+var Denmark = [
+  {'lat': 55.587766251897584, 'lon': 8.158907630376204},
+  {'lat': 57.16313660299438, 'lon': 8.602349085006585},
+  {'lat': 57.779113263448245, 'lon': 10.634789085395825},
+  {'lat': 56.444920933517466, 'lon': 10.930416721816075},
+  {'lat': 56.032274107431405, 'lon': 12.543659208447043},
+  {'lat': 55.596324579515375, 'lon': 12.628522260827571},
+  {'lat': 54.583436900122834, 'lon': 11.949617841783347},
+  {'lat': 54.872149403162275, 'lon': 9.990215888822256},
+  {'lat': 54.95577185011765, 'lon': 8.63240705073381},
+  {'lat': 55.59112186061343, 'lon': 8.074735563661772}
+];
+
+var Estonia = [
+  {'lat': 57.87972200201984, 'lon': 24.357214165374003},
+  {'lat': 58.057016515605326, 'lon': 25.256409513534557},
+  {'lat': 57.515727465490016, 'lon': 26.532507063725117},
+  {'lat': 57.868037279616466, 'lon': 27.762975773903523},
+  {'lat': 59.31067726214397, 'lon': 28.114538262525926},
+  {'lat': 59.61212230067937, 'lon': 25.91727270863591},
+  {'lat': 59.45615305604236, 'lon': 24.357214165374003},
+  {'lat': 59.19834758408476, 'lon': 23.5002805993569},
+  {'lat': 58.688266236376236, 'lon': 23.544225910434697},
+  {'lat': 58.26319360087992, 'lon': 24.1594602655239}
+];
+
+var Finland = [
+  {'lat': 59.860003217461525, 'lon': 23.106356264350172},
+  {'lat': 60.60054571419054, 'lon': 27.208127889659544},
+  {'lat': 62.89397516316187, 'lon': 31.55849173468463},
+  {'lat': 69.67263639334666, 'lon': 29.321161757243154},
+  {'lat': 70.14231904337, 'lon': 27.829608438948835},
+  {'lat': 69.23643459068232, 'lon': 21.05547045169549},
+  {'lat': 65.02108306030475, 'lon': 24.72220569250235},
+  {'lat': 63.17578181264823, 'lon': 21.241914616482283},
+  {'lat': 60.60054571419054, 'lon': 21.428358781269072}
+];
+
+var Libyan_Arab_Jamahiriya = [
+  {'lat': 32.912869, 'lon': 21.729238},
+  {'lat': 32.761108, 'lon': 14.097996},
+  {'lat': 30.173372, 'lon': 9.361998},
+  {'lat': 26.240850, 'lon': 9.412154},
+  {'lat': 22.622780, 'lon': 14.195397},
+  {'lat': 23.562086, 'lon': 15.974897},
+  {'lat': 19.514259, 'lon': 23.988152},
+  {'lat': 31.787223, 'lon': 25.117886}
+];
+
+var Madagascar = [
+  {'lat': -11.9119070603335, 'lon': 49.18001258016296},
+  {'lat': -15.295476926722518, 'lon': 50.44978453313231},
+  {'lat': -15.870313301497522, 'lon': 50.02509718589242},
+  {'lat': -15.530662614507703, 'lon': 49.62967129652452},
+  {'lat': -17.660911805101577, 'lon': 49.50950936768044},
+  {'lat': -25.12719572199691, 'lon': 46.805417930904525},
+  {'lat': -25.407820182096327, 'lon': 45.059900282819385},
+  {'lat': -23.71448889751016, 'lon': 43.70227544541983},
+  {'lat': -21.440339855525668, 'lon': 43.450145118474204},
+  {'lat': -19.87972723598909, 'lon': 44.47806106679101},
+  {'lat': -17.49153259131713, 'lon': 43.89622185076263},
+  {'lat': -16.182230, 'lon': 44.452376}
+];
+
+var Malawi = [
+  {'lat': -13.642356, 'lon': 32.687377},
+  {'lat': -10.825753581584182, 'lon': 33.210162257390294},
+  {'lat': -10.517062682460809, 'lon': 33.66706983730558},
+  {'lat': -9.44835272875409, 'lon': 32.9388733818156},
+  {'lat': -9.518768817717854, 'lon': 34.0240288841144},
+  {'lat': -11.45637649361366, 'lon': 34.94930929848892},
+  {'lat': -12.04244569517684, 'lon': 34.40475394171874},
+  {'lat': -13.482957926357658, 'lon': 34.612891198886686},
+  {'lat': -14.848955749637357, 'lon': 35.9050173549035},
+  {'lat': -16.018673342222584, 'lon': 35.809385659301434},
+  {'lat': -16.578389099131442, 'lon': 35.137875166115116},
+  {'lat': -17.141206402076065, 'lon': 35.25200906064003},
+  {'lat': -15.87876919073505, 'lon': 34.24674311330037},
+  {'lat': -14.403450, 'lon': 34.324635}
+];
+
+var Mali = [
+  {'lat': 24.94755580781135, 'lon': -6.919708763803172},
+  {'lat': 15.518625988002286, 'lon': -5.513458833558082},
+  {'lat': 14.712560915251247, 'lon': -12.193146002222285},
+  {'lat': 10.467655599880196, 'lon': -8.018341521807159},
+  {'lat': 13.348299708694247, 'lon': -3.2283026969097977},
+  {'lat': 15.264411027930032, 'lon': 1.298064266066607},
+  {'lat': 16.51124649223798, 'lon': 4.1764820920370616},
+  {'lat': 19.16731693085504, 'lon': 4.198454747197142},
+  {'lat': 18.980420205737076, 'lon': 3.3634938511141153},
+  {'lat': 25.042003108722554, 'lon': -4.863765639798461}
+];
+
+var Uganda = [
+  {'lat': -1.359365, 'lon': 29.623984},
+  {'lat': -1.434903, 'lon': 29.930667},
+  {'lat': -0.977237, 'lon': 32.050646},
+  {'lat': -0.968280, 'lon': 33.904972},
+  {'lat': 0.420176, 'lon': 34.057260},
+  {'lat': 1.306918, 'lon': 34.782866},
+  {'lat': 2.519593, 'lon': 34.911935},
+  {'lat': 4.175639, 'lon': 33.967110},
+  {'lat': 3.879742, 'lon': 33.011300},
+  {'lat': 3.517949, 'lon': 32.187326},
+  {'lat': 3.835896, 'lon': 31.791818},
+  {'lat': 3.539880, 'lon': 30.890939},
+  {'lat': 2.365924, 'lon': 30.934884},
+  {'lat': 1.630293, 'lon': 30.803048},
+  {'lat': 1.136053, 'lon': 30.264718}
+];
+
+var Western_Sahara = [
+  {'lat': 21.327573, 'lon': -16.337319},
+  {'lat': 21.388964, 'lon': -13.063393},
+  {'lat': 22.834233, 'lon': -13.151284},
+  {'lat': 23.491023, 'lon': -12.054706},
+  {'lat': 26.014972, 'lon': -12.019960},
+  {'lat': 26.014972, 'lon': -8.701779},
+  {'lat': 27.663218, 'lon': -8.696997},
+  {'lat': 27.663218, 'lon': -13.141976}
+];
+
+var Zambia = [
+  {'lat': -13.021862, 'lon': 22.005265},
+  {'lat': -12.914801, 'lon': 24.026749},
+  {'lat': -10.915482, 'lon': 24.026749},
+  {'lat': -11.238931, 'lon': 25.279190},
+  {'lat': -13.370724, 'lon': 28.972784},
+  {'lat': -11.674748, 'lon': 27.125098},
+  {'lat': -11.282874, 'lon': 25.180890},
+  {'lat': -11.012303, 'lon': 24.105371},
+  {'lat': -12.954506, 'lon': 24.050216},
+  {'lat': -13.048552, 'lon': 22.064643},
+  {'lat': -16.130882, 'lon': 22.022221},
+  {'lat': -17.587233, 'lon': 23.443182},
+  {'lat': -18.032368, 'lon': 26.660970},
+  {'lat': -16.438870, 'lon': 28.732822},
+  {'lat': -15.504641, 'lon': 30.236290}
+];
+
+var Zimbabwe = [
+  {'lat': -21.501271, 'lon': 28.059768},
+  {'lat': -22.235361, 'lon': 31.322707},
+  {'lat': -21.030314, 'lon': 32.311476},
+  {'lat': -19.805107, 'lon': 33.014601},
+  {'lat': -18.643277, 'lon': 32.849807},
+  {'lat': -16.769988, 'lon': 32.871779},
+  {'lat': -15.715224, 'lon': 30.344924},
+  {'lat': -16.570021, 'lon': 28.718948},
+  {'lat': -18.007101, 'lon': 26.532669},
+  {'lat': -17.850072, 'lon': 25.282675},
+  {'lat': -20.384768, 'lon': 27.341435}
+];
+
+var France = [
+  {'lat': 42.578724, 'lon': 2.832022},
+  {'lat': 43.557858, 'lon': 4.326163},
+  {'lat': 43.318537, 'lon': 6.325674},
+  {'lat': 44.112589, 'lon': 7.402334},
+  {'lat': 45.422893, 'lon': 6.984854},
+  {'lat': 46.370957, 'lon': 6.655264},
+  {'lat': 47.644438, 'lon': 7.446280},
+  {'lat': 48.930939, 'lon': 7.951651},
+  {'lat': 49.945347, 'lon': 4.699698},
+  {'lat': 51.001099, 'lon': 2.381583},
+  {'lat': 49.690157, 'lon': 0.283194},
+  {'lat': 49.633266, 'lon': -1.309823},
+  {'lat': 48.742927, 'lon': -1.474618},
+  {'lat': 48.800852, 'lon': -3.155526},
+  {'lat': 45.136866, 'lon': -0.650644},
+  {'lat': 43.089924, 'lon': -1.045362}
+];
+
+var Germany = [
+  {'lat': 54.851400, 'lon': 8.970065},
+  {'lat': 53.481997, 'lon': 8.327449},
+  {'lat': 53.589278, 'lon': 7.410456},
+  {'lat': 52.613292, 'lon': 6.918359},
+  {'lat': 51.828397, 'lon': 6.206551},
+  {'lat': 51.035550, 'lon': 5.978772},
+  {'lat': 49.568670, 'lon': 6.405858},
+  {'lat': 48.974199, 'lon': 8.256559},
+  {'lat': 47.712653, 'lon': 7.563733},
+  {'lat': 47.459449, 'lon': 10.270847},
+  {'lat': 47.652222, 'lon': 12.951511},
+  {'lat': 48.707064, 'lon': 13.610690},
+  {'lat': 49.882041, 'lon': 12.402194}
+];
+
+var Gibraltar = [
+  {'lat': 36.109673, 'lon': -5.347293},
+  {'lat': 36.124649, 'lon': -5.341971},
+  {'lat': 36.133044, 'lon': -5.341806},
+  {'lat': 36.141104, 'lon': -5.338801},
+  {'lat': 36.145697, 'lon': -5.339982},
+  {'lat': 36.15271543148228, 'lon': -5.339230461119787},
+  {'lat': 36.15127051852372, 'lon': -5.35872010034766},
+  {'lat': 36.113419233624086, 'lon': -5.350211507480507},
+  {'lat': 36.10995778319823, 'lon': -5.348557033243386}
+];
+
+usa1(height) {
+  var coordinates = [
+    {'lon': -124.781629, 'lat': 48.498806},
+    {'lon': -122.585387, 'lat': 48.963954},
+    {'lon': -95.249389, 'lat': 48.988106},
+    {'lon': -82.593842, 'lat': 45.370193},
+    {'lon': -81.928924, 'lat': 42.048841},
+    {'lon': -74.875010, 'lat': 44.982995},
+    {'lon': -70.914411, 'lat': 45.410798},
+    {'lon': -68.977476, 'lat': 47.638139},
+    {'lon': -66.838174, 'lat': 44.798666},
+    {'lon': -81.257686, 'lat': 30.862163},
+    {'lon': -79.914571, 'lat': 26.518506},
+    {'lon': -80.522151, 'lat': 25.001593},
+    {'lon': -85.291696, 'lat': 29.620527},
+    {'lon': -97.219665, 'lat': 25.815203},
+    {'lon': -117.393704, 'lat': 32.350783},
+    {'lon': -124.807485, 'lat': 40.265177},
+  ];
+  String USACoordinates = '';
+  for (var i = 0; i < coordinates.length; i++) {
+    USACoordinates +=
+        '${coordinates[i]['lon']},${coordinates[i]['lat']},$height \n';
   }
+  USACoordinates +=
+      '${coordinates[0]['lon']},${coordinates[0]['lat']},$height \n';
+  return USACoordinates;
+}
+
+usa2(height) {
+  var coordinates = [
+    {'lat': 69.83209915101473, 'lon': -141.32141031921168},
+    {'lat': 71.57363491925182, 'lon': -156.96594131795428},
+    {'lat': 68.90315099442729, 'lon': -169.18273799674762},
+    {'lat': 53.05451194772462, 'lon': -169.44640986751295},
+    {'lat': 59.523251434388165, 'lon': -141.05773844844637}
+  ];
+  String USACoordinates = '';
+  for (var i = 0; i < coordinates.length; i++) {
+    USACoordinates +=
+        '${coordinates[i]['lon']},${coordinates[i]['lat']},$height \n';
+  }
+  USACoordinates +=
+      '${coordinates[0]['lon']},${coordinates[0]['lat']},$height \n';
+  return USACoordinates;
+}
+
+canada(height) {
+  var coordinates = [
+    {'lat': 69.78767871098114, 'lon': -141.34597507879818},
+    {'lat': 74.59681696124024, 'lon': -124.2951941026405},
+    {'lat': 77.54754257664334, 'lon': -119.19753784699421},
+    {'lat': 83.17703589840266, 'lon': -77.36160101889602},
+    {'lat': 82.56665747176554, 'lon': -60.13503879556149},
+    {'lat': 74.26658773736122, 'lon': -79.64675723219551},
+    {'lat': 67.00870994219987, 'lon': -61.013945031445886},
+    {'lat': 60.59936741201164, 'lon': -64.5295700737925},
+    {'lat': 47.53425420982638, 'lon': -51.87332027705693},
+    {'lat': 43.443872184977046, 'lon': -65.40888224301098},
+    {'lat': 47.39801448546225, 'lon': -69.15849355044855},
+    {'lat': 41.77093347380173, 'lon': -83.30466566880175},
+    {'lat': 48.91582640000619, 'lon': -95.26917571922813},
+    {'lat': 48.47836317100931, 'lon': -128.19190151227482},
+    {'lat': 60.48941251303364, 'lon': -141.48836724497838}
+  ];
+  String CanadaCoordinates = '';
+  for (var i = 0; i < coordinates.length; i++) {
+    CanadaCoordinates +=
+        '${coordinates[i]['lon']},${coordinates[i]['lat']},$height \n';
+  }
+  CanadaCoordinates +=
+      '${coordinates[0]['lon']},${coordinates[0]['lat']},$height \n';
+  return CanadaCoordinates;
+}
+
+mexico(height) {
+  var coordinates = [
+    {'lat': 32.68612893439156, 'lon': -117.31604183081026},
+    {'lat': 26.067195609999306, 'lon': -97.01330778188033},
+    {'lat': 18.927644873323857, 'lon': -95.73889373984791},
+    {'lat': 19.756933755648856, 'lon': -91.0367453778663},
+    {'lat': 21.892645716545168, 'lon': -90.33362038915877},
+    {'lat': 21.892645716545168, 'lon': -86.59826888665},
+    {'lat': 18.21949091817505, 'lon': -87.69690168150552},
+    {'lat': 17.676004435975827, 'lon': -90.77307350710097},
+    {'lat': 16.204706164055267, 'lon': -90.33362038915877},
+    {'lat': 14.161916671558757, 'lon': -92.52064789644047},
+    {'lat': 16.13425939422036, 'lon': -94.60805024971853},
+    {'lat': 15.24580470326511, 'lon': -96.71742521584113},
+    {'lat': 20.14237702203285, 'lon': -105.85805006903904},
+    {'lat': 24.370904065118673, 'lon': -112.3619563430355},
+    {'lat': 32.439124886554694, 'lon': -117.28383126398825}
+  ];
+  String mexicoCoordinates = '';
+  for (var i = 0; i < coordinates.length; i++) {
+    mexicoCoordinates +=
+        '${coordinates[i]['lon']},${coordinates[i]['lat']},$height \n';
+  }
+  mexicoCoordinates +=
+      '${coordinates[0]['lon']},${coordinates[0]['lat']},$height \n';
+  return mexicoCoordinates;
 }

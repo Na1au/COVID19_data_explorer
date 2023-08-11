@@ -72,7 +72,6 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
   List<CountryResponse> _buildChartData(List<CountryResponse> countries) {
     List<CountryResponse> finalCountries = [];
     List<Color> totalColors = [
-      Colors.blue.shade200,
       Colors.blue.shade400,
       Colors.blue.shade600,
       Colors.blue.shade800,
@@ -381,7 +380,13 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                                 )),
                             const SizedBox(height: 20),
                             Text(
-                              'Total ${widget.type}: ${numeral(widget.total)}',
+                              widget.type == 'todayCases'
+                                  ? 'Today cases: ${numeral(widget.total)}'
+                                  : widget.type == 'todayDeaths'
+                                      ? 'Today deaths: ${numeral(widget.total)}'
+                                      : widget.type == 'todayRecovered'
+                                          ? 'Today recovered: ${numeral(widget.total)}'
+                                          : 'Total ${widget.type}: ${numeral(widget.total)}',
                               style: const TextStyle(fontSize: 15),
                             ),
                             const SizedBox(height: 50),
@@ -392,7 +397,14 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                                           widget.finalCountries);
                                       var balloon = kmlGenerator().balloon(
                                           widget.title,
-                                          'Total ${widget.type}: ${numeral(widget.total)}',
+                                          widget.type == 'todayCases'
+                                              ? 'Today cases: ${numeral(widget.total)}'
+                                              : widget.type == 'todayDeaths'
+                                                  ? 'Today deaths: ${numeral(widget.total)}'
+                                                  : widget.type ==
+                                                          'todayRecovered'
+                                                      ? 'Today recovered: ${numeral(widget.total)}'
+                                                      : 'Total ${widget.type}: ${numeral(widget.total)}',
                                           widget.balloonLabels);
                                       var finalKML = kmlGenerator()
                                           .continentKML({
@@ -449,30 +461,6 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                                       setState(() {
                                         sendKML = true;
                                       });
-                                      /* 
-                          var usaCoordinates = Coordinates().usa1(800000);
-                          var usaCoordinates2 = Coordinates().usa2(800000);
-                          var canadaCoordinates = Coordinates()
-                              .canada(widget.type == 'tests' ? 400000 : 300000);
-                          var mexicoCoordinates =
-                              Coordinates().mexico(widget.type == 'tests'
-                                  ? 200000
-                                  : widget.type == 'deaths'
-                                      ? 600000
-                                      : 400000);
-                          var coordinates = [usaCoordinates, canadaCoordinates, mexicoCoordinates];
-                          var names = ['USA', 'CANADA', 'MEXICO'];
-                          var polygons = '';
-                          polygons += kmlGenerator().polygon({'name': 'USA2', 'color': polygonColors[widget._random.nextInt(polygonColors.length)], 'coordinates': usaCoordinates2});
-                          for(var i = 0; i < 3; i++) {
-                            var po = kmlGenerator().polygon({'name': names[i], 'color': polygonColors[widget._random.nextInt(polygonColors.length)], 'coordinates': coordinates[i]});
-                            polygons += po;
-                          }
-                          print(polygons);
-                          var kml = kmlGenerator().continentKML({'name': 'North America', 'polygons': polygons});
-                          var flyTo = kmlGenerator().FlyTo({'lon': -80.140506, 'alt': 8700000, 'tilt': 15.68179673613697, 'lat': 12.543370 });
-                          await LGConnection().sendKML(
-                              'NorthAmerica_${widget.type}', kml, flyTo); */
                                     },
                                     child: const Text('See on Liquid Galaxy'))
                                 : playTour == false

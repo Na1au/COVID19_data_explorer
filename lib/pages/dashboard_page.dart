@@ -49,7 +49,7 @@ class DashboardPageState extends State<DashboardPage> {
         .substring(0, 16);
     for (var i = 0; i < 3; i++) {
       newData.add(SizedBox(
-          height: 400,
+          height: 410,
           width: 420,
           child:
               NewDataCard(globalData: globalData, type: types[i], date: date, continentData: countriesData)));
@@ -96,7 +96,7 @@ class DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (!loaded) checkConnection();
+    if (loaded == false) checkConnection();
 
     return Scaffold(
         appBar: AppBar(

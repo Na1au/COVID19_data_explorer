@@ -56,7 +56,7 @@ class NewDataCardState extends State<NewDataCard> {
               if (data > 0) {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => StatisticsKMLPage(
-                      title: '$finalTitle total ${widget.type}',
+                      title: '$finalTitle today ${widget.type}',
                       type: widget.type == 'cases'
                           ? 'todayCases'
                           : widget.type == 'deaths'

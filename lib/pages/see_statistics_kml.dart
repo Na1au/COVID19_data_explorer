@@ -31,7 +31,8 @@ class StatisticsKMLPage extends StatefulWidget {
   List<Widget> labels4 = [];
   List<Widget> labels5 = [];
   List<PieChartSectionData> chartSections = [];
-  String balloonLabels = '';
+  String balloonLabels1 = '';
+  String balloonLabels2 = '';
   List<CountryResponse> finalCountries = [];
 
   @override
@@ -46,6 +47,8 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
   bool sendKML = false;
   bool playTour = false;
   int orbitHeigth = 0;
+  bool isConnected = false;
+  bool connectionLoaded = false;
 
   @override
   void initState() {
@@ -53,6 +56,20 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
     _buildChartData(countriesData);
     super.initState();
     loaded = true;
+  }
+
+  init() async {
+    await checkConnection();
+
+    connectionLoaded = true;
+  }
+
+  checkConnection() async {
+    bool res = await LGConnection().checkConnection();
+    setState(() {
+      isConnected = res;
+    });
+    connectionLoaded = true;
   }
 
   _buildData() {
@@ -258,57 +275,67 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
 
   _buildPolygonsData(List<CountryResponse> countries) {
     String polygons = '';
-      for (var i = 0; i < countries.length; i++) {
-        if (!noInfo.contains(countries[i].country)) {
-          print('COUNTRY ==>> ${countries[i].country}');
-          var c = widget.chartColors[i].split('');
-          var finalColor = '${c[4]}${c[5]}${c[2]}${c[3]}${c[0]}${c[1]}';
-          widget.balloonLabels +=
-              '''<h2><font color='#${widget.chartColors[i]}'>⚫</font> ${countries[i].country}: ${numeral(widget.chartCountriesData[i])}</h2>
+    for (var i = 0; i < countries.length; i++) {
+      if (!noInfo.contains(countries[i].country)) {
+        print('COUNTRY ==>> ${countries[i].country}');
+        var c = widget.chartColors[i].split('');
+        var finalColor = '${c[4]}${c[5]}${c[2]}${c[3]}${c[0]}${c[1]}';
+        if(i <= 25) {
+          widget.balloonLabels1 +=
+            '''<h2><font color='#${widget.chartColors[i]}'>⚫</font> ${countries[i].country}: ${numeral(widget.chartCountriesData[i])}</h2>
 ''';
-          var height = 0;
-          if (widget.chartCountriesData[i] > 0 &&
-              widget.chartCountriesData[i] < 1000) {
-            height = 150000;
-          } else if (widget.chartCountriesData[i] > 1000 &&
-              widget.chartCountriesData[i] < 5000) {
-            height = 200000;
-          } else if (widget.chartCountriesData[i] > 5000 &&
-              widget.chartCountriesData[i] < 10000) {
-            height = 250000;
-          } else if (widget.chartCountriesData[i] > 10000 &&
-              widget.chartCountriesData[i] < 50000) {
-            height = 350000;
-          } else if (widget.chartCountriesData[i] > 50000 &&
-              widget.chartCountriesData[i] < 100000) {
-            height = 450000;
-          } else if (widget.chartCountriesData[i] > 100000 &&
-              widget.chartCountriesData[i] < 300000) {
-            height = 500000;
-          } else if (widget.chartCountriesData[i] > 300000 &&
-              widget.chartCountriesData[i] < 700000) {
-            height = 550000;
-          } else if (widget.chartCountriesData[i] > 700000 &&
-              widget.chartCountriesData[i] < 1000000) {
-            height = 650000;
-          } else if (widget.chartCountriesData[i] > 1000000 &&
-              widget.chartCountriesData[i] < 50000000) {
-            height = 750000;
-          } else if (widget.chartCountriesData[i] > 50000000 &&
-              widget.chartCountriesData[i] < 100000000) {
-            height = 900000;
-          } else if (widget.chartCountriesData[i] > 100000000 &&
-              widget.chartCountriesData[i] < 500000000) {
-            height = 1000000;
-          } else if (widget.chartCountriesData[i] > 500000000) {
-            height = 1500000;
-          }
+        } else {
+          widget.balloonLabels2 +=
+            '''<h2><font color='#${widget.chartColors[i]}'>⚫</font> ${countries[i].country}: ${numeral(widget.chartCountriesData[i])}</h2>
+''';
+        }
+        var height = 0;
+        if (widget.chartCountriesData[i] > 0 &&
+            widget.chartCountriesData[i] < 1000) {
+          height = 150000;
+        } else if (widget.chartCountriesData[i] > 1000 &&
+            widget.chartCountriesData[i] < 5000) {
+          height = 200000;
+        } else if (widget.chartCountriesData[i] > 5000 &&
+            widget.chartCountriesData[i] < 10000) {
+          height = 250000;
+        } else if (widget.chartCountriesData[i] > 10000 &&
+            widget.chartCountriesData[i] < 50000) {
+          height = 350000;
+        } else if (widget.chartCountriesData[i] > 50000 &&
+            widget.chartCountriesData[i] < 100000) {
+          height = 450000;
+        } else if (widget.chartCountriesData[i] > 100000 &&
+            widget.chartCountriesData[i] < 300000) {
+          height = 500000;
+        } else if (widget.chartCountriesData[i] > 300000 &&
+            widget.chartCountriesData[i] < 700000) {
+          height = 550000;
+        } else if (widget.chartCountriesData[i] > 700000 &&
+            widget.chartCountriesData[i] < 1000000) {
+          height = 650000;
+        } else if (widget.chartCountriesData[i] > 1000000 &&
+            widget.chartCountriesData[i] < 50000000) {
+          height = 750000;
+        } else if (widget.chartCountriesData[i] > 50000000 &&
+            widget.chartCountriesData[i] < 100000000) {
+          height = 900000;
+        } else if (widget.chartCountriesData[i] > 100000000 &&
+            widget.chartCountriesData[i] < 500000000) {
+          height = 1000000;
+        } else if (widget.chartCountriesData[i] > 500000000) {
+          height = 1500000;
+        }
+        if (countries[i].country == 'Russia') {
+          polygons += russia(height, 'df$finalColor');
+        } else {
           var countryCoordinates =
               _buildPolygonCoordinates(countries[i].country, height);
           polygons += kmlGenerator().polygon(
               countries[i].country, 'df$finalColor', countryCoordinates);
         }
       }
+    }
     return polygons;
   }
 
@@ -349,8 +376,27 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (connectionLoaded == false) checkConnection();
+
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: AppBar(title: Text(widget.title), actions: [
+        Chip(
+            label: Row(children: [
+              const Text('Connection: '),
+              isConnected == true
+                  ? const Icon(
+                      Icons.circle,
+                      color: Colors.green,
+                      size: 20,
+                    )
+                  : const Icon(
+                      Icons.circle,
+                      color: Colors.red,
+                      size: 20,
+                    )
+            ]),
+            backgroundColor: Colors.white)
+      ]),
       body: Center(
           child: loaded == false
               ? const CircularProgressIndicator()
@@ -403,7 +449,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                                                           'todayRecovered'
                                                       ? 'Today recovered: ${numeral(widget.total)}'
                                                       : 'Total ${widget.type}: ${numeral(widget.total)}',
-                                          widget.balloonLabels);
+                                          widget.balloonLabels1, widget.balloonLabels2);
                                       var finalKML = kmlGenerator()
                                           .continentKML({
                                         'name':
@@ -449,13 +495,13 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                                           kmlGenerator().FlyTo({
                                             'lon': lon,
                                             'lat': lat,
-                                            'alt': 8700000,
+                                            'alt': 9000000,
                                             'tilt': 15.68179673613697
                                           }));
                                       await LGConnection()
                                           .sendBalloon(balloon, widget.title);
-                                      await LGConnection()
-                                          .sendOrbit(orbit, '${widget.title.replaceAll(" ", "_")}Orbit');
+                                      await LGConnection().sendOrbit(orbit,
+                                          '${widget.title.replaceAll(" ", "_")}Orbit');
                                       setState(() {
                                         sendKML = true;
                                       });

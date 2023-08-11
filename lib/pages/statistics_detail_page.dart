@@ -1,5 +1,6 @@
 import 'package:covid19_data_explorer/pages/see_statistics_kml.dart';
 import 'package:covid19_data_explorer/services/http_request.dart';
+import 'package:covid19_data_explorer/services/lg_connection.dart';
 import 'package:flutter/material.dart';
 import 'package:numeral/numeral.dart';
 
@@ -18,6 +19,8 @@ class StatisticsDetailPageState extends State<StatisticsDetailPage> {
   late GlobalResponse dataCanada;
   late GlobalResponse dataMexico;
   late List<CountryResponse> finalContinentsData;
+  bool isConnected = false;
+  bool connectionLoaded = false;
   List<List<int>> continentData = [];
   bool loaded = false;
   List<String> continentTitles = [
@@ -33,6 +36,20 @@ class StatisticsDetailPageState extends State<StatisticsDetailPage> {
   void initState() {
     _getData();
     super.initState();
+  }
+
+  init() async {
+    await checkConnection();
+
+    connectionLoaded = true;
+  }
+
+  checkConnection() async {
+    bool res = await LGConnection().checkConnection();
+    setState(() {
+      isConnected = res;
+    });
+    connectionLoaded = true;
   }
 
   _getData() async {
@@ -80,7 +97,9 @@ class StatisticsDetailPageState extends State<StatisticsDetailPage> {
             title: Text('${numeral(continentData[i])}'),
             subtitle: Text('Total ${titles[i]}'),
             onTap: () {
-              var finalTitle = title == 'North America' ? 'North and Central America' : title;
+              var finalTitle = title == 'North America'
+                  ? 'North and Central America'
+                  : title;
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => StatisticsKMLPage(
                     title: '$finalTitle total ${titles[i]}',
@@ -97,16 +116,34 @@ class StatisticsDetailPageState extends State<StatisticsDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (connectionLoaded == false) checkConnection();
+
     return Scaffold(
-        appBar: AppBar(title: const Text('Statistics')),
+        appBar: AppBar(title: const Text('Statistics'), actions: [
+          Chip(
+              label: Row(children: [
+                const Text('Connection: '),
+                isConnected == true
+                    ? const Icon(
+                        Icons.circle,
+                        color: Colors.green,
+                        size: 20,
+                      )
+                    : const Icon(
+                        Icons.circle,
+                        color: Colors.red,
+                        size: 20,
+                      )
+              ]),
+              backgroundColor: Colors.white)
+        ]),
         body: Container(
             alignment: Alignment.topLeft,
             height: double.infinity,
             width: double.infinity,
             color: Theme.of(context).colorScheme.background,
             child: Padding(
-                padding:
-                    const EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
                 child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: Column(
@@ -132,7 +169,11 @@ class StatisticsDetailPageState extends State<StatisticsDetailPage> {
                                                   child:
                                                       CircularProgressIndicator()))
                                           : Column(children: [
-                                              Text(continentTitles[i] == 'North America' ? 'North and Central America' : continentTitles[i],
+                                              Text(
+                                                  continentTitles[i] ==
+                                                          'North America'
+                                                      ? 'North and Central America'
+                                                      : continentTitles[i],
                                                   textAlign: TextAlign.start,
                                                   style: const TextStyle(
                                                       color: Colors.black54,

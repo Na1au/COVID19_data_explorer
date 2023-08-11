@@ -101,6 +101,21 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
       Colors.lime.shade600,
       Colors.lime.shade800,
       Colors.lime.shade900,
+      Colors.indigo.shade400,
+      Colors.indigo.shade700,
+      Colors.indigo.shade900,
+      Colors.grey.shade800,
+      Colors.grey.shade900,
+      Colors.green.shade400,
+      Colors.green.shade600,
+      Colors.green.shade800,
+      Colors.green.shade900,
+      Colors.cyan.shade600,
+      Colors.cyan.shade800,
+      Colors.cyan.shade900,
+      Colors.brown.shade600,
+      Colors.brown.shade800,
+      Colors.brown.shade900,
     ];
     for (var i = 0; i < countries.length; i++) {
       widget.type == 'cases' &&
@@ -119,7 +134,19 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                           countries[i].recovered > 0 &&
                           !noInfo.contains(countries[i].country)
                       ? finalCountries.add(countries[i])
-                      : null;
+                      : widget.type == 'todayCases' &&
+                              countries[i].todayCases > 0 &&
+                              !noInfo.contains(countries[i].country)
+                          ? finalCountries.add(countries[i])
+                          : widget.type == 'todayDeaths' &&
+                                  countries[i].todayDeaths > 0 &&
+                                  !noInfo.contains(countries[i].country)
+                              ? finalCountries.add(countries[i])
+                              : widget.type == 'todayRecovered' &&
+                                      countries[i].todayRecovered > 0 &&
+                                      !noInfo.contains(countries[i].country)
+                                  ? finalCountries.add(countries[i])
+                                  : null;
     }
     if (finalCountries.length <= 12) {
       for (var i = 0; i < finalCountries.length; i++) {
@@ -129,7 +156,13 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                 ? finalCountries[i].deaths
                 : widget.type == 'tests'
                     ? finalCountries[i].tests
-                    : finalCountries[i].recovered;
+                    : widget.type == 'recovered'
+                        ? finalCountries[i].recovered
+                        : widget.type == 'todayCases'
+                            ? finalCountries[i].todayCases
+                            : widget.type == 'todayDeaths'
+                                ? finalCountries[i].todayDeaths
+                                : finalCountries[i].todayRecovered;
         var selectedColor = totalColors[Random().nextInt(totalColors.length)];
         widget.chartColors
             .add(ColorUtils.intToHex(selectedColor.value).substring(1));
@@ -153,7 +186,13 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                 ? finalCountries[i].deaths
                 : widget.type == 'tests'
                     ? finalCountries[i].tests
-                    : finalCountries[i].recovered;
+                    : widget.type == 'recovered'
+                        ? finalCountries[i].recovered
+                        : widget.type == 'todayCases'
+                            ? finalCountries[i].todayCases
+                            : widget.type == 'todayDeaths'
+                                ? finalCountries[i].todayDeaths
+                                : finalCountries[i].todayRecovered;
         var selectedColor = totalColors[Random().nextInt(totalColors.length)];
         widget.chartColors
             .add(ColorUtils.intToHex(selectedColor.value).substring(1));
@@ -455,7 +494,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                         const SizedBox(width: 50),
                         SizedBox(
                           width: 250,
-                          height: 620,
+                          height: widget.labels.length < 8 ? 300 : 620,
                           child: Column(children: widget.labels),
                         ),
                         countriesData.length > 12

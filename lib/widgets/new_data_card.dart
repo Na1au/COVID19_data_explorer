@@ -1,3 +1,4 @@
+import 'package:covid19_data_explorer/pages/see_statistics_kml.dart';
 import 'package:covid19_data_explorer/services/http_request.dart';
 import 'package:flutter/material.dart';
 import 'package:numeral/numeral.dart';
@@ -7,8 +8,10 @@ class NewDataCard extends StatefulWidget {
       {super.key,
       required this.globalData,
       required this.type,
-      required this.date});
+      required this.date,
+      required this.continentData});
   final List<GlobalResponse> globalData;
+  final List<CountryResponse> continentData;
   final String type;
   final String date;
 
@@ -41,19 +44,42 @@ class NewDataCardState extends State<NewDataCard> {
         case 'deaths':
           data = widget.globalData[i].todayDeaths;
           break;
-        case 'recovered':
-          data = widget.globalData[i].todayRecovered;
-          break;
         default:
-          data = widget.globalData[i].population;
+          data = widget.globalData[i].todayRecovered;
       }
       continents.add(Expanded(
         child: ListTile(
+            onTap: () {
+              var finalTitle = widget.globalData[i].continent == 'North America'
+                  ? 'North and Central America'
+                  : widget.globalData[i].continent;
+              if (data > 0) {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => StatisticsKMLPage(
+                      title: '$finalTitle total ${widget.type}',
+                      type: widget.type == 'cases'
+                          ? 'todayCases'
+                          : widget.type == 'deaths'
+                              ? 'todayDeaths'
+                              : 'todayRecovered',
+                      total: data,
+                      continent: widget.globalData[i].continent,
+                      totalContinents: widget.continentData),
+                ));
+              }
+            },
             leading: CircleAvatar(
-              backgroundColor: colors[i],
+              backgroundColor: colors[i].withAlpha(150),
               radius: 30,
+              child: Text(widget.globalData[i].continent.substring(0, 1),
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: colors[i].shade800)),
             ),
-            title: Text(widget.globalData[i].continent),
+            title: Text(widget.globalData[i].continent == 'North America'
+                ? 'North and Central America'
+                : widget.globalData[i].continent),
             subtitle: Text(numeral(data))),
       ));
     }

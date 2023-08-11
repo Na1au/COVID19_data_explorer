@@ -23,8 +23,8 @@ class DashboardPageState extends State<DashboardPage> {
   bool loaded = false;
   bool loadedData = false;
   late List<GlobalResponse> globalData;
+  late List<CountryResponse> countriesData;
   String date = '';
-  //late List<Widget> newData;
 
   @override
   void initState() {
@@ -34,6 +34,7 @@ class DashboardPageState extends State<DashboardPage> {
 
   _getData() async {
     globalData = await APIRequest().getGlobalData();
+    countriesData = await APIRequest().getContinentData();
     _buildNewCardContent();
     setState(() {
       loadedData = true;
@@ -51,7 +52,7 @@ class DashboardPageState extends State<DashboardPage> {
           height: 400,
           width: 420,
           child:
-              NewDataCard(globalData: globalData, type: types[i], date: date)));
+              NewDataCard(globalData: globalData, type: types[i], date: date, continentData: countriesData)));
     }
     return newData;
   }

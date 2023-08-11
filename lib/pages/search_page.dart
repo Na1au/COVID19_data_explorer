@@ -279,7 +279,7 @@ class SearchPageState extends State<SearchPage> {
         appBar: AppBar(title: const Text('Search')),
         body: Center(
             child: Container(
-          color: Colors.grey.shade200,
+          color: Theme.of(context).colorScheme.background,
           width: double.infinity,
           height: double.infinity,
           child: ListView(scrollDirection: Axis.vertical, children: [

@@ -33,7 +33,6 @@ class StatisticsKMLPage extends StatefulWidget {
   List<PieChartSectionData> chartSections = [];
   String balloonLabels = '';
   List<CountryResponse> finalCountries = [];
-  String kml = '';
 
   @override
   State<StatisticsKMLPage> createState() {
@@ -70,7 +69,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
   }
 
   List<CountryResponse> _buildChartData(List<CountryResponse> countries) {
-    List<CountryResponse> finalCountries = [];
+    List<CountryResponse> listCountries = [];
     List<Color> totalColors = [
       Colors.blue.shade400,
       Colors.blue.shade600,
@@ -120,48 +119,49 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
       widget.type == 'cases' &&
               countries[i].cases > 0 &&
               !noInfo.contains(countries[i].country)
-          ? finalCountries.add(countries[i])
+          ? listCountries.add(countries[i])
           : widget.type == 'deaths' &&
                   countries[i].deaths > 0 &&
                   !noInfo.contains(countries[i].country)
-              ? finalCountries.add(countries[i])
+              ? listCountries.add(countries[i])
               : widget.type == 'tests' &&
                       countries[i].tests > 0 &&
                       !noInfo.contains(countries[i].country)
-                  ? finalCountries.add(countries[i])
+                  ? listCountries.add(countries[i])
                   : widget.type == 'recovered' &&
                           countries[i].recovered > 0 &&
                           !noInfo.contains(countries[i].country)
-                      ? finalCountries.add(countries[i])
+                      ? listCountries.add(countries[i])
                       : widget.type == 'todayCases' &&
                               countries[i].todayCases > 0 &&
                               !noInfo.contains(countries[i].country)
-                          ? finalCountries.add(countries[i])
+                          ? listCountries.add(countries[i])
                           : widget.type == 'todayDeaths' &&
                                   countries[i].todayDeaths > 0 &&
                                   !noInfo.contains(countries[i].country)
-                              ? finalCountries.add(countries[i])
+                              ? listCountries.add(countries[i])
                               : widget.type == 'todayRecovered' &&
                                       countries[i].todayRecovered > 0 &&
                                       !noInfo.contains(countries[i].country)
-                                  ? finalCountries.add(countries[i])
+                                  ? listCountries.add(countries[i])
                                   : null;
     }
-    if (finalCountries.length <= 12) {
-      for (var i = 0; i < finalCountries.length; i++) {
+    widget.finalCountries = listCountries;
+    if (widget.finalCountries.length <= 12) {
+      for (var i = 0; i < widget.finalCountries.length; i++) {
         var selectedData = widget.type == 'cases'
-            ? finalCountries[i].cases
+            ? widget.finalCountries[i].cases
             : widget.type == 'deaths'
-                ? finalCountries[i].deaths
+                ? widget.finalCountries[i].deaths
                 : widget.type == 'tests'
-                    ? finalCountries[i].tests
+                    ? widget.finalCountries[i].tests
                     : widget.type == 'recovered'
-                        ? finalCountries[i].recovered
+                        ? widget.finalCountries[i].recovered
                         : widget.type == 'todayCases'
-                            ? finalCountries[i].todayCases
+                            ? widget.finalCountries[i].todayCases
                             : widget.type == 'todayDeaths'
-                                ? finalCountries[i].todayDeaths
-                                : finalCountries[i].todayRecovered;
+                                ? widget.finalCountries[i].todayDeaths
+                                : widget.finalCountries[i].todayRecovered;
         var selectedColor = totalColors[Random().nextInt(totalColors.length)];
         widget.chartColors
             .add(ColorUtils.intToHex(selectedColor.value).substring(1));
@@ -173,25 +173,25 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
         widget.labels.add(Expanded(
             child: ListTile(
           leading: CircleAvatar(backgroundColor: selectedColor, radius: 15),
-          title: Text(finalCountries[i].country),
+          title: Text(widget.finalCountries[i].country),
           subtitle: Text(numeral(selectedData)),
         )));
       }
     } else {
-      for (var i = 0; i < finalCountries.length; i++) {
+      for (var i = 0; i < widget.finalCountries.length; i++) {
         var selectedData = widget.type == 'cases'
-            ? finalCountries[i].cases
+            ? widget.finalCountries[i].cases
             : widget.type == 'deaths'
-                ? finalCountries[i].deaths
+                ? widget.finalCountries[i].deaths
                 : widget.type == 'tests'
-                    ? finalCountries[i].tests
+                    ? widget.finalCountries[i].tests
                     : widget.type == 'recovered'
-                        ? finalCountries[i].recovered
+                        ? widget.finalCountries[i].recovered
                         : widget.type == 'todayCases'
-                            ? finalCountries[i].todayCases
+                            ? widget.finalCountries[i].todayCases
                             : widget.type == 'todayDeaths'
-                                ? finalCountries[i].todayDeaths
-                                : finalCountries[i].todayRecovered;
+                                ? widget.finalCountries[i].todayDeaths
+                                : widget.finalCountries[i].todayRecovered;
         var selectedColor = totalColors[Random().nextInt(totalColors.length)];
         widget.chartColors
             .add(ColorUtils.intToHex(selectedColor.value).substring(1));
@@ -206,7 +206,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
               child: ListTile(
                   leading:
                       CircleAvatar(backgroundColor: selectedColor, radius: 15),
-                  title: Text(finalCountries[i].country,
+                  title: Text(widget.finalCountries[i].country,
                       style: const TextStyle(fontSize: 13)),
                   subtitle: Text(numeral(selectedData),
                       style: const TextStyle(fontSize: 10)))));
@@ -215,7 +215,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
           widget.labels2.add(Expanded(
               child: ListTile(
             leading: CircleAvatar(backgroundColor: selectedColor, radius: 15),
-            title: Text(finalCountries[i].country,
+            title: Text(widget.finalCountries[i].country,
                 style: const TextStyle(fontSize: 13)),
             subtitle: Text(numeral(selectedData),
                 style: const TextStyle(fontSize: 10)),
@@ -225,7 +225,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
           widget.labels3.add(Expanded(
               child: ListTile(
             leading: CircleAvatar(backgroundColor: selectedColor, radius: 15),
-            title: Text(finalCountries[i].country,
+            title: Text(widget.finalCountries[i].country,
                 style: const TextStyle(fontSize: 13)),
             subtitle: Text(numeral(selectedData),
                 style: const TextStyle(fontSize: 10)),
@@ -235,7 +235,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
           widget.labels4.add(Expanded(
               child: ListTile(
             leading: CircleAvatar(backgroundColor: selectedColor, radius: 15),
-            title: Text(finalCountries[i].country,
+            title: Text(widget.finalCountries[i].country,
                 style: const TextStyle(fontSize: 13)),
             subtitle: Text(numeral(selectedData),
                 style: const TextStyle(fontSize: 10)),
@@ -245,7 +245,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
           widget.labels5.add(Expanded(
               child: ListTile(
             leading: CircleAvatar(backgroundColor: selectedColor, radius: 15),
-            title: Text(finalCountries[i].country,
+            title: Text(widget.finalCountries[i].country,
                 style: const TextStyle(fontSize: 13)),
             subtitle: Text(numeral(selectedData),
                 style: const TextStyle(fontSize: 10)),
@@ -253,15 +253,14 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
         }
       }
     }
-    widget.finalCountries = finalCountries;
-    return finalCountries;
+    return listCountries;
   }
 
   _buildPolygonsData(List<CountryResponse> countries) {
     String polygons = '';
-    if (widget.continent == 'North America') {
       for (var i = 0; i < countries.length; i++) {
         if (!noInfo.contains(countries[i].country)) {
+          print('COUNTRY ==>> ${countries[i].country}');
           var c = widget.chartColors[i].split('');
           var finalColor = '${c[4]}${c[5]}${c[2]}${c[3]}${c[0]}${c[1]}';
           widget.balloonLabels +=
@@ -310,7 +309,6 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
               countries[i].country, 'df$finalColor', countryCoordinates);
         }
       }
-    }
     return polygons;
   }
 
@@ -443,7 +441,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                                         'lat': lat,
                                         'alt': orbitHeigth
                                       });
-                                      widget.kml =
+                                      String orbit =
                                           kmlGenerator().orbit(content);
                                       await LGConnection().sendKML(
                                           widget.title.replaceAll(" ", "_"),
@@ -457,7 +455,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                                       await LGConnection()
                                           .sendBalloon(balloon, widget.title);
                                       await LGConnection()
-                                          .sendOrbit(widget.kml);
+                                          .sendOrbit(orbit, '${widget.title.replaceAll(" ", "_")}Orbit');
                                       setState(() {
                                         sendKML = true;
                                       });
@@ -471,12 +469,13 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                                             playTour = true;
                                           });
                                         },
-                                        child: Text('Play Tour'))
+                                        child: const Text('Start orbit'))
                                     : ElevatedButton(
                                         onPressed: () async {
+                                          playTour = false;
                                           await LGConnection().stopTour();
                                         },
-                                        child: Text('Stop Tour'))
+                                        child: const Text('Stop orbit'))
                           ],
                         ),
                         const SizedBox(width: 50),

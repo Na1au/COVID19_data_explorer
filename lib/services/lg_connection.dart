@@ -222,7 +222,7 @@ class LGConnection {
     }
   }
 
-  sendOrbit(String orbit) async {
+  sendOrbit(String orbit, String fileName) async {
     credencials = await _getCredencials();
     try {
       socket = await SSHSocket.connect('${credencials['ip']}', 22,
@@ -230,9 +230,9 @@ class LGConnection {
       client = SSHClient(socket,
           username: '${credencials['user']}',
           onPasswordRequest: () => '${credencials['pass']}');
-      await client.run("echo '$orbit' > /var/www/html/Orbit.kml");
+      await client.run("echo '$orbit' > /var/www/html/$fileName.kml");
       await client
-          .run('echo "http://lg1:81/Orbit.kml" >> /var/www/html/kmls.txt');
+          .run('echo "http://lg1:81/$fileName.kml" >> /var/www/html/kmls.txt');
       client.close();
     } catch (e) {
       throw ('ERROR ON SEND ORBIT KML FILE: $e');

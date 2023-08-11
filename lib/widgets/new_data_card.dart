@@ -1,5 +1,6 @@
 import 'package:covid19_data_explorer/services/http_request.dart';
 import 'package:flutter/material.dart';
+import 'package:numeral/numeral.dart';
 
 class NewDataCard extends StatefulWidget {
   const NewDataCard(
@@ -52,8 +53,8 @@ class NewDataCardState extends State<NewDataCard> {
               backgroundColor: colors[i],
               radius: 30,
             ),
-            title: Text('${widget.globalData[i]}'),
-            subtitle: Text('$data')),
+            title: Text(widget.globalData[i].continent),
+            subtitle: Text(numeral(data))),
       ));
     }
     var finalContinents = Column(children: [
@@ -77,12 +78,12 @@ class NewDataCardState extends State<NewDataCard> {
     return Card(
       color: Colors.white,
       child: Padding(
-          padding: EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
           child: Column(
             children: [
               Row(
                 children: [
-                  Text('New ${widget.type}',
+                  Text('Today ${widget.type}',
                       style: const TextStyle(
                           color: Colors.black54,
                           fontSize: 20,
@@ -94,9 +95,9 @@ class NewDataCardState extends State<NewDataCard> {
                           const TextStyle(color: Colors.black54, fontSize: 15))
                 ],
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               _buildContent(),
-              const SizedBox(height: 40),
+              const SizedBox(height: 30),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

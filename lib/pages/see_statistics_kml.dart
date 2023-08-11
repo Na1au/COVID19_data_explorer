@@ -71,14 +71,53 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
 
   List<CountryResponse> _buildChartData(List<CountryResponse> countries) {
     List<CountryResponse> finalCountries = [];
+    List<Color> totalColors = [
+      Colors.blue.shade200,
+      Colors.blue.shade400,
+      Colors.blue.shade600,
+      Colors.blue.shade800,
+      Colors.blue.shade900,
+      Colors.yellow.shade300,
+      Colors.yellow.shade600,
+      Colors.yellow.shade900,
+      Colors.yellow.shade800,
+      Colors.amber.shade900,
+      Colors.teal.shade400,
+      Colors.teal.shade700,
+      Colors.teal.shade900,
+      Colors.red.shade200,
+      Colors.red.shade400,
+      Colors.red.shade300,
+      Colors.red.shade600,
+      Colors.red.shade900,
+      Colors.purple.shade400,
+      Colors.purple.shade600,
+      Colors.purple.shade800,
+      Colors.purple.shade900,
+      Colors.pink.shade400,
+      Colors.pink.shade600,
+      Colors.pink.shade800,
+      Colors.pink.shade800,
+      Colors.lime.shade600,
+      Colors.lime.shade800,
+      Colors.lime.shade900,
+    ];
     for (var i = 0; i < countries.length; i++) {
-      widget.type == 'cases' && countries[i].cases > 0
+      widget.type == 'cases' &&
+              countries[i].cases > 0 &&
+              !noInfo.contains(countries[i].country)
           ? finalCountries.add(countries[i])
-          : widget.type == 'deaths' && countries[i].deaths > 0
+          : widget.type == 'deaths' &&
+                  countries[i].deaths > 0 &&
+                  !noInfo.contains(countries[i].country)
               ? finalCountries.add(countries[i])
-              : widget.type == 'tests' && countries[i].tests > 0
+              : widget.type == 'tests' &&
+                      countries[i].tests > 0 &&
+                      !noInfo.contains(countries[i].country)
                   ? finalCountries.add(countries[i])
-                  : widget.type == 'recovered' && countries[i].recovered > 0
+                  : widget.type == 'recovered' &&
+                          countries[i].recovered > 0 &&
+                          !noInfo.contains(countries[i].country)
                       ? finalCountries.add(countries[i])
                       : null;
     }
@@ -91,8 +130,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                 : widget.type == 'tests'
                     ? finalCountries[i].tests
                     : finalCountries[i].recovered;
-        var selectedColor =
-            Colors.primaries[Random().nextInt(Colors.primaries.length)];
+        var selectedColor = totalColors[Random().nextInt(totalColors.length)];
         widget.chartColors
             .add(ColorUtils.intToHex(selectedColor.value).substring(1));
         widget.chartCountriesData.add(selectedData);
@@ -116,8 +154,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                 : widget.type == 'tests'
                     ? finalCountries[i].tests
                     : finalCountries[i].recovered;
-        var selectedColor =
-            Colors.primaries[Random().nextInt(Colors.primaries.length)];
+        var selectedColor = totalColors[Random().nextInt(totalColors.length)];
         widget.chartColors
             .add(ColorUtils.intToHex(selectedColor.value).substring(1));
         widget.chartCountriesData.add(selectedData);

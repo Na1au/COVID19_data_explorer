@@ -10,8 +10,7 @@ class GlobalContaminationCard extends StatefulWidget {
       GlobalContaminationCardState();
 }
 
-class GlobalContaminationCardState
-    extends State<GlobalContaminationCard> {
+class GlobalContaminationCardState extends State<GlobalContaminationCard> {
   late String date;
   /* late double critical;
   late double notCritical; */
@@ -32,17 +31,17 @@ class GlobalContaminationCardState
     List<BarChartGroupData> groups = [];
     for (var i = 0; i < 6; i++) {
       Color color;
-      switch(i) {
+      switch (i) {
         case 0:
           color = Colors.red;
           break;
         case 1:
           color = Colors.amber;
           break;
-        case 2: 
+        case 2:
           color = Colors.blue;
           break;
-        case 3: 
+        case 3:
           color = Colors.green;
           break;
         case 4:
@@ -51,16 +50,18 @@ class GlobalContaminationCardState
         case 5:
           color = Colors.teal;
           break;
-        default: 
+        default:
           color = Colors.black;
-      } 
+      }
       groups.add(BarChartGroupData(
         x: i,
         groupVertically: true,
         barRods: [
           BarChartRodData(
             fromY: 0,
-            toY: (globalData[i].active / 10000).toDouble(),
+            toY: i == 1
+                ? (globalData[i].active / 30000).toDouble()
+                : (globalData[i].active / 10000).toDouble(),
             color: color,
             width: 30,
           )
@@ -76,8 +77,36 @@ class GlobalContaminationCardState
     });
   }
 
+  Widget leftTitles(double value, TitleMeta meta) {
+    const style = TextStyle(fontSize: 11, fontWeight: FontWeight.bold);
+    String text;
+    switch (value.toInt()) {
+      case 500:
+        text = '+15M';
+        break;
+      case 400:
+        text = '40K';
+        break;
+      case 300:
+        text = '30K';
+        break;
+      case 200:
+        text = '20K';
+        break;
+      case 100:
+        text = '10K';
+        break;
+      default:
+        text = '';
+    }
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      child: Text(text, style: style),
+    );
+  }
+
   Widget bottomTitles(double value, TitleMeta meta) {
-    const style = TextStyle(fontSize: 10);
+    const style = TextStyle(fontSize: 11, fontWeight: FontWeight.bold);
     String text;
     switch (value.toInt()) {
       case 0:
@@ -104,25 +133,6 @@ class GlobalContaminationCardState
     return SideTitleWidget(
       axisSide: meta.axisSide,
       child: Text(text, style: style),
-    );
-  }
-
-  BarChartGroupData generateGroupData(
-    int x,
-    double pilates,
-    double quickWorkout,
-  ) {
-    return BarChartGroupData(
-      x: x,
-      groupVertically: true,
-      barRods: [
-        BarChartRodData(
-          fromY: 0,
-          toY: pilates,
-          color: Colors.amber,
-          width: 10,
-        )
-      ],
     );
   }
 
@@ -153,33 +163,49 @@ class GlobalContaminationCardState
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Spacer(),
+                          //const SizedBox(width: 10),
                           SizedBox(
-                              height: 210,
-                              width: 550,
+                              height: 220,
+                              width: 710,
                               child: BarChart(BarChartData(
-                                  alignment: BarChartAlignment.spaceBetween,
+                                  alignment: BarChartAlignment.spaceEvenly,
                                   titlesData: FlTitlesData(
-                                    leftTitles: AxisTitles(),
+                                    leftTitles: AxisTitles(
+                                      sideTitles: SideTitles(
+                                        showTitles: true,
+                                        getTitlesWidget: leftTitles,
+                                        reservedSize: 40,
+                                      ),
+                                    ),
                                     rightTitles: AxisTitles(),
                                     topTitles: AxisTitles(),
                                     bottomTitles: AxisTitles(
                                       sideTitles: SideTitles(
                                         showTitles: true,
                                         getTitlesWidget: bottomTitles,
-                                        reservedSize: 20,
+                                        reservedSize: 25,
                                       ),
                                     ),
                                   ),
                                   barTouchData: BarTouchData(enabled: false),
                                   borderData: FlBorderData(show: false),
-                                  gridData: FlGridData(show: false),
+                                  gridData: FlGridData(
+                                    show: true,
+                                    checkToShowHorizontalLine: (value) =>
+                                        value % 10 == 0,
+                                    getDrawingHorizontalLine: (value) => FlLine(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .background,
+                                      strokeWidth: 1,
+                                    ),
+                                    drawVerticalLine: false,
+                                  ),
                                   barGroups: finalGroups,
-                                  maxY: 1500))
-                              ),
-                          const Spacer(),
+                                  maxY: 500))),
+                          // const SizedBox(width: 10),
                         ]),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [

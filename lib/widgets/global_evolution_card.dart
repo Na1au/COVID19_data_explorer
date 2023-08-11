@@ -16,7 +16,7 @@ class GlobalEvolutionCardState extends State<GlobalEvolutionCard> {
     data1 = [
       LineChartBarData(
           isCurved: true,
-          color: Colors.blue,
+          color: Colors.amber,
           barWidth: 5,
           isStrokeCapRound: true,
           dotData: FlDotData(show: false),
@@ -62,7 +62,7 @@ class GlobalEvolutionCardState extends State<GlobalEvolutionCard> {
           ]),
       LineChartBarData(
           isCurved: true,
-          color: Colors.green,
+          color: Colors.blue,
           barWidth: 5,
           isStrokeCapRound: true,
           dotData: FlDotData(show: false),
@@ -263,11 +263,11 @@ class GlobalEvolutionCardState extends State<GlobalEvolutionCard> {
               const Row(
                 children: [
                   Spacer(),
-                  CircleAvatar(backgroundColor: Colors.blue, radius: 10),
+                  CircleAvatar(backgroundColor: Colors.amber, radius: 10),
                   SizedBox(width: 5),
                   Text('Cases'),
                   SizedBox(width: 30),
-                  CircleAvatar(backgroundColor: Colors.green, radius: 10),
+                  CircleAvatar(backgroundColor: Colors.blue, radius: 10),
                   SizedBox(width: 5),
                   Text('Recovered'),
                   SizedBox(width: 30),
@@ -284,10 +284,21 @@ class GlobalEvolutionCardState extends State<GlobalEvolutionCard> {
                       LineChartData(
                         lineTouchData: LineTouchData(
                             touchTooltipData: LineTouchTooltipData(
-                              tooltipBorder: BorderSide(width: 1, color: Theme.of(context).colorScheme.primary),
+                                tooltipBorder: BorderSide(
+                                    width: 1,
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
                                 tooltipBgColor: Colors.white)),
                         titlesData: _titlesData,
-                        gridData: FlGridData(show: false),
+                        gridData: FlGridData(
+                          show: true,
+                          checkToShowHorizontalLine: (value) => value % 10 == 0,
+                          getDrawingHorizontalLine: (value) => FlLine(
+                            color: Theme.of(context).colorScheme.background,
+                            strokeWidth: 1,
+                          ),
+                          drawVerticalLine: false,
+                        ),
                         borderData: FlBorderData(show: false),
                         lineBarsData: data1,
                         minX: 0,
@@ -302,7 +313,7 @@ class GlobalEvolutionCardState extends State<GlobalEvolutionCard> {
               const Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text('Data from Disease.sh API',
+                  Text('Data from Athena API',
                       style: TextStyle(color: Colors.black54, fontSize: 15))
                 ],
               )

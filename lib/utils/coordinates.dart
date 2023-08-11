@@ -83,25 +83,6 @@ var noInfo = [
   "Turks and Caicos Islands",
 ];
 
-var northAmerica = [
-  "Anguilla",
-  "Belize",
-  "Canada",
-  "Costa Rica",
-  "Cuba",
-  "Dominican Republic",
-  "El Salvador",
-  "Greenland",
-  "Guatemala",
-  "Haiti",
-  "Honduras",
-  "Jamaica",
-  "Mexico",
-  "Nicaragua",
-  "Panama",
-  "USA"
-];
-
 var USA = [
   //[
     {'lon': -124.781629, 'lat': 48.498806},

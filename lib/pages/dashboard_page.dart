@@ -6,8 +6,8 @@ import 'package:covid19_data_explorer/widgets/global_evolution_card.dart';
 import 'package:flutter/material.dart';
 import 'config_page.dart';
 import 'package:covid19_data_explorer/widgets/statistics_card.dart';
-//import 'package:covid19_data_explorer/widgets/new_data_card.dart';
-//import 'package:covid19_data_explorer/services/http_request.dart';
+import 'package:covid19_data_explorer/widgets/new_data_card.dart';
+import 'package:covid19_data_explorer/services/http_request.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -22,18 +22,25 @@ class DashboardPageState extends State<DashboardPage> {
   bool isConnected = false;
   bool loaded = false;
   bool loadedData = false;
-  //late List<GlobalResponse> globalData;
+  late List<GlobalResponse> globalData;
   String date = '';
-  //late List<Widget> NewData;
+  //late List<Widget> newData;
 
   @override
   void initState() {
-    //_getData();
+    _getData();
     super.initState();
   }
 
-  /* _getData() async {
+  _getData() async {
     globalData = await APIRequest().getGlobalData();
+    _buildNewCardContent();
+    setState(() {
+      loadedData = true;
+    });
+  }
+
+  List<Widget> _buildNewCardContent() {
     var types = ['cases', 'deaths', 'recovered'];
     List<Widget> newData = [];
     date = DateTime.fromMillisecondsSinceEpoch(globalData.first.updated)
@@ -41,16 +48,13 @@ class DashboardPageState extends State<DashboardPage> {
         .substring(0, 16);
     for (var i = 0; i < 3; i++) {
       newData.add(SizedBox(
-          height: 350,
-          width: 320,
+          height: 400,
+          width: 420,
           child:
               NewDataCard(globalData: globalData, type: types[i], date: date)));
     }
-    setState(() {
-      loadedData = true;
-    });
     return newData;
-  } */
+  }
 
   init() async {
     await checkConnection();
@@ -68,9 +72,24 @@ class DashboardPageState extends State<DashboardPage> {
 
   List<Widget> notLoaded() {
     return const [
-      SizedBox(height: 350, width: 320, child: CircularProgressIndicator()),
-      SizedBox(height: 350, width: 320, child: CircularProgressIndicator()),
-      SizedBox(height: 350, width: 320, child: CircularProgressIndicator()),
+      SizedBox(
+          height: 400,
+          width: 420,
+          child: Card(
+              color: Colors.white,
+              child: Center(child: CircularProgressIndicator()))),
+      SizedBox(
+          height: 400,
+          width: 420,
+          child: Card(
+              color: Colors.white,
+              child: Center(child: CircularProgressIndicator()))),
+      SizedBox(
+          height: 400,
+          width: 420,
+          child: Card(
+              color: Colors.white,
+              child: Center(child: CircularProgressIndicator()))),
     ];
   }
 
@@ -132,33 +151,29 @@ class DashboardPageState extends State<DashboardPage> {
               width: double.infinity,
               height: double.infinity,
               child: Padding(
-                padding: const EdgeInsets.all(15),
+                padding: const EdgeInsets.all(10),
                 child: ListView(
                   scrollDirection: Axis.vertical,
-                  children: const  [
-                    Row(
+                  children: [
+                    const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           SizedBox(
-                              height: 350, width: 520, child: StatisticsCard()),
+                              height: 350, width: 510, child: StatisticsCard()),
                           SizedBox(
                               height: 350,
-                              width: 720,
+                              width: 750,
                               child: GlobalContaminationCard())
                         ]),
-                    //SizedBox(height: 15),
-                    /* Row(
+                    Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         mainAxisSize: MainAxisSize.max,
-                        children: loadedData ? notLoaded() : _getData()), */
-                    SizedBox(height: 15),
-                    GlobalEvolutionCard()
+                        children: loadedData ? _buildNewCardContent() : notLoaded()),
+                    const GlobalEvolutionCard()
                   ],
                 ),
               )),
         ));
   }
 }
-
-kml() {}

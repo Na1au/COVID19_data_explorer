@@ -51,8 +51,6 @@ class Coordinates {
         break;
       case "USA":
         res = USA;
-
-
         break;
       case 'Italy':
         res = Italy;
@@ -494,7 +492,6 @@ var noInfo = [
   "Serbia",
   "Slovakia",
   "Slovenia",
-  'Somalia',
   "Sweden",
   "Switzerland",
   "UK",

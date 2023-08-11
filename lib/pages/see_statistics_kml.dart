@@ -472,7 +472,9 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                                         child: const Text('Start orbit'))
                                     : ElevatedButton(
                                         onPressed: () async {
-                                          playTour = false;
+                                          setState(() {
+                                            playTour = false;
+                                          });
                                           await LGConnection().stopTour();
                                         },
                                         child: const Text('Stop orbit'))

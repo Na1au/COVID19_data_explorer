@@ -135,7 +135,7 @@ class StatisticsDetailPageState extends State<StatisticsDetailPage> {
                         size: 20,
                       )
               ]),
-              backgroundColor: Colors.white)
+              backgroundColor: Colors.white), const SizedBox(width: 10)
         ]),
         body: Container(
             alignment: Alignment.topLeft,

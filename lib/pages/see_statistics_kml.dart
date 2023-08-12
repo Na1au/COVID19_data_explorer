@@ -395,7 +395,8 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                       size: 20,
                     )
             ]),
-            backgroundColor: Colors.white)
+            backgroundColor: Colors.white),
+            const SizedBox(width: 10)
       ]),
       body: Center(
           child: loaded == false
@@ -495,7 +496,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                                           kmlGenerator().FlyTo({
                                             'lon': lon,
                                             'lat': lat,
-                                            'alt': 9000000,
+                                            'alt': 9050000,
                                             'tilt': 15.68179673613697
                                           }));
                                       await LGConnection()

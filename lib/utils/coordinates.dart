@@ -447,6 +447,96 @@ class Coordinates {
       case 'Netherlands':
         res = Netherlands;
         break;
+      case "Norway":
+        res = Norway;
+        break;
+      case 'Romania':
+        res = Romania;
+        break;
+      case 'Slovenia':
+        res = Slovenia;
+        break;
+      case 'Serbia':
+        res = Servia;
+        break;
+      case 'Slovakia':
+        res = Eslovaquia;
+        break;
+      case 'Sweden':
+        res = sweden;
+        break;
+      case 'Switzerland':
+        res = Switzerland;
+        break;
+      case 'UK':
+        res = UK;
+        break;
+      case 'Ukraine':
+        res = Ukrane;
+        break;
+      case 'Ecuador':
+        res = equador;
+        break;
+      case 'Paraguay':
+        res = paraguai;
+        break;
+      case 'Peru':
+        res = Peru;
+        break;
+      case "New Caledonia":
+        res = New_Caledonia;
+        break;
+      case "New Zealand":
+        res = New_Zealand;
+        break;
+      case "Solomon Islands":
+        res = Solomon_islands;
+        break;
+      case "South Africa":
+        res = Africa_do_Sul;
+        break;
+      case "Cabo Verde":
+        res = Cabo_Verde;
+        break;
+      case "Papua New Guine":
+        res = Papua_new_guinea;
+        break;
+      case "Sao Tome an Principe":
+        res = Sao_tome_e_principe;
+        break;
+      case "Côte d'Ivoir":
+        res = Costa_do_marfim;
+        break;
+      case "Rwanda":
+        res = Rwanda;
+        break;
+      case "Suriname":
+        res = Suriname;
+        break;
+      case "Uruguay":
+        res = Uruguay;
+        break;
+      case "Venezuela":
+        res = Venezuela;
+        break;
+      case "Fiji":
+        res = Fiji;
+        break;
+      case "Tonga":
+        res = Tonga;
+        break;
+      case "Vanuatu":
+        res = Vanuatu;
+        break;
+      case "Burundi":
+        res = Burundi;
+        break;
+      case "Comoros":
+        res = Comoros;
+        break;
+      case "Congo":
+        res = Congo;
+        break;
     }
     return res;
   }
@@ -490,55 +580,25 @@ var noInfo = [
   "Malta",
   "Moldova",
   "Monaco",
-  "Norway",
-  "Romania",
   "San Marino",
-  "Serbia",
-  "Slovakia",
-  "Slovenia",
-  "Sweden",
-  "Switzerland",
-  "UK",
-  "Ukraine",
-  "Ecuador",
-  "Paraguay",
-  "Peru",
-  "Suriname",
-  "Uruguay",
-  "Venezuela",
   "Cook Islands",
-  "Fiji",
   "French Polynesia",
   "Kiribati",
   "Marshall Islands",
   "Micronesia",
   "Nauru",
-  "New Caledonia",
-  "New Zealand",
   "Niue",
   "Palau",
-  "Papua New Guinea",
-  "Samoa",
-  "Solomon Islands",
   "Tokelau",
-  "Tonga",
   "Tuvalu",
-  "Vanuatu",
   "Wallis and Futuna",
-  "Burundi",
-  "Cabo Verde",
-  "Comoros",
-  "Congo",
-  "Côte d'Ivoire",
   "Mauritius",
   "Mayotte",
-  "Rwanda",
   "Réunion",
   "Saint Helena",
-  "Sao Tome and Principe",
   "Seychelles",
-  "South Africa",
-  "Maldives"
+  "Maldives",
+  'Samoa'
 ];
 
 var Lithuania = [
@@ -671,7 +731,7 @@ var Eslovaquia = [
 {'lat': 49.44168512732654, 'lon': 20.356433604604895},
 {'lat': 49.448828155182674, 'lon': 21.674792950229303},
 ];
-var Eslovenia = [
+var Slovenia = [
 {'lat': 46.467638661521825, 'lon': 16.616878069742782},
 {'lat': 46.498689135790535, 'lon': 16.33207198975421},
 {'lat': 46.37274337606497, 'lon': 16.29647122975564},

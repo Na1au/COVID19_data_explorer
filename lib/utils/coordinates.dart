@@ -501,10 +501,10 @@ class Coordinates {
       case "Papua New Guine":
         res = Papua_new_guinea;
         break;
-      case "Sao Tome an Principe":
+      case "Sao Tome and Principe":
         res = Sao_tome_e_principe;
         break;
-      case "Côte d'Ivoir":
+      case "Côte d'Ivoire":
         res = Costa_do_marfim;
         break;
       case "Rwanda":

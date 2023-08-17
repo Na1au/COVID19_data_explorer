@@ -189,6 +189,18 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
             showTitle: false));
         widget.labels.add(Expanded(
             child: ListTile(
+          onTap: () {
+            List<Map<String, double>> country =
+                Coordinates().getCountry(widget.finalCountries[i].country);
+            var flyTo = kmlGenerator().FlyTo({
+              'lon': country.first['lon'],
+              'lat': country.first['lat'],
+              'alt': 7000000,
+              'tilt': 15.68179673613697
+            });
+            print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+            LGConnection().sendFlyTo(flyTo);
+          },
           leading: CircleAvatar(backgroundColor: selectedColor, radius: 15),
           title: Text(widget.finalCountries[i].country),
           subtitle: Text(numeral(selectedData)),
@@ -221,6 +233,18 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
         if (i <= 11) {
           widget.labels.add(Expanded(
               child: ListTile(
+                  onTap: () {
+                    List<Map<String, double>> country = Coordinates()
+                        .getCountry(widget.finalCountries[i].country);
+                    var flyTo = kmlGenerator().FlyTo({
+                      'lon': country.first['lon'],
+                      'lat': country.first['lat'],
+                      'alt': 7000000,
+                      'tilt': 15.68179673613697
+                    });
+                    print('BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB');
+                    LGConnection().sendFlyTo(flyTo);
+                  },
                   leading:
                       CircleAvatar(backgroundColor: selectedColor, radius: 15),
                   title: Text(widget.finalCountries[i].country,
@@ -231,6 +255,18 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
         if (i >= 12 && i < 24) {
           widget.labels2.add(Expanded(
               child: ListTile(
+            onTap: () {
+            List<Map<String, double>> country =
+                Coordinates().getCountry(widget.finalCountries[i].country);
+            var flyTo = kmlGenerator().FlyTo({
+              'lon': country.first['lon'],
+              'lat': country.first['lat'],
+              'alt': 7000000,
+              'tilt': 15.68179673613697
+            });
+            print('CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC');
+            LGConnection().sendFlyTo(flyTo);
+          },
             leading: CircleAvatar(backgroundColor: selectedColor, radius: 15),
             title: Text(widget.finalCountries[i].country,
                 style: const TextStyle(fontSize: 13)),
@@ -241,6 +277,18 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
         if (i >= 24 && i < 36) {
           widget.labels3.add(Expanded(
               child: ListTile(
+            onTap: () {
+            List<Map<String, double>> country =
+                Coordinates().getCountry(widget.finalCountries[i].country);
+            var flyTo = kmlGenerator().FlyTo({
+              'lon': country.first['lon'],
+              'lat': country.first['lat'],
+              'alt': 7000000,
+              'tilt': 15.68179673613697
+            });
+            print('DDDDDDDDDDDDDDDDDDDDDDDDDDDDD');
+            LGConnection().sendFlyTo(flyTo);
+          },
             leading: CircleAvatar(backgroundColor: selectedColor, radius: 15),
             title: Text(widget.finalCountries[i].country,
                 style: const TextStyle(fontSize: 13)),
@@ -251,6 +299,18 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
         if (i >= 36 && i < 48) {
           widget.labels4.add(Expanded(
               child: ListTile(
+            onTap: () {
+            List<Map<String, double>> country =
+                Coordinates().getCountry(widget.finalCountries[i].country);
+            var flyTo = kmlGenerator().FlyTo({
+              'lon': country.first['lon'],
+              'lat': country.first['lat'],
+              'alt': 7000000,
+              'tilt': 15.68179673613697
+            });
+            print('EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE');
+            LGConnection().sendFlyTo(flyTo);
+          },
             leading: CircleAvatar(backgroundColor: selectedColor, radius: 15),
             title: Text(widget.finalCountries[i].country,
                 style: const TextStyle(fontSize: 13)),
@@ -261,6 +321,18 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
         if (i >= 48) {
           widget.labels5.add(Expanded(
               child: ListTile(
+            onTap: () {
+            List<Map<String, double>> country =
+                Coordinates().getCountry(widget.finalCountries[i].country);
+            var flyTo = kmlGenerator().FlyTo({
+              'lon': country.first['lon'],
+              'lat': country.first['lat'],
+              'alt': 7000000,
+              'tilt': 15.68179673613697
+            });
+            print('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF');
+            LGConnection().sendFlyTo(flyTo);
+          },
             leading: CircleAvatar(backgroundColor: selectedColor, radius: 15),
             title: Text(widget.finalCountries[i].country,
                 style: const TextStyle(fontSize: 13)),
@@ -280,13 +352,13 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
         print('COUNTRY ==>> ${countries[i].country}');
         var c = widget.chartColors[i].split('');
         var finalColor = '${c[4]}${c[5]}${c[2]}${c[3]}${c[0]}${c[1]}';
-        if(i <= 25) {
+        if (i <= 25) {
           widget.balloonLabels1 +=
-            '''<h2><font color='#${widget.chartColors[i]}'>⚫</font> ${countries[i].country}: ${numeral(widget.chartCountriesData[i])}</h2>
+              '''<h2><font color='#${widget.chartColors[i]}'>⚫</font> ${countries[i].country}: ${numeral(widget.chartCountriesData[i])}</h2>
 ''';
         } else {
           widget.balloonLabels2 +=
-            '''<h2><font color='#${widget.chartColors[i]}'>⚫</font> ${countries[i].country}: ${numeral(widget.chartCountriesData[i])}</h2>
+              '''<h2><font color='#${widget.chartColors[i]}'>⚫</font> ${countries[i].country}: ${numeral(widget.chartCountriesData[i])}</h2>
 ''';
         }
         var height = 0;
@@ -396,7 +468,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                     )
             ]),
             backgroundColor: Colors.white),
-            const SizedBox(width: 10)
+        const SizedBox(width: 10)
       ]),
       body: Center(
           child: loaded == false
@@ -450,7 +522,8 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                                                           'todayRecovered'
                                                       ? 'Today recovered: ${numeral(widget.total)}'
                                                       : 'Total ${widget.type}: ${numeral(widget.total)}',
-                                          widget.balloonLabels1, widget.balloonLabels2);
+                                          widget.balloonLabels1,
+                                          widget.balloonLabels2);
                                       var finalKML = kmlGenerator()
                                           .continentKML({
                                         'name':

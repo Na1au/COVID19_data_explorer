@@ -147,6 +147,7 @@ http://maps.google.com/mapfiles/kml/paddle/purple-blank.png
 return kml;
   }
 
+  // ignore: non_constant_identifier_names
   FlyTo(content) {
     String flyTo ='''flytoview=<LookAt><longitude>${content['lon']}</longitude><latitude>${content['lat']}</latitude><altitude>${content['alt']}</altitude><tilt>${content['tilt']}</tilt><altitudeMode>relativeToGround</altitudeMode><gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode></LookAt>''';
 

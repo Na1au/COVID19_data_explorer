@@ -12,7 +12,7 @@ class APIRequest {
       }
       return response;
     } catch (e) {
-      print('ERROR ON GET GLOBAL DATA: $e');
+      throw Exception('ERROR ON GET GLOBAL DATA');
     }
   }
 
@@ -21,7 +21,7 @@ class APIRequest {
       final res = await dio.get('https://disease.sh/v3/covid-19/countries/$country');
       return CountryResponse.fromJson(res.data);
     } catch (e) {
-      print('ERROR ON GET COUNTRY DATA: $e');
+      throw Exception('ERROR ON GET COUNTRY DATA');
     }
   }
 
@@ -34,7 +34,7 @@ class APIRequest {
       }
       return response;
     } catch (e) {
-      print('ERROR ON GET CONTINENT DATA: $e');
+      throw Exception('ERROR ON GET CONTINENT DATA: $e');
     }
   }
 }

@@ -59,7 +59,7 @@ class LGConnection {
       await client
           .execute("echo '$logoKML' > /var/www/html/kml/slave_$leftScreen.kml");
     } catch (e) {
-      print('ERROR ON SEND LOGOS ==>> $e');
+      throw Exception('ERROR ON SEND LOGOS ==>> $e');
     }
   }
 
@@ -75,7 +75,6 @@ class LGConnection {
       await openLogos();
       return true;
     } catch (e) {
-      print('ERROR IN STABILISH CONNECTION ==>> $e');
       return false;
     }
   }
@@ -102,7 +101,6 @@ class LGConnection {
           onPasswordRequest: () => '${credencials['pass']}');
       return true;
     } catch (e) {
-      print('ERROR IN STABILISH CONNECTION ==>> $e');
       return false;
     }
   }
@@ -115,14 +113,28 @@ class LGConnection {
       client = SSHClient(socket,
           username: '${credencials['user']}',
           onPasswordRequest: () => '${credencials['pass']}');
-      print('FILE NAME KML ==>> $fileName');
       await client.run("echo '$kml' > /var/www/html/$fileName.kml");
       await client
           .run('echo "http://lg1:81/$fileName.kml" > /var/www/html/kmls.txt');
       await client.run("echo '$flyTo' > /tmp/query.txt");
       client.close();
     } catch (e) {
-      throw ('ERROR ON SEND KML FILE: $e');
+      throw Exception('ERROR ON SEND KML FILE: $e');
+    }
+  }
+
+  sendFlyTo(String flyTo) async {
+    credencials = await _getCredencials();
+    try {
+      socket = await SSHSocket.connect('${credencials['ip']}', 22,
+          timeout: const Duration(seconds: 10));
+      client = SSHClient(socket,
+          username: '${credencials['user']}',
+          onPasswordRequest: () => '${credencials['pass']}');
+      await client.run("echo '$flyTo' > /tmp/query.txt");
+      client.close();
+    } catch (e) {
+      throw Exception('ERROR ON SEND KML FILE: $e');
     }
   }
 
@@ -136,10 +148,9 @@ class LGConnection {
           onPasswordRequest: () => '${credencials['pass']}');
       await client.execute(
           "echo '$balloon' > /var/www/html/kml/slave_$rightScreen.kml");
-      print('SLAVE RIGHT ==>> $rightScreen');
       client.close();
     } catch (e) {
-      throw ('ERROR ON SEND KML FILE: $e');
+      throw Exception('ERROR ON SEND KML FILE: $e');
     }
   }
 
@@ -162,7 +173,7 @@ class LGConnection {
       await client.run("echo '$nullKML' > /var/www/html/kml/slave_$leftScreen.kml");
       client.close();
     } catch (e) {
-      throw ('ERROR ON CLEAN VISUALIZATION: $e');
+      throw Exception('ERROR ON CLEAN VISUALIZATION: $e');
     }
   }
 
@@ -195,7 +206,6 @@ class LGConnection {
         await client.run('"/home/lg/bin/lg-relaunch" > /home/lg/log.txt');
         await client.run(relaunchCommand);
       } catch (e) {
-        print('Could not connect to host LG');
         return Future.error(e);
       }
     }
@@ -216,7 +226,6 @@ class LGConnection {
         await client.run(
             'sshpass -p ${credencials['pass']} ssh -t lg$i "echo ${credencials['pass']} | sudo -S poweroff"');
       } catch (e) {
-        print('Could not connect to host LG');
         return Future.error(e);
       }
     }
@@ -235,7 +244,7 @@ class LGConnection {
           .run('echo "http://lg1:81/$fileName.kml" >> /var/www/html/kmls.txt');
       client.close();
     } catch (e) {
-      throw ('ERROR ON SEND ORBIT KML FILE: $e');
+      throw Exception('ERROR ON SEND ORBIT KML FILE: $e');
     }
   }
 
@@ -250,7 +259,7 @@ class LGConnection {
       await client.run("echo 'playtour=Orbit' > /tmp/query.txt");
       client.close();
     } catch (e) {
-      throw ('ERROR ON SEND ORBIT KML FILE: $e');
+      throw Exception('ERROR ON SEND ORBIT KML FILE: $e');
     }
   }
 
@@ -265,7 +274,7 @@ class LGConnection {
       await client.run("echo 'exittour=true' > /tmp/query.txt");
       client.close();
     } catch (e) {
-      throw ('ERROR ON STO P TOUR: $e');
+      throw Exception('ERROR ON STO P TOUR: $e');
     }
   }
 
@@ -291,43 +300,4 @@ class LGConnection {
   </kml>
 ''';
 
-/*   String flyToKML =
-      '''flytoview=<LookAt><longitude>-47.426886</longitude><latitude>-23.470097</latitude><altitude>1000</altitude><altitudeMode>relativeToGround</altitudeMode><gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode></LookAt>
-''';
-
-  String testKML = '''
-<?xml version="1.0" encoding="UTF-8"?>
-<kml xmlns="http://www.opengis.net/kml/2.2">
-<Document>
-  <name>Facens</name>
-  <open>1</open>
-  <Style id="PolyStyle">
-    <PolyStyle>
-      <color>fff00760</color>
-	<fill>true</fill>
-	<outline></outline>
-    </PolyStyle>
-  </Style>
-  <Placemark>
-    <name>polygon</name>
-    <styleUrl>#PolyStyle</styleUrl>
-    <Polygon>
-      <extrude>1</extrude>
-      <altitudeMode>relativeToGround</altitudeMode>
-      <outerBoundaryIs>
-        <LinearRing>
-          <coordinates>
-          -47.426886,-23.470097,1000000
-          -47.431220,-23.468501,1000000
-          -47.432474,-23.470619,1000000
-          -47.430268,-23.472263,1000000
-          -47.426886,-23.470097,1000000
-          </coordinates>
-        </LinearRing>
-      </outerBoundaryIs>
-    </Polygon>
-  </Placemark>
-</Document>
-</kml>
- '''; */
 }

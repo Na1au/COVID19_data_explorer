@@ -195,10 +195,9 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
             var flyTo = kmlGenerator().FlyTo({
               'lon': country.first['lon'],
               'lat': country.first['lat'],
-              'alt': 7000000,
-              'tilt': 15.68179673613697
+              'alt': 4500000,
+              'tilt': 0
             });
-            print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
             LGConnection().sendFlyTo(flyTo);
           },
           leading: CircleAvatar(backgroundColor: selectedColor, radius: 15),
@@ -239,10 +238,9 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
                     var flyTo = kmlGenerator().FlyTo({
                       'lon': country.first['lon'],
                       'lat': country.first['lat'],
-                      'alt': 7000000,
-                      'tilt': 15.68179673613697
+                      'alt': 4500000,
+                      'tilt': 0
                     });
-                    print('BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB');
                     LGConnection().sendFlyTo(flyTo);
                   },
                   leading:
@@ -261,10 +259,9 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
             var flyTo = kmlGenerator().FlyTo({
               'lon': country.first['lon'],
               'lat': country.first['lat'],
-              'alt': 7000000,
-              'tilt': 15.68179673613697
+              'alt': 4500000,
+              'tilt': 0
             });
-            print('CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC');
             LGConnection().sendFlyTo(flyTo);
           },
             leading: CircleAvatar(backgroundColor: selectedColor, radius: 15),
@@ -283,10 +280,9 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
             var flyTo = kmlGenerator().FlyTo({
               'lon': country.first['lon'],
               'lat': country.first['lat'],
-              'alt': 7000000,
-              'tilt': 15.68179673613697
+              'alt': 4500000,
+              'tilt': 0
             });
-            print('DDDDDDDDDDDDDDDDDDDDDDDDDDDDD');
             LGConnection().sendFlyTo(flyTo);
           },
             leading: CircleAvatar(backgroundColor: selectedColor, radius: 15),
@@ -305,10 +301,9 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
             var flyTo = kmlGenerator().FlyTo({
               'lon': country.first['lon'],
               'lat': country.first['lat'],
-              'alt': 7000000,
-              'tilt': 15.68179673613697
+              'alt': 4500000,
+              'tilt': 0
             });
-            print('EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE');
             LGConnection().sendFlyTo(flyTo);
           },
             leading: CircleAvatar(backgroundColor: selectedColor, radius: 15),
@@ -327,10 +322,9 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
             var flyTo = kmlGenerator().FlyTo({
               'lon': country.first['lon'],
               'lat': country.first['lat'],
-              'alt': 7000000,
-              'tilt': 15.68179673613697
+              'alt': 4500000,
+              'tilt': 0
             });
-            print('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF');
             LGConnection().sendFlyTo(flyTo);
           },
             leading: CircleAvatar(backgroundColor: selectedColor, radius: 15),
@@ -349,16 +343,39 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
     String polygons = '';
     for (var i = 0; i < countries.length; i++) {
       if (!noInfo.contains(countries[i].country)) {
-        print('COUNTRY ==>> ${countries[i].country}');
+        String countryName = '';
+        switch (countries[i].country) {
+          case "Lao People's Democratic Republic":
+            countryName = 'Lao';
+            break;
+          case "N. Korea":
+            countryName = 'N_Korea';
+            break;
+          case "S. Korea":
+            countryName = 'S_Korea';
+            break;
+          case "Timor-Leste":
+            countryName = 'Timor_Leste';
+            break;
+          case "Côte d'Ivoire":
+            countryName = 'Costa_do_marfim';
+            break;
+          case "Guinea-Bissau":
+            countryName = 'Guinea_bissau';
+            break;
+          default: 
+            countryName = countries[i].country;
+            break;
+        }
         var c = widget.chartColors[i].split('');
         var finalColor = '${c[4]}${c[5]}${c[2]}${c[3]}${c[0]}${c[1]}';
         if (i <= 25) {
           widget.balloonLabels1 +=
-              '''<h2><font color='#${widget.chartColors[i]}'>⚫</font> ${countries[i].country}: ${numeral(widget.chartCountriesData[i])}</h2>
+              '''<h2><font color='#${widget.chartColors[i]}'>⚫</font> $countryName: ${numeral(widget.chartCountriesData[i])}</h2>
 ''';
         } else {
           widget.balloonLabels2 +=
-              '''<h2><font color='#${widget.chartColors[i]}'>⚫</font> ${countries[i].country}: ${numeral(widget.chartCountriesData[i])}</h2>
+              '''<h2><font color='#${widget.chartColors[i]}'>⚫</font> $countryName: ${numeral(widget.chartCountriesData[i])}</h2>
 ''';
         }
         var height = 0;
@@ -404,7 +421,7 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
           var countryCoordinates =
               _buildPolygonCoordinates(countries[i].country, height);
           polygons += kmlGenerator().polygon(
-              countries[i].country, 'df$finalColor', countryCoordinates);
+              countryName, 'df$finalColor', countryCoordinates);
         }
       }
     }
@@ -424,27 +441,6 @@ class StatisticsKMLPageState extends State<StatisticsKMLPage> {
     orbitHeigth = height;
     return coordinates;
   }
-/*   List<Widget> _buildList(List<CountryResponse> countries, color) {
-    var contents = <Widget>[];
-    for (var i = 0; i < countries.length; i++) {
-      contents.add(ListTile(
-          leading: CircleAvatar(
-            backgroundColor: color[i],
-            radius: 25,
-          ),
-          // ignore: unnecessary_string_interpolations
-          title: Text(countries[i].country),
-          subtitle: Text(widget.type == 'cases'
-              ? '${countries[i].cases.toDouble()}'
-              : widget.type == 'deaths'
-                  ? '${countries[i].deaths.toDouble()}'
-                  : widget.type == 'tests'
-                      ? '${countries[i].tests.toDouble()}'
-                      : '${countries[i].recovered.toDouble()}'),
-          onTap: () {}));
-    }
-    return contents;
-  } */
 
   @override
   Widget build(BuildContext context) {

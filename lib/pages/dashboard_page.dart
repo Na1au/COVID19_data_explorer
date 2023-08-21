@@ -1,10 +1,17 @@
-import 'package:fl_chart/fl_chart.dart';
+import 'package:covid19_data_explorer/pages/about_page.dart';
+//import 'package:covid19_data_explorer/pages/search_page.dart';
+import 'package:covid19_data_explorer/services/lg_connection.dart';
+import 'package:covid19_data_explorer/widgets/global_contamination_card.dart';
+import 'package:covid19_data_explorer/widgets/global_evolution_card.dart';
 import 'package:flutter/material.dart';
 import 'config_page.dart';
 import 'package:covid19_data_explorer/widgets/statistics_card.dart';
-import 'statistics_detail_page.dart';
+import 'package:covid19_data_explorer/widgets/new_data_card.dart';
+import 'package:covid19_data_explorer/services/http_request.dart';
 
 class DashboardPage extends StatefulWidget {
+  const DashboardPage({super.key});
+
   @override
   State<DashboardPage> createState() {
     return DashboardPageState();
@@ -12,200 +19,162 @@ class DashboardPage extends StatefulWidget {
 }
 
 class DashboardPageState extends State<DashboardPage> {
-  final avgColor = Colors.blue;
-  final leftBarColor = Colors.red;
-  final rigthBarColor = Colors.orange;
-  final betweenSpace = 0.2;
+  bool isConnected = false;
+  bool loaded = false;
+  bool loadedData = false;
+  late List<GlobalResponse> globalData;
+  late List<CountryResponse> countriesData;
+  String date = '';
 
-  BarChartGroupData generateGroupData(
-    int x,
-    double pilates,
-    double quickWorkout,
-    double cycling,
-  ) {
-    return BarChartGroupData(
-      x: x,
-      groupVertically: true,
-      barRods: [
-        BarChartRodData(
-          fromY: 0,
-          toY: pilates,
-          color: leftBarColor,
-          width: 5,
-        ),
-        BarChartRodData(
-          fromY: pilates + betweenSpace,
-          toY: pilates + betweenSpace + quickWorkout,
-          color: rigthBarColor,
-          width: 5,
-        ),
-      ],
-    );
+  @override
+  void initState() {
+    _getData();
+    super.initState();
+  }
+
+  _getData() async {
+    globalData = await APIRequest().getGlobalData();
+    countriesData = await APIRequest().getContinentData();
+    _buildNewCardContent();
+    setState(() {
+      loadedData = true;
+    });
+  }
+
+  List<Widget> _buildNewCardContent() {
+    var types = ['cases', 'deaths', 'recovered'];
+    List<Widget> newData = [];
+    date = DateTime.fromMillisecondsSinceEpoch(globalData.first.updated)
+        .toString()
+        .substring(0, 16);
+    for (var i = 0; i < 3; i++) {
+      newData.add(SizedBox(
+          height: 410,
+          width: 420,
+          child:
+              NewDataCard(globalData: globalData, type: types[i], date: date, continentData: countriesData)));
+    }
+    return newData;
+  }
+
+  init() async {
+    await checkConnection();
+
+    loaded = true;
+  }
+
+  checkConnection() async {
+    bool res = await LGConnection().checkConnection();
+    setState(() {
+      isConnected = res;
+    });
+    loaded = true;
+  }
+
+  List<Widget> notLoaded() {
+    return const [
+      SizedBox(
+          height: 400,
+          width: 420,
+          child: Card(
+              color: Colors.white,
+              child: Center(child: CircularProgressIndicator()))),
+      SizedBox(
+          height: 400,
+          width: 420,
+          child: Card(
+              color: Colors.white,
+              child: Center(child: CircularProgressIndicator()))),
+      SizedBox(
+          height: 400,
+          width: 420,
+          child: Card(
+              color: Colors.white,
+              child: Center(child: CircularProgressIndicator()))),
+    ];
   }
 
   @override
   Widget build(BuildContext context) {
+    if (loaded == false) checkConnection();
+
     return Scaffold(
         appBar: AppBar(
-          title: Row(children: [
-            Icon(Icons.coronavirus_outlined),
+          automaticallyImplyLeading: false,
+          title: const Row(children: [
+            Icon(Icons.coronavirus_outlined, size: 35),
             SizedBox(width: 15),
-            Text('COVID-19 DATA EXPLORER')
+            Text('COVID-19 DATA EXPLORER'),
           ]),
           actions: [
-            IconButton(
+            Chip(
+                label: Row(children: [
+                  const Text('Connection: '),
+                  isConnected == true
+                      ? const Icon(
+                          Icons.circle,
+                          color: Colors.green,
+                          size: 20,
+                        )
+                      : const Icon(
+                          Icons.circle,
+                          color: Colors.red,
+                          size: 20,
+                        )
+                ]),
+                backgroundColor: Colors.white),
+            const SizedBox(width: 15),
+            /* IconButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => ConfigPage()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const SearchPage()));
                 },
-                icon: Icon(Icons.settings))
+                icon: const Icon(Icons.search)), */
+            IconButton(
+                iconSize: 35,
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const ConfigPage()));
+                },
+                icon: const Icon(Icons.settings)),
+            IconButton(
+                iconSize: 35,
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const AboutPage()));
+                },
+                icon: const Icon(Icons.info))
           ],
         ),
         body: Center(
           child: Container(
-            color: Colors.grey.shade200,
-            width: double.infinity,
-            height: double.infinity,
-            child: ListView(
-              scrollDirection: Axis.vertical,
-              children: [
-                Padding(
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                    child: Column(
-                      children: [
-                        // Statistics card
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => StatisticsDetailPage(),
-                              ),
-                            );
-                          },
-                          child: StatisticsCard(),
-                        ),
-                        SizedBox(height: 15),
-                        //Total cases cardx
-                        Card(
-                            color: Colors.white,
-                            child: Padding(
-                                padding: EdgeInsets.all(15),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text('Total cases',
-                                            style: TextStyle(
-                                                color: Colors.black54,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold)),
-                                        Spacer(),
-                                        CircleAvatar(
-                                            backgroundColor: Colors.amber,
-                                            radius: 10),
-                                        SizedBox(width: 5),
-                                        Text('Not critial'),
-                                        SizedBox(width: 30),
-                                        CircleAvatar(
-                                            backgroundColor: Colors.red,
-                                            radius: 10),
-                                        SizedBox(width: 5),
-                                        Text('Critical')
-                                      ],
-                                    ),
-                                    SizedBox(height: 30),
-                                    Container(
-                                      height: 200,
-                                      width: 200,
-                                      child: BarChart(
-                                        BarChartData(
-                                          alignment:
-                                              BarChartAlignment.spaceBetween,
-                                          titlesData: FlTitlesData(
-                                            show: true,
-                                            leftTitles: AxisTitles(
-                                              sideTitles: SideTitles(
-                                                showTitles: true,
-                                                reservedSize: 28,
-                                                interval: 1,
-                                                getTitlesWidget: leftTitles,
-                                              ),
-                                            ),
-                                            bottomTitles: AxisTitles(
-                                              sideTitles: SideTitles(
-                                                showTitles: true,
-                                                getTitlesWidget: bottomTitles,
-                                                reservedSize: 42,
-                                              ),
-                                            ),
-                                          ),
-                                          barTouchData:
-                                              BarTouchData(enabled: false),
-                                          borderData: FlBorderData(show: false),
-                                          gridData: FlGridData(show: false),
-                                          barGroups: [
-                                            generateGroupData(0, 2, 3, 2),
-                                            generateGroupData(1, 2, 5, 1.7),
-                                            generateGroupData(2, 1.3, 3.1, 2.8),
-                                            generateGroupData(3, 3.1, 4, 3.1),
-                                            generateGroupData(4, 0.8, 3.3, 3.4),
-                                          ],
-                                        ),
-                                        swapAnimationDuration: Duration(
-                                            milliseconds: 150), // Optional
-                                        swapAnimationCurve:
-                                            Curves.linear, // Optional
-                                      ),
-                                    )
-                                  ],
-                                )))
-                      ],
-                    ))
-              ],
-            ),
-          ),
+              color: Theme.of(context).colorScheme.background,
+              width: double.infinity,
+              height: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: ListView(
+                  scrollDirection: Axis.vertical,
+                  children: [
+                    const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          SizedBox(
+                              height: 350, width: 510, child: StatisticsCard()),
+                          SizedBox(
+                              height: 350,
+                              width: 750,
+                              child: GlobalContaminationCard())
+                        ]),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
+                        children: loadedData ? _buildNewCardContent() : notLoaded()),
+                    const GlobalEvolutionCard()
+                  ],
+                ),
+              )),
         ));
-  }
-
-  Widget bottomTitles(double value, TitleMeta meta) {
-    final titles = <String>['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'];
-
-    final Widget text = Text(
-      titles[value.toInt()],
-      style: const TextStyle(
-        color: Color(0xff7589a2),
-        fontWeight: FontWeight.bold,
-        fontSize: 14,
-      ),
-    );
-
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: 16, //margin top
-      child: text,
-    );
-  }
-
-  Widget leftTitles(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Color(0xff7589a2),
-      fontWeight: FontWeight.bold,
-      fontSize: 14,
-    );
-    String text;
-    if (value == 0) {
-      text = '1K';
-    } else if (value == 10) {
-      text = '5K';
-    } else if (value == 19) {
-      text = '10K';
-    } else {
-      return Container();
-    }
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: 0,
-      child: Text(text, style: style),
-    );
   }
 }

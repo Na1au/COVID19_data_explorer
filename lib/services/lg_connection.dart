@@ -1,10 +1,11 @@
-import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:ssh/ssh.dart';
+import 'package:dartssh2/dartssh2.dart';
 
 class LGConnection {
-  int screenAmount = 5;
+  late SSHClient client;
+  late SSHSocket socket;
+  late dynamic credencials;
+  late int screenAmount;
 
   int get leftScreen {
     if (screenAmount == 1) {
@@ -22,70 +23,311 @@ class LGConnection {
     return (screenAmount / 2).floor() + 1;
   }
 
-  _getCredentials() async {
+  _getCredencials() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String ip = preferences.getString('ip') ?? '';
-    String password = preferences.getString('password') ?? '';
+    String password = preferences.getString('password') ?? 'lq';
+    String user = preferences.getString('user') ?? 'lg';
+    int screen = preferences.getInt('screen') ?? 5;
 
-    print('IP ==>> $ip');
-    print('PASSWORD ==>> $password');
-    return {
-      "ip": ip,
-      "pass": password,
-    };
-  }
+    screenAmount = screen;
 
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
-
-    return directory.path;
+    return {"ip": ip, "pass": password, "user": user, 'screen': screen};
   }
 
   Future<String?> getScreenAmount() async {
-    dynamic credencials = await _getCredentials();
+    credencials = await _getCredencials();
+    socket = await SSHSocket.connect('${credencials['ip']}', 22,
+        timeout: const Duration(seconds: 10));
 
-    SSHClient client = SSHClient(
-      host: '${credencials['ip']}',
-      port: 22,
-      username: "lg",
-      passwordOrKey: '${credencials['pass']}',
-    );
-    return client
-        .execute("grep -oP '(?<=DHCP_LG_FRAMES_MAX=).*' personavars.txt");
+    client = SSHClient(socket,
+        username: '${credencials['user']}',
+        onPasswordRequest: () => '${credencials['pass']}');
+    client.execute("grep -oP '(?<=DHCP_LG_FRAMES_MAX=).*' personavars.txt");
+    return '3';
   }
 
-/*   Future sendKML(String kml) async {
-    var kml = '''<?xml version="1.0" encoding="UTF-8"?>
-<kml xmlns="http://www.opengis.net/kml/2.2"> <Placemark>
- <name>The Pentagon</name>
- <Polygon>
- <extrude>1</extrude>
- <altitudeMode>relativeToGround</altitudeMode>
- <outerBoundaryIs>
- <LinearRing>
- <coordinates>
- -77.05788457660967,38.87253259892824,100 
- -77.05465973756702,38.87291016281703,100 
- -77.05315536854791,38.87053267794386,100 
- -77.05552622493516,38.868757801256,100 
- -77.05844056290393,38.86996206506943,100 
- -77.05788457660967,38.87253259892824,100
- </coordinates>
- </LinearRing>
- </outerBoundaryIs>
- <innerBoundaryIs>
- <LinearRing>
- <coordinates>
- -77.05668055019126,38.87154239798456,100 
- -77.05542625960818,38.87167890344077,100 
- -77.05485125901024,38.87076535397792,100 
- -77.05577677433152,38.87008686581446,100 
- -77.05691162017543,38.87054446963351,100 
- -77.05668055019126,38.87154239798456,100
- </coordinates>
- </LinearRing>
- </innerBoundaryIs>
- </Polygon>
- </Placemark> </kml>''';
-  } */
+  Future openLogos() async {
+    credencials = await _getCredencials();
+    socket = await SSHSocket.connect('${credencials['ip']}', 22,
+        timeout: const Duration(seconds: 10));
+
+    client = SSHClient(socket,
+        username: '${credencials['user']}',
+        onPasswordRequest: () => '${credencials['pass']}');
+    try {
+      await client
+          .execute("echo '$logoKML' > /var/www/html/kml/slave_$leftScreen.kml");
+    } catch (e) {
+      print('ERROR ON SEND LOGOS ==>> $e');
+    }
+  }
+
+  connect() async {
+    credencials = await _getCredencials();
+    try {
+      socket = await SSHSocket.connect('${credencials['ip']}', 22,
+          timeout: const Duration(seconds: 10));
+
+      client = SSHClient(socket,
+          username: '${credencials['user']}',
+          onPasswordRequest: () => '${credencials['pass']}');
+      await openLogos();
+      return true;
+    } catch (e) {
+      print('ERROR IN STABILISH CONNECTION ==>> $e');
+      return false;
+    }
+  }
+
+  disconnect() async {
+    credencials = await _getCredencials();
+    socket = await SSHSocket.connect('${credencials['ip']}', 22,
+        timeout: const Duration(seconds: 10));
+    client = SSHClient(socket,
+        username: '${credencials['user']}',
+        onPasswordRequest: () => '${credencials['pass']}');
+    await client.execute("echo '' > /var/www/html/kml/slave_$leftScreen.kml");
+    cleanKML();
+    client.close();
+  }
+
+  checkConnection() async {
+    credencials = await _getCredencials();
+    try {
+      socket = await SSHSocket.connect('${credencials['ip']}', 22,
+          timeout: const Duration(seconds: 10));
+      client = SSHClient(socket,
+          username: '${credencials['user']}',
+          onPasswordRequest: () => '${credencials['pass']}');
+      return true;
+    } catch (e) {
+      print('ERROR IN STABILISH CONNECTION ==>> $e');
+      return false;
+    }
+  }
+
+  sendKML(String fileName, String kml, String flyTo) async {
+    credencials = await _getCredencials();
+    try {
+      socket = await SSHSocket.connect('${credencials['ip']}', 22,
+          timeout: const Duration(seconds: 10));
+      client = SSHClient(socket,
+          username: '${credencials['user']}',
+          onPasswordRequest: () => '${credencials['pass']}');
+      print('FILE NAME KML ==>> $fileName');
+      await client.run("echo '$kml' > /var/www/html/$fileName.kml");
+      await client
+          .run('echo "http://lg1:81/$fileName.kml" > /var/www/html/kmls.txt');
+      await client.run("echo '$flyTo' > /tmp/query.txt");
+      client.close();
+    } catch (e) {
+      throw ('ERROR ON SEND KML FILE: $e');
+    }
+  }
+
+  sendBalloon(balloon, balloonName) async {
+    credencials = await _getCredencials();
+    try {
+      socket = await SSHSocket.connect('${credencials['ip']}', 22,
+          timeout: const Duration(seconds: 10));
+      client = SSHClient(socket,
+          username: '${credencials['user']}',
+          onPasswordRequest: () => '${credencials['pass']}');
+      await client.execute(
+          "echo '$balloon' > /var/www/html/kml/slave_$rightScreen.kml");
+      print('SLAVE RIGHT ==>> $rightScreen');
+      client.close();
+    } catch (e) {
+      throw ('ERROR ON SEND KML FILE: $e');
+    }
+  }
+
+  cleanKML() async {
+    credencials = await _getCredencials();
+    socket = await SSHSocket.connect('${credencials['ip']}', 22,
+        timeout: const Duration(seconds: 10));
+
+    client = SSHClient(socket,
+        username: '${credencials['user']}',
+        onPasswordRequest: () => '${credencials['pass']}');
+    String nullKML = '''<?xml version="1.0" encoding="UTF-8"?>
+  <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+    <Document>
+    </Document>
+  </kml>''';
+    try {
+      await client.run("echo '' > /var/www/html/kmls.txt");
+      await client.run("echo '$nullKML' > /var/www/html/kml/slave_$rightScreen.kml");
+      await client.run("echo '$nullKML' > /var/www/html/kml/slave_$leftScreen.kml");
+      client.close();
+    } catch (e) {
+      throw ('ERROR ON CLEAN VISUALIZATION: $e');
+    }
+  }
+
+  Future<void> relaunchLg() async {
+    credencials = await _getCredencials();
+
+    socket = await SSHSocket.connect('${credencials['ip']}', 22,
+        timeout: const Duration(seconds: 10));
+
+    client = SSHClient(socket,
+        username: '${credencials['user']}',
+        onPasswordRequest: () => '${credencials['pass']}');
+
+    for (var i = screenAmount; i >= 1; i--) {
+      try {
+        final relaunchCommand = """RELAUNCH_CMD="\\
+      if [ -f /etc/init/lxdm.conf ]; then
+        export SERVICE=lxdm
+      elif [ -f /etc/init/lightdm.conf ]; then
+        export SERVICE=lightdm
+      else
+        exit 1
+      fi
+      if  [[ \\\$(service \\\$SERVICE status) =~ 'stop' ]]; then
+        echo ${credencials['pass']} | sudo -S service \\\${SERVICE} start
+      else
+        echo ${credencials['pass']} | sudo -S service \\\${SERVICE} restart
+      fi
+      " && sshpass -p ${credencials['pass']} ssh -x -t lg@lg$i "\$RELAUNCH_CMD\"""";
+        await client.run('"/home/lg/bin/lg-relaunch" > /home/lg/log.txt');
+        await client.run(relaunchCommand);
+      } catch (e) {
+        print('Could not connect to host LG');
+        return Future.error(e);
+      }
+    }
+  }
+
+  Future<void> shutdownLg() async {
+    credencials = await _getCredencials();
+
+    socket = await SSHSocket.connect('${credencials['ip']}', 22,
+        timeout: const Duration(seconds: 10));
+
+    client = SSHClient(socket,
+        username: '${credencials['user']}',
+        onPasswordRequest: () => '${credencials['pass']}');
+
+    for (var i = screenAmount; i >= 1; i--) {
+      try {
+        await client.run(
+            'sshpass -p ${credencials['pass']} ssh -t lg$i "echo ${credencials['pass']} | sudo -S poweroff"');
+      } catch (e) {
+        print('Could not connect to host LG');
+        return Future.error(e);
+      }
+    }
+  }
+
+  sendOrbit(String orbit, String fileName) async {
+    credencials = await _getCredencials();
+    try {
+      socket = await SSHSocket.connect('${credencials['ip']}', 22,
+          timeout: const Duration(seconds: 10));
+      client = SSHClient(socket,
+          username: '${credencials['user']}',
+          onPasswordRequest: () => '${credencials['pass']}');
+      await client.run("echo '$orbit' > /var/www/html/$fileName.kml");
+      await client
+          .run('echo "http://lg1:81/$fileName.kml" >> /var/www/html/kmls.txt');
+      client.close();
+    } catch (e) {
+      throw ('ERROR ON SEND ORBIT KML FILE: $e');
+    }
+  }
+
+  startTour() async {
+    credencials = await _getCredencials();
+    try {
+      socket = await SSHSocket.connect('${credencials['ip']}', 22,
+          timeout: const Duration(seconds: 10));
+      client = SSHClient(socket,
+          username: '${credencials['user']}',
+          onPasswordRequest: () => '${credencials['pass']}');
+      await client.run("echo 'playtour=Orbit' > /tmp/query.txt");
+      client.close();
+    } catch (e) {
+      throw ('ERROR ON SEND ORBIT KML FILE: $e');
+    }
+  }
+
+  stopTour() async {
+    credencials = await _getCredencials();
+    try {
+      socket = await SSHSocket.connect('${credencials['ip']}', 22,
+          timeout: const Duration(seconds: 10));
+      client = SSHClient(socket,
+          username: '${credencials['user']}',
+          onPasswordRequest: () => '${credencials['pass']}');
+      await client.run("echo 'exittour=true' > /tmp/query.txt");
+      client.close();
+    } catch (e) {
+      throw ('ERROR ON STO P TOUR: $e');
+    }
+  }
+
+  String logoKML = '''
+<?xml version="1.0" encoding="UTF-8"?>
+  <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+    <Document id ="logo">
+      <name>COVID19 data explorer</name>
+        <Folder>
+        <name>Logos</name>
+        <ScreenOverlay>
+        <name>Logo</name>
+        <Icon>
+        <href>https://i.imgur.com/HGUUSHb.png</href>
+        </Icon>
+        <overlayXY x="0" y="1" xunits="fraction" yunits="fraction"/>
+        <screenXY x="0.02" y="0.95" xunits="fraction" yunits="fraction"/>
+        <rotationXY x="0" y="0" xunits="fraction" yunits="fraction"/>
+        <size x="0.6" y="0.4" xunits="fraction" yunits="fraction"/>
+        </ScreenOverlay>
+        </Folder>
+    </Document>
+  </kml>
+''';
+
+/*   String flyToKML =
+      '''flytoview=<LookAt><longitude>-47.426886</longitude><latitude>-23.470097</latitude><altitude>1000</altitude><altitudeMode>relativeToGround</altitudeMode><gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode></LookAt>
+''';
+
+  String testKML = '''
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+  <name>Facens</name>
+  <open>1</open>
+  <Style id="PolyStyle">
+    <PolyStyle>
+      <color>fff00760</color>
+	<fill>true</fill>
+	<outline></outline>
+    </PolyStyle>
+  </Style>
+  <Placemark>
+    <name>polygon</name>
+    <styleUrl>#PolyStyle</styleUrl>
+    <Polygon>
+      <extrude>1</extrude>
+      <altitudeMode>relativeToGround</altitudeMode>
+      <outerBoundaryIs>
+        <LinearRing>
+          <coordinates>
+          -47.426886,-23.470097,1000000
+          -47.431220,-23.468501,1000000
+          -47.432474,-23.470619,1000000
+          -47.430268,-23.472263,1000000
+          -47.426886,-23.470097,1000000
+          </coordinates>
+        </LinearRing>
+      </outerBoundaryIs>
+    </Polygon>
+  </Placemark>
+</Document>
+</kml>
+ '''; */
 }

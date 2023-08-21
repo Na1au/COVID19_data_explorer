@@ -1,8 +1,7 @@
+import 'package:covid19_data_explorer/services/lg_connection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:ssh/ssh.dart';
 
 class ConfigPage extends StatefulWidget {
   const ConfigPage({super.key});
@@ -19,110 +18,61 @@ class ConfigPageState extends State<ConfigPage> {
   late bool visiblePassword;
   final _usernameController = TextEditingController();
   final _ipAddressController = TextEditingController();
-  final _portNumberController = TextEditingController();
   final _passwordController = TextEditingController();
   final _totalMachinesController = TextEditingController();
+
+  clean() async {
+    await LGConnection().cleanKML();
+  }
 
   connect() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setString('ip', _ipAddressController.text);
     await preferences.setString('password', _passwordController.text);
+    await preferences.setString('user', _usernameController.text);
+    await preferences.setInt(
+        'screen', int.parse(_totalMachinesController.text));
 
-    SSHClient client = SSHClient(
-        host: _ipAddressController.text,
-        port: 22,
-        username: _usernameController.text,
-        passwordOrKey: _passwordController.text);
+    bool res = await LGConnection().connect();
+    setState(() {
+      isConnected = res;
+    });
+  }
 
-    try {
-      await client.connect();
-      setState(() {
-        isConnected = true;
-      });
-      print('connected');
-      String kml = '''
-<?xml version="1.0" encoding="UTF-8"?>
-<kml xmlns="http://www.opengis.net/kml/2.2">
-<Document>
-  <name>Facens</name>
-  <open>1</open>
-  <Style id="PolyStyle">
-    <PolyStyle>
-      <color>7ff00760</color>
-	<fill>true</fill>
-	<outline></outline>
-    </PolyStyle>
-  </Style>
-  <Placemark>
-    <name>polygon</name>
-    <styleUrl>#PolyStyle</styleUrl>
-    <Polygon>
-      <extrude>1</extrude>
-      <altitudeMode>relativeToGround</altitudeMode>
-      <outerBoundaryIs>
-        <LinearRing>
-          <coordinates>
-          -47.426886,-23.470097,100
-          -47.431220,-23.468501,100
-          -47.432474,-23.470619,100
-          -47.430268,-23.472263,100
-          -47.426886,-23.470097,100
-          </coordinates>
-        </LinearRing>
-      </outerBoundaryIs>
-    </Polygon>
-  </Placemark>
-</Document>
-</kml>
- ''';
-      print(kml);
-      await client.execute("echo '$kml' > /var/www/html/Facens.kml");
-      print('executou 1');
+  disconnect() {
+    LGConnection().disconnect();
+  }
 
-      await client
-          .execute('echo "http://lg1:81/Facens.kml" > /var/www/html/kmls.txt');
-      print('executou 2');
-    } on PlatformException catch (e) {
-      errorCode = e.code;
-      errorMessage = e.message!;
-      print('not connected $e');
-      setState(() {
-        isConnected = false;
-      });
-    }
+  shutDown() {
+    LGConnection().shutdownLg();
+  }
+
+  relaunch() {
+    LGConnection().relaunchLg();
   }
 
   checkConnectionStatus() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setString('ip', _ipAddressController.text);
     await preferences.setString('password', _passwordController.text);
+    await preferences.setString('host', _ipAddressController.text);
+    await preferences.setInt(
+        'screen', int.parse(_totalMachinesController.text));
 
-    SSHClient client = SSHClient(
-      host: _ipAddressController.text,
-      port: 22,
-      username: 'lg',
-      passwordOrKey: _passwordController.text,
-    );
+    bool res = await LGConnection().checkConnection();
 
-    try {
-      await client.connect();
-      setState(() {
-        isConnected = true;
-      });
-      await client.disconnect();
-      print('connected');
-    } catch (e) {
-      setState(() {
-        isConnected = false;
-      });
-      print('ERROR');
-    }
+    setState(() {
+      isConnected = res;
+    });
+    return res;
   }
 
   init() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    _ipAddressController.text = preferences.getString('master_ip') ?? '';
-    _passwordController.text = preferences.getString('master_password') ?? '';
+    _ipAddressController.text = preferences.getString('ip') ?? '';
+    _passwordController.text = preferences.getString('password') ?? '';
+    _usernameController.text = preferences.getString('user') ?? '';
+    _totalMachinesController.text = (preferences.getInt('screen') ?? 5).toString();
 
     await checkConnectionStatus();
 
@@ -143,7 +93,7 @@ class ConfigPageState extends State<ConfigPage> {
       appBar: AppBar(
         title: const Text('Config LG'),
       ),
-      body: Container(
+      body: SizedBox(
         width: double.infinity,
         height: double.infinity,
         child: ListView(
@@ -166,31 +116,21 @@ class ConfigPageState extends State<ConfigPage> {
                     ),
                     Text(
                       isConnected ? 'CONNECTED' : 'DISCONNECTED',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     isConnected
-                        ? Icon(
+                        ? const Icon(
                             Icons.check_circle,
                             color: Colors.green,
                             size: 25,
                           )
-                        : Icon(
+                        : const Icon(
                             Icons.cancel,
                             color: Colors.red,
                             size: 25,
                           ),
                   ],
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _usernameController,
-                  decoration: const InputDecoration(
-                    label: Text('Master machine username'),
-                    hintText: 'lg',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    border: OutlineInputBorder(),
-                  ),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -204,19 +144,29 @@ class ConfigPageState extends State<ConfigPage> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
+                  controller: _usernameController,
+                  decoration: const InputDecoration(
+                    label: Text('Master machine username'),
+                    hintText: 'lg',
+                    hintStyle: TextStyle(color: Colors.grey),
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
                   controller: _passwordController,
                   obscureText: !visiblePassword,
                   decoration: InputDecoration(
-                    label: Text('Master machine password'),
+                    label: const Text('Master machine password'),
                     hintText: 'p@ssw0rd',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    border: OutlineInputBorder(),
+                    hintStyle: const TextStyle(color: Colors.grey),
+                    border: const OutlineInputBorder(),
                     suffixIcon: IconButton(
                       icon: Icon(
                         visiblePassword
                             ? Icons.visibility_off
                             : Icons.visibility,
-                        color: Theme.of(context).primaryColorDark,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                       onPressed: () {
                         setState(() {
@@ -237,11 +187,72 @@ class ConfigPageState extends State<ConfigPage> {
                   ),
                 ),
                 const SizedBox(height: 50),
-                ElevatedButton(
-                    onPressed: () {
-                      connect();
-                    },
-                    child: const Text('Connect to LG'))
+                Row(
+                  children: [
+                    SizedBox(
+                        height: 50,
+                        width: 200,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              connect();
+                            },
+                            child: const Text(
+                              'Connect to LG',
+                              style: TextStyle(fontSize: 20),
+                            ))),
+                    const Spacer(),
+                    SizedBox(
+                        height: 50,
+                        width: 200,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              disconnect();
+                              setState(() {
+                                isConnected = false;
+                              });
+                            },
+                            child: const Text(
+                              'Disconnect',
+                              style: TextStyle(fontSize: 20),
+                            ))),
+                    const Spacer(),
+                    SizedBox(
+                        height: 50,
+                        width: 200,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              clean();
+                            },
+                            child: const Text(
+                              'Clean KML',
+                              style: TextStyle(fontSize: 20),
+                            ))),
+                    const Spacer(),
+                    SizedBox(
+                        height: 50,
+                        width: 200,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              relaunch();
+                            },
+                            child: const Text(
+                              'Relaunch LG',
+                              style: TextStyle(fontSize: 20),
+                            ))),
+                    const Spacer(),
+                    SizedBox(
+                        height: 50,
+                        width: 200,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              shutDown();
+                            },
+                            child: const Text(
+                              'Shut Down LG',
+                              style: TextStyle(fontSize: 20),
+                            ))),
+                  ],
+                )
               ],
             )
           ],

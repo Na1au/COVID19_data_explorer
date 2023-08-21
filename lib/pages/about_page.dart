@@ -1,3 +1,4 @@
+import 'package:covid19_data_explorer/widgets/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -20,25 +21,19 @@ class _AboutPageState extends State<AboutPage> {
       path: email,
     );
 
-    if (await canLaunchUrl(emailLaunchUri)) {
-      await launchUrl(emailLaunchUri, mode: LaunchMode.externalApplication);
-    }
+    await launchUrl(emailLaunchUri, mode: LaunchMode.externalApplication);
   }
 
-    void _openGitHub(String account) async {
+  void _openGitHub(String account) async {
     final Uri ghLaunchUri = Uri.https('github.com', '/$account');
 
-    if (await canLaunchUrl(ghLaunchUri)) {
-      await launchUrl(ghLaunchUri, mode: LaunchMode.externalApplication);
-    }
+    await launchUrl(ghLaunchUri, mode: LaunchMode.externalApplication);
   }
 
   void _openLinkedIn(String account) async {
     final Uri liLaunchUri = Uri.https('linkedin.com', '/$account');
 
-    if (await canLaunchUrl(liLaunchUri)) {
-      await launchUrl(liLaunchUri, mode: LaunchMode.externalApplication);
-    }
+    await launchUrl(liLaunchUri, mode: LaunchMode.externalApplication);
   }
 
   @override
@@ -62,52 +57,60 @@ class _AboutPageState extends State<AboutPage> {
                         'The project is a data visualizer about COVID 19, it aims to analyze the data obtained about the virus through the Disease.sh and Athena API, process and show it in a Liquid Galaxy cluster. Thus, it will be possible for the user to filter the data about the virus and view its trajectory around the world.',
                         style: TextStyle(fontSize: 20))),
                 const SizedBox(height: 30),
-                /* SizedBox(width: 500, height: 500, child: Column(children: [
-                  Text('Made by: Ana Laura de Oliveira Silva '),
-                  Row( crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              iconSize: 30,
-                              icon: const Icon(
-                                Icons.mail_rounded,
-                                color: Colors.black45,
+                SizedBox(
+                    width: 500,
+                    height: 100,
+                    child: Column(
+                      children: [
+                        const Text('Made by: Ana Laura de Oliveira Silva ',
+                            style: TextStyle(fontSize: 20)),
+                        Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                iconSize: 30,
+                                icon: const Icon(
+                                  Icons.mail_rounded,
+                                  color: Colors.black45,
+                                ),
+                                splashRadius: 24,
+                                tooltip: 'analaura-osilva@hotmail.com',
+                                onPressed: () {
+                                  _sendEmail('analaura-osilva@hotmail.com');
+                                },
                               ),
-                              splashRadius: 24,
-                              tooltip: 'analaura-osilva@hotmail.com',
-                              onPressed: () {
-                                _sendEmail('analaura-osilva@hotmail.com');
-                              },
-                            ),
-                            IconButton(
-                              iconSize: 30,
-                              splashRadius: 24,
-                              icon: const Icon(
-                                IconData(0xf09b),
-                                color: Colors.black45,
+                              IconButton(
+                                iconSize: 30,
+                                splashRadius: 24,
+                                icon: const Icon(
+                                  AppIcons.github,
+                                  color: Colors.black45,
+                                ),
+                                tooltip: 'Na1au',
+                                onPressed: () {
+                                  _openGitHub('Na1au');
+                                },
                               ),
-                              tooltip: 'Na1au',
-                              onPressed: () {
-                                _openGitHub('Na1au');
-                              },
-                            ),
-                            IconButton(
-                              iconSize: 30,
-                              icon: Icon(
-                                const IconData(0xf0e1),
-                                color: Colors.blue.shade600,
-                              ),
-                              splashRadius: 24,
-                              tooltip: 'ana-laura-silva',
-                              onPressed: () {
-                                _openLinkedIn('in/ana-laura-silva');
-                              },
-                            )]),
-                ],)), */
+                              IconButton(
+                                iconSize: 30,
+                                icon: Icon(
+                                  AppIcons.linkedin,
+                                  color: Colors.blue.shade600,
+                                ),
+                                splashRadius: 24,
+                                tooltip: 'ana-laura-silva',
+                                onPressed: () {
+                                  _openLinkedIn('in/ana-laura-silva');
+                                },
+                              )
+                            ]),
+                      ],
+                    )),
                 const SizedBox(
                     width: 900,
                     child: Text(
-                        'Made by: Ana Laura de Oliveira Silva \nOrganization: Liquid Galaxy project \nMain mentor: Karine Pistili \nHelp mentors: Marc Gonzalez and Emilie Ma \nOrganization admin: Andreu Ibañez',
+                        'Organization: Liquid Galaxy project \nMain mentor: Karine Pistili \nHelp mentors: Marc Gonzalez and Emilie Ma \nOrganization admin: Andreu Ibañez',
                         style: TextStyle(fontSize: 20))),
                 const SizedBox(height: 30),
                 const SizedBox(

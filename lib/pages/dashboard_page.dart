@@ -1,5 +1,4 @@
 import 'package:covid19_data_explorer/pages/about_page.dart';
-//import 'package:covid19_data_explorer/pages/search_page.dart';
 import 'package:covid19_data_explorer/services/lg_connection.dart';
 import 'package:covid19_data_explorer/widgets/global_contamination_card.dart';
 import 'package:covid19_data_explorer/widgets/global_evolution_card.dart';
@@ -124,12 +123,6 @@ class DashboardPageState extends State<DashboardPage> {
                 ]),
                 backgroundColor: Colors.white),
             const SizedBox(width: 15),
-            /* IconButton(
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const SearchPage()));
-                },
-                icon: const Icon(Icons.search)), */
             IconButton(
                 iconSize: 35,
                 onPressed: () {

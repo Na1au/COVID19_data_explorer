@@ -12,8 +12,6 @@ class GlobalContaminationCard extends StatefulWidget {
 
 class GlobalContaminationCardState extends State<GlobalContaminationCard> {
   late String date;
-  /* late double critical;
-  late double notCritical; */
   late List<GlobalResponse> globalData;
   bool loaded = false;
   late List<BarChartGroupData> finalGroups;

@@ -1,7 +1,6 @@
 import 'package:covid19_data_explorer/services/lg_connection.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// ignore: import_of_legacy_library_into_null_safe
 
 class ConfigPage extends StatefulWidget {
   const ConfigPage({super.key});

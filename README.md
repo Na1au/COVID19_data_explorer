@@ -7,6 +7,20 @@
 The project is a data visualizer about COVID 19, it aims to analyze the data obtained about the virus through the [Disease API](https://github.com/disease-sh/api) and [Athena API](https://www.who.int/data/gho/info/athena-api), process and show it in a Liquid Galaxy cluster. 
 Thus, it will be possible for the user to filter the data about the virus and view its trajectory around the world.
 
+### App Screenshots
+<p align="center">
+  <img alt="Dashboard image 1" src="./assets/images/dashboard1.jpg" width="500">
+  <img alt="Dashboard image 2" src="./assets/images/dashboard2.jpg" width="500">
+</p>
+<p align="center">
+  <img alt="Dashboard image 3" src="./assets/images/dashboard3.jpg" width="500">
+  <img alt="Config page" src="./assets/images/config.jpg" width="500">
+</p>
+<p align="center">
+  <img alt="Statistics detail page" src="./assets/images/statistics.jpg" width="500">
+  <img alt="See on liquid galaxy page" src="./assets/images/see_on_galaxy.jpg" width="500">
+</p>
+
 ### Getting started
 
 Before continuing, make sure to have installed in your machine [Git](https://git-scm.com/) and [Flutter](https://flutter.dev). Read [Flutter documentation](https://docs.flutter.dev) for further information.
